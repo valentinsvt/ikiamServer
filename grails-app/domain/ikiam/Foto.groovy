@@ -7,6 +7,8 @@ class Foto {
     Coordenada coordenada;
     int likes = 0
     Usuario usuario
+    Entry entry
+    Especie especie
 
     static constraints = {
         path(size: 1..255)

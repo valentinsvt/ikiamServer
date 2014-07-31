@@ -5,7 +5,6 @@ class Entry {
     Usuario usuario
     Especie especie
     Date fecha
-    Foto foto
     String observaciones
 
 
