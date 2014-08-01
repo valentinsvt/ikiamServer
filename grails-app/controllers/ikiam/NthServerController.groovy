@@ -14,11 +14,21 @@ class NthServerController {
         render "error"
     }
 
-    def reciveFile(){
-        println "params "+params
+    def uploadData() {
+        println params
+
+        def f = request.getFile("foto-file")
+        println "f " + f + "  " + f?.empty
+
+        render "ok"
+    }
+
+
+    def reciveFile() {
+        println "params " + params
         def path = servletContext.getRealPath("/")
         def f = request.getFile("'upload-file'")
-        println "f "+f+"  "+f.empty
+        println "f " + f + "  " + f.empty
         if (f && !f.empty) {
             def fileName = f.getOriginalFilename() //nombre original del archivo
             def ext
@@ -54,11 +64,10 @@ class NthServerController {
                 println "error transfer to file ????????\n" + e + "\n???????????"
             }
 
-
 //                println "llego hasta aca"
 
 
-        }else{
+        } else {
             println "error es empty"
         }
         render "ok"
