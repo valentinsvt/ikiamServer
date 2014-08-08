@@ -10,5 +10,6 @@ class Entry {
 
     static constraints = {
         observaciones(size: 1..255)
+        usuario(nullable: true, blank: true)
     }
 }

@@ -9,5 +9,6 @@ class Especie {
 
     static constraints = {
         nombre(size: 1..75)
+        color2(blank: true, nullable: true)
     }
 }
