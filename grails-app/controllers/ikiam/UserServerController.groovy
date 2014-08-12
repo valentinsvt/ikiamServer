@@ -3,7 +3,7 @@ package ikiam
 class UserServerController {
 
     def createUser(){
-        println "params "+params
+        println "params create user "+params
         def usu = new Usuario()
         usu.tipo=params.tipo
         if(params.tipo=="facebook"){
@@ -35,12 +35,12 @@ class UserServerController {
     }
 
     def login(){
-        println "params "+params
+        println "params login "+params
         def usu = Usuario.findByEmailAndPassword(params.email,params.pass)
         if(usu){
-            render ""+usu.id+";"+usu.email+";"+usu.nombre+";"+usu.apellido
+            render ""+usu.id+";"+usu.email+";"+usu.nombre+";"+usu.apellido+";"+usu.esCientifico
         }else{
-            response.sendError(404)
+            render "Error usuario no encontrado"
         }
     }
 
