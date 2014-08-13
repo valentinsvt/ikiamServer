@@ -50,7 +50,9 @@
 
                             <td>${fieldValue(bean: fotoInstance, field: "coordenada")}</td>
 
-                            <td>${fieldValue(bean: fotoInstance, field: "keyWords")}</td>
+                            <td>
+                                ${URLDecoder.decode(fotoInstance.keyWords, "UTF-8")}
+                            </td>
 
                             <td>
                                 ${URLDecoder.decode(fotoInstance.entry?.observaciones, "UTF-8")}
