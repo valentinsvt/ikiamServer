@@ -19,5 +19,6 @@ class Foto {
         atraccion(blank:true,nullable: true)
         entry(blank:true,nullable: true)
         especie(blank:true,nullable: true)
+        atraccion(blank:true,nullable: true)
     }
 }

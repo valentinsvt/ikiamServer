@@ -59,6 +59,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${fotoInstance?.atraccion}">
+				<li class="fieldcontain">
+					<span id="atraccion-label" class="property-label"><g:message code="foto.atraccion.label" default="Atraccion" /></span>
+					
+						<span class="property-value" aria-labelledby="atraccion-label"><g:link controller="atraccionTuristica" action="show" id="${fotoInstance?.atraccion?.id}">${fotoInstance?.atraccion?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${fotoInstance?.entry}">
 				<li class="fieldcontain">
 					<span id="entry-label" class="property-label"><g:message code="foto.entry.label" default="Entry" /></span>

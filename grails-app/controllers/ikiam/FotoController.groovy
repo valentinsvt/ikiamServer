@@ -1,6 +1,7 @@
 package ikiam
 
 
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -11,7 +12,7 @@ class FotoController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Foto.list(params), model: [fotoInstanceCount: Foto.count()]
+        respond Foto.list(params), model:[fotoInstanceCount: Foto.count()]
     }
 
     def show(Foto fotoInstance) {
@@ -30,11 +31,11 @@ class FotoController {
         }
 
         if (fotoInstance.hasErrors()) {
-            respond fotoInstance.errors, view: 'create'
+            respond fotoInstance.errors, view:'create'
             return
         }
 
-        fotoInstance.save flush: true
+        fotoInstance.save flush:true
 
         request.withFormat {
             form {
@@ -57,18 +58,18 @@ class FotoController {
         }
 
         if (fotoInstance.hasErrors()) {
-            respond fotoInstance.errors, view: 'edit'
+            respond fotoInstance.errors, view:'edit'
             return
         }
 
-        fotoInstance.save flush: true
+        fotoInstance.save flush:true
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Foto.label', default: 'Foto'), fotoInstance.id])
                 redirect fotoInstance
             }
-            '*' { respond fotoInstance, [status: OK] }
+            '*'{ respond fotoInstance, [status: OK] }
         }
     }
 
@@ -80,14 +81,14 @@ class FotoController {
             return
         }
 
-        fotoInstance.delete flush: true
+        fotoInstance.delete flush:true
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'Foto.label', default: 'Foto'), fotoInstance.id])
-                redirect action: "index", method: "GET"
+                redirect action:"index", method:"GET"
             }
-            '*' { render status: NO_CONTENT }
+            '*'{ render status: NO_CONTENT }
         }
     }
 
@@ -97,7 +98,7 @@ class FotoController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'fotoInstance.label', default: 'Foto'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*' { render status: NOT_FOUND }
+            '*'{ render status: NOT_FOUND }
         }
     }
 }
