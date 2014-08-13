@@ -9,6 +9,18 @@ class AtraccionTuristicaController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
+
+    def atracciones(){
+        def atracciones = AtraccionTuristica.list()
+        def datos=""
+        atracciones.each {
+            def foto = Foto.findByAtraccion(it)
+            datos+=it.nombre+"&"+it.likes+"&"+it.coordenada.latitud+"&"+it.coordenada.longitud+"&"+foto.path+";"
+        }
+        println "datos "+datos
+        render datos
+    }
+
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond AtraccionTuristica.list(params), model: [atraccionTuristicaInstanceCount: AtraccionTuristica.count()]
