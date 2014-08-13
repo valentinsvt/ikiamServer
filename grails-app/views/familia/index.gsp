@@ -25,9 +25,7 @@
             <table>
                 <thead>
                     <tr>
-
                         <g:sortableColumn property="nombre" title="${message(code: 'familia.nombre.label', default: 'Nombre')}"/>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -37,7 +35,7 @@
                             <td>
                                 <g:link action="show" id="${familiaInstance.id}">
                                 %{--${fieldValue(bean: familiaInstance, field: "nombre")}--}%
-                                    ${familiaInstance.nombre.toString().decodeURL()}
+                                    ${familiaInstance.nombre?.toString()?.decodeURL()}
                                 </g:link>
                             </td>
 

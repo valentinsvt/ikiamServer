@@ -10,6 +10,12 @@ import static java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC
 
 class NthServerController {
 
+    /*
+            si tipoUsuario == facebook
+                    validar si existe usuario (facebokId) y si no ingresar
+     */
+
+
     def index() {
         render "error"
     }
@@ -114,7 +120,10 @@ class NthServerController {
             println "Error entry: " + entry.errors
         }
 
-        def path = servletContext.getRealPath("/")
+        def path = servletContext.getRealPath("/") + "uploaded/"
+        def folderMk = new File(path)
+        folderMk.mkdirs()
+
         def f = request.getFile("foto-file")
         if (f && !f.empty) {
             def fileName = f.getOriginalFilename() //nombre original del archivo
