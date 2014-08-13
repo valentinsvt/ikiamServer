@@ -17,5 +17,7 @@ class Foto {
         coordenada(nullable: true, blank: true)
         keyWords(blank: true, nullable: true, size: 1..100)
         atraccion(blank:true,nullable: true)
+        entry(blank:true,nullable: true)
+        especie(blank:true,nullable: true)
     }
 }
