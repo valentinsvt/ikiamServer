@@ -2,6 +2,11 @@ package ikiam
 
 class UploadCapturaController {
 
+    /*
+           si tipoUsuario == facebook
+                   validar si existe usuario (facebokId) y si no ingresar
+    */
+
     def uploadData() {
         println "::: " + params
 
@@ -12,8 +17,35 @@ class UploadCapturaController {
         def color1 = Color.findAllByColor(params.color1)
         def color2 = Color.findAllByColor(params.color2)
 
+        def userId = params.userId //id (faceboook - fb id, ikiam db.id
+        def userName = params.userName
+        def userType = params.userType //facebook || ikiam
+        def userMail = params.userMail
+        def userCientifico = params.userCientifico //N || S
+
+        def usuario
+        if (userType == "facebook") {
+            usuario = Usuario.findByFacebookId(userId)
+            if (!usuario) {
+                usuario = new Usuario()
+                usuario.facebookId = userId
+                usuario.nombre = userName
+                usuario.apellido = userName
+                usuario.password = userName
+                usuario.esAdmin = "N"
+                usuario.esCientifico = "N"
+                if (userMail != "-1") {
+                    usuario.email = userMail
+                }
+                usuario.tipo = "facebook"
+                if (!usuario.save(flush: true)) {
+                    println "error save usuario: " + usuario.errors
+                }
+            }
+        }
+
         def lat = params.lat ? params.lat.toDouble() : null
-        def lon = params.long ? params.lon.toDouble() : null
+        def lon = params.long ? params.long.toDouble() : null
 
         def coord = null
         if (lat && lon) {
@@ -21,10 +53,9 @@ class UploadCapturaController {
             if (coord.size() == 1) {
                 coord = coord.first()
             } else if (coord.size() == 0) {
-                coord = new Coordenada([
-                        latitud : lat,
-                        longitud: lon
-                ])
+                coord = new Coordenada()
+                coord.latitud = lat
+                coord.longitud = lon
                 if (!coord.save(flush: true)) {
                     println "Error coord: " + coord.errors
                 }
@@ -36,20 +67,22 @@ class UploadCapturaController {
         if (color1.size() == 1) {
             color1 = color1.first()
         } else if (color1.size() == 0) {
-            color1 = new Color([
-                    color: params.color1
-            ])
-            if (!color1.save(flush: true)) {
-                println "Error color1: " + color1.errors
+            if (params.color1) {
+                color1 = new Color()
+                color1.color = params.color1
+                if (!color1.save(flush: true)) {
+                    println "Error color1: " + color1.errors
+                }
+            } else {
+                color1 = null
             }
         }
         if (color2.size() == 1) {
             color2 = color2.first()
         } else if (color2.size() == 0) {
             if (params.color2) {
-                color2 = new Color([
-                        color: params.color2
-                ])
+                color2 = new Color()
+                color2.color = params.color2
                 if (!color2.save(flush: true)) {
                     println "Error color2: " + color2.errors
                 }
@@ -60,44 +93,57 @@ class UploadCapturaController {
         if (familia.size() == 1) {
             familia = familia.first()
         } else if (familia.size() == 0) {
-            familia = new Familia([
-                    nombre: params.familia
-            ])
-            if (!familia.save(flush: true)) {
-                println "Error familia: " + familia.errors
+            if (params.familia) {
+                familia = new Familia()
+                familia.nombre = params.familia
+                if (!familia.save(flush: true)) {
+                    println "Error familia: " + familia.errors
+                }
+            } else {
+                familia = null
             }
         }
         if (genero.size() == 1) {
             genero = genero.first()
         } else if (genero.size() == 0) {
-            genero = new Genero([
-                    nombre : params.genero,
-                    familia: familia
-            ])
-            if (!genero.save(flush: true)) {
-                println "Error genero: " + genero.errors
+            if (params.genero) {
+                genero = new Genero()
+                genero.nombre = params.genero
+                genero.familia = familia
+                if (!genero.save(flush: true)) {
+                    println "Error genero: " + genero.errors
+                }
+            } else {
+                genero = null
             }
         }
         if (especie.size() == 1) {
             especie = especie.first()
         } else if (especie.size() == 0) {
-            especie = new Especie([
-                    nombre     : params.genero,
-                    nombreComun: params.comun,
-                    genero     : genero,
-                    color1     : color1,
-                    color2     : color2
-            ])
-            if (!especie.save(flush: true)) {
-                println "Error especie: " + especie.errors
+            if (params.especie) {
+                especie = new Especie()
+                especie.nombre = params.especie
+                especie.nombreComun = params.comun
+                if (genero) {
+                    especie.genero = genero
+                }
+                especie.color1 = color1
+                especie.color2 = color2
+                if (!especie.save(flush: true)) {
+                    println "Error especie: " + especie.errors
+                }
+            } else {
+                especie = null
             }
         }
 
-        def entry = new Entry([
-                especie      : especie,
-                fecha        : fecha,
-                observaciones: params.comentarios
-        ])
+        def entry = new Entry()
+        if (especie) {
+            entry.especie = especie
+        }
+        entry.fecha = fecha
+        entry.observaciones = params.comentarios
+        entry.usuario = usuario
         if (!entry.save(flush: true)) {
             println "Error entry: " + entry.errors
         }
@@ -118,7 +164,6 @@ class UploadCapturaController {
                     fileName += obj
                 }
             }
-
 
             ext = "jpg"
             fileName = fileName.size() < 40 ? fileName : fileName[0..39]
@@ -142,13 +187,17 @@ class UploadCapturaController {
                 println "error transfer to file ????????\n" + e + "\n???????????"
             }
 
-            def foto = new Foto(
-                    path: pathFile,
-                    keyWords: params.keywords,
-                    entry: entry,
-                    especie: especie,
-                    coordenada: coord
-            )
+            def foto = new Foto()
+            foto.path = pathFile
+            foto.keyWords = params.keywords
+            foto.entry = entry
+            if (especie) {
+                foto.especie = especie
+            }
+            if (coord) {
+                foto.coordenada = coord
+            }
+            foto.usuario = usuario
             if (!foto.save(flush: true)) {
                 println "Error foto: " + foto.errors
             }

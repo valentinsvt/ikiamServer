@@ -11,6 +11,6 @@ class Coordenada {
         ruta(nullable: true,blank:true)
     }
     String toString(){
-        return "${this.latitud} - ${this.longitud}"
+        return "${this.latitud}; ${this.longitud}"
     }
 }
