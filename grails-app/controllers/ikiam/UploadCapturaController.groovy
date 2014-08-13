@@ -3,7 +3,7 @@ package ikiam
 class UploadCapturaController {
 
     def uploadData() {
-//        println params
+        println "::: " + params
 
         def familia = Familia.findAllByNombre(params.familia)
         def genero = Genero.findAllByNombre(params.genero)
