@@ -10,6 +10,14 @@
 	<g:textField name="nombre" maxlength="200" required="" value="${atraccionTuristicaInstance?.nombre}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: atraccionTuristicaInstance, field: 'url', 'error')} ">
+	<label for="url">
+		<g:message code="atraccionTuristica.url.label" default="Url" />
+		
+	</label>
+	<g:textField name="url" maxlength="200" value="${atraccionTuristicaInstance?.url}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: atraccionTuristicaInstance, field: 'coordenada', 'error')} required">
 	<label for="coordenada">
 		<g:message code="atraccionTuristica.coordenada.label" default="Coordenada" />

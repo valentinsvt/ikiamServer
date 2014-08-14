@@ -26,6 +26,8 @@
 					
 						<g:sortableColumn property="nombre" title="${message(code: 'atraccionTuristica.nombre.label', default: 'Nombre')}" />
 					
+						<g:sortableColumn property="url" title="${message(code: 'atraccionTuristica.url.label', default: 'Url')}" />
+					
 						<th><g:message code="atraccionTuristica.coordenada.label" default="Coordenada" /></th>
 					
 						<g:sortableColumn property="fecha" title="${message(code: 'atraccionTuristica.fecha.label', default: 'Fecha')}" />
@@ -39,6 +41,8 @@
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
 						<td><g:link action="show" id="${atraccionTuristicaInstance.id}">${fieldValue(bean: atraccionTuristicaInstance, field: "nombre")}</g:link></td>
+					
+						<td>${fieldValue(bean: atraccionTuristicaInstance, field: "url")}</td>
 					
 						<td>${fieldValue(bean: atraccionTuristicaInstance, field: "coordenada")}</td>
 					

@@ -1,6 +1,7 @@
 package ikiam
 
 
+
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -24,7 +25,7 @@ class AtraccionTuristicaController {
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond AtraccionTuristica.list(params), model: [atraccionTuristicaInstanceCount: AtraccionTuristica.count()]
+        respond AtraccionTuristica.list(params), model:[atraccionTuristicaInstanceCount: AtraccionTuristica.count()]
     }
 
     def show(AtraccionTuristica atraccionTuristicaInstance) {
@@ -43,11 +44,11 @@ class AtraccionTuristicaController {
         }
 
         if (atraccionTuristicaInstance.hasErrors()) {
-            respond atraccionTuristicaInstance.errors, view: 'create'
+            respond atraccionTuristicaInstance.errors, view:'create'
             return
         }
 
-        atraccionTuristicaInstance.save flush: true
+        atraccionTuristicaInstance.save flush:true
 
         request.withFormat {
             form {
@@ -70,18 +71,18 @@ class AtraccionTuristicaController {
         }
 
         if (atraccionTuristicaInstance.hasErrors()) {
-            respond atraccionTuristicaInstance.errors, view: 'edit'
+            respond atraccionTuristicaInstance.errors, view:'edit'
             return
         }
 
-        atraccionTuristicaInstance.save flush: true
+        atraccionTuristicaInstance.save flush:true
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'AtraccionTuristica.label', default: 'AtraccionTuristica'), atraccionTuristicaInstance.id])
                 redirect atraccionTuristicaInstance
             }
-            '*' { respond atraccionTuristicaInstance, [status: OK] }
+            '*'{ respond atraccionTuristicaInstance, [status: OK] }
         }
     }
 
@@ -93,14 +94,14 @@ class AtraccionTuristicaController {
             return
         }
 
-        atraccionTuristicaInstance.delete flush: true
+        atraccionTuristicaInstance.delete flush:true
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.deleted.message', args: [message(code: 'AtraccionTuristica.label', default: 'AtraccionTuristica'), atraccionTuristicaInstance.id])
-                redirect action: "index", method: "GET"
+                redirect action:"index", method:"GET"
             }
-            '*' { render status: NO_CONTENT }
+            '*'{ render status: NO_CONTENT }
         }
     }
 
@@ -110,7 +111,7 @@ class AtraccionTuristicaController {
                 flash.message = message(code: 'default.not.found.message', args: [message(code: 'atraccionTuristicaInstance.label', default: 'AtraccionTuristica'), params.id])
                 redirect action: "index", method: "GET"
             }
-            '*' { render status: NOT_FOUND }
+            '*'{ render status: NOT_FOUND }
         }
     }
 }

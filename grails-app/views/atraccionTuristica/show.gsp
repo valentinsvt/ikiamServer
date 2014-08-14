@@ -32,6 +32,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${atraccionTuristicaInstance?.url}">
+				<li class="fieldcontain">
+					<span id="url-label" class="property-label"><g:message code="atraccionTuristica.url.label" default="Url" /></span>
+					
+						<span class="property-value" aria-labelledby="url-label"><g:fieldValue bean="${atraccionTuristicaInstance}" field="url"/></span>
+					
+				</li>
+				</g:if>
+			
 				<g:if test="${atraccionTuristicaInstance?.coordenada}">
 				<li class="fieldcontain">
 					<span id="coordenada-label" class="property-label"><g:message code="atraccionTuristica.coordenada.label" default="Coordenada" /></span>
