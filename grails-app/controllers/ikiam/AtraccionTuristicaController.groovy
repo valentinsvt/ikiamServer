@@ -15,9 +15,10 @@ class AtraccionTuristicaController {
         def datos=""
         atracciones.each {
             def foto = Foto.findByAtraccion(it)
-            datos+=it.nombre+"&"+it.likes+"&"+it.coordenada.latitud+"&"+it.coordenada.longitud+"&"+foto.path+";"
+            datos+=it.nombre+"&"+it.likes+"&"+it.coordenada.latitud+"&"+it.coordenada.longitud+"&"+foto.path+"&"+it.url+";"
+
         }
-        println "datos "+datos
+        //println "datos "+datos
         render datos
     }
 
