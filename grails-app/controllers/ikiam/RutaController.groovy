@@ -47,6 +47,7 @@ class RutaController {
             def band =true
             if(ruta.save(flush: true)){
                 def datos = params.coords.split("|")
+                println "datos "+datos
                 datos.each {d->
                     if(d.size()>0){
                         def parts = d.split(";")
