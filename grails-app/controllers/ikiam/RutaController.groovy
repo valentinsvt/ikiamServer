@@ -53,9 +53,9 @@ class RutaController {
                         def parts = d.split(";")
                         println "parts "+parts
                         def cord = new Coordenada();
-                        cord.longitud=parts[1]
-                        cord.latitud=parts[0]
-                        cord.altitud=parts[2]
+                        cord.longitud=parts[1].toDouble()
+                        cord.latitud=parts[0].toDouble()
+                        cord.altitud=parts[2].toDouble()
                         cord.ruta=ruta
                         if(!cord.save(flush: true)){
                             println "error save cord "+cord.errors
