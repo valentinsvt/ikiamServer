@@ -8,6 +8,7 @@ class Foto {
     int likes = 0
     Usuario usuario
     Entry entry
+    Ruta ruta
     Especie especie
     AtraccionTuristica atraccion
 
@@ -20,5 +21,6 @@ class Foto {
         entry(blank:true,nullable: true)
         especie(blank:true,nullable: true)
         atraccion(blank:true,nullable: true)
+        ruta(blank:true,nullable: true)
     }
 }
