@@ -40,8 +40,9 @@ class RutaController {
             usuario=Usuario.get(params.userId)
         }
         def band =true
+        def ruta = new Ruta();
         if(usuario){
-            def ruta = new Ruta();
+
             ruta.descripcion=params.ruta
             ruta.fecha = new Date().parse("yyyy-MM-dd HH:mm:ss",params.fecha)
             ruta.usuario=usuario
