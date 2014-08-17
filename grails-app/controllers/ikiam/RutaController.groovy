@@ -39,12 +39,13 @@ class RutaController {
         }else{
             usuario=Usuario.get(params.userId)
         }
+        def band =true
         if(usuario){
             def ruta = new Ruta();
             ruta.descripcion=params.ruta
             ruta.fecha = new Date().parse("yyyy-MM-dd HH:mm:ss",params.fecha)
             ruta.usuario=usuario
-            def band =true
+
             if(ruta.save(flush: true)){
                 def datos = params.coords.split("\\|")
                 println "datos "+datos
