@@ -31,8 +31,9 @@ class RutaController {
         //String parameters = "ruta="+ruta.descripcion+"&fecha="+ruta.fecha+"&coords=";
         println "ruta uploader "+params
         def usuario = null
-        if(params.tipo=="facebook"){
-            usuario=Usuario.findByFacebookId(params.userId)
+        if(params.tipo.trim()=="facebook"){
+            println "es facebook"
+            usuario=Usuario.findByFacebookId(params.userId.trim())
             println "encontro usuario facebook? "+usuario
             if(!usuario){
                 usuario = new Usuario()
