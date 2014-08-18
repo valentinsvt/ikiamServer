@@ -17,6 +17,10 @@ class RutaController {
             fotos.each {
                 def data = it.path.split("/")
                 println "data "+data
+                if(data.size()>1){
+                    it.path=data[7].trim()
+                    it.save(flush: true)
+                }
 
             }
             [ruta:ruta,cords:cords,fotos:fotos]
@@ -153,7 +157,7 @@ class RutaController {
                 }
 
                 def foto = new Foto()
-                foto.path = pathFile
+                foto.path = nombre
                 foto.keyWords = ""
                 foto.ruta = ruta
                 if (coord) {
