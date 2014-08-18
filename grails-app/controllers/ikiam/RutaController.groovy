@@ -4,6 +4,19 @@ class RutaController {
 
     def index() {}
 
+
+    def publish(){
+        def ruta = Ruta.get(params.id)
+        if(!ruta){
+            render "ruta no encontrada"
+            return
+        }else{
+            def cords = Coordenada.findAllByRuta(ruta)
+            def fotos = Foto.findAllByRuta(ruta)
+            [ruta:ruta,cords:cords,fotos:fotos]
+        }
+    }
+
     def rutaUploader(){
         //String parameters = "ruta="+ruta.descripcion+"&fecha="+ruta.fecha+"&coords=";
         println "ruta uploader "+params
