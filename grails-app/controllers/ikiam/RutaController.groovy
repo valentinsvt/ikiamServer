@@ -33,6 +33,7 @@ class RutaController {
         def usuario = null
         if(params.tipo=="facebook"){
             usuario=Usuario.findByFacebookId(params.userId)
+            println "encontro usuario facebook? "+usuario
             if(!usuario){
                 usuario = new Usuario()
                 usuario.facebookId=params.userId
@@ -55,6 +56,7 @@ class RutaController {
                     usuario.apellido="N.A."
                 }
                 if(!usuario.save(flush: true)){
+                    println "error save usuario "+usuario.errors
                     usuario=null
                 }
 
@@ -93,6 +95,7 @@ class RutaController {
                 band=false
             }
         }else {
+            println "no usuario"
             band=false
         }
 
