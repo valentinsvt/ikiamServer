@@ -17,7 +17,7 @@
     <p>Coord: ${c.latitud} - ${c.longitud} a ${c.altitud}</p>
 </g:each>
 <g:each in="${fotos}" var="f">
-    <img src="${f.path}">
+    <img src="${g.resource(dir: 'uploaded',file: fotos.path)}">
 </g:each>
 
 

@@ -6,6 +6,7 @@ class RutaController {
 
 
     def publish(){
+        println "params publish "+params
         def ruta = Ruta.get(params.id)
         if(!ruta){
             render "ruta no encontrada"
@@ -13,6 +14,11 @@ class RutaController {
         }else{
             def cords = Coordenada.findAllByRuta(ruta)
             def fotos = Foto.findAllByRuta(ruta)
+            fotos.each {
+                def data = it.path.split("/")
+                println "data "+data
+
+            }
             [ruta:ruta,cords:cords,fotos:fotos]
         }
     }
