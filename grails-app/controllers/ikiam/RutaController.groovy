@@ -5,105 +5,105 @@ class RutaController {
     def index() {}
 
 
-    def publish(){
-        println "params publish "+params
+    def publish() {
+        println "params publish " + params
         def ruta = Ruta.get(params.id)
-        if(!ruta){
+        if (!ruta) {
             render "ruta no encontrada"
             return
-        }else{
+        } else {
             def cords = Coordenada.findAllByRuta(ruta)
             def fotos = Foto.findAllByRuta(ruta)
             fotos.each {
                 def data = it.path.split("/")
-                println "data "+data
-                if(data.size()>1){
-                    it.path=data[7].trim()
+                println "data " + data
+                if (data.size() > 1) {
+                    it.path = data[7].trim()
                     it.save(flush: true)
                 }
 
             }
-            [ruta:ruta,cords:cords,fotos:fotos]
+            [ruta: ruta, cords: cords, fotos: fotos]
         }
     }
 
-    def rutaUploader(){
+    def rutaUploader() {
         //String parameters = "ruta="+ruta.descripcion+"&fecha="+ruta.fecha+"&coords=";
-        println "ruta uploader "+params
+        println "ruta uploader " + params
         def usuario = null
-        if(params.tipo.trim()=="facebook"){
+        if (params.tipo.trim() == "facebook") {
             println "es facebook"
-            usuario=Usuario.findByFacebookId(params.userId.trim())
-            println "encontro usuario facebook? "+usuario
-            if(!usuario){
+            usuario = Usuario.findByFacebookId(params.userId.trim())
+            println "encontro usuario facebook? " + usuario
+            if (!usuario) {
                 usuario = new Usuario()
-                usuario.facebookId=params.userId
-                usuario.tipo="facebook"
-                if(params.nombre){
+                usuario.facebookId = params.userId
+                usuario.tipo = "facebook"
+                if (params.nombre) {
                     def data = params.nombre.split(" ")
-                    if(data.size()>1) {
+                    if (data.size() > 1) {
                         usuario.nombre = data[0]
                         usuario.apellido = data[1]
-                    }else{
-                        if(data.size()>0) {
+                    } else {
+                        if (data.size() > 0) {
                             usuario.nombre = data[0]
-                        }else{
-                            usuario.nombre="N.A."
-                            usuario.apellido="N.A."
+                        } else {
+                            usuario.nombre = "N.A."
+                            usuario.apellido = "N.A."
                         }
                     }
-                }else{
-                    usuario.nombre="N.A."
-                    usuario.apellido="N.A."
+                } else {
+                    usuario.nombre = "N.A."
+                    usuario.apellido = "N.A."
                 }
-                if(!usuario.save(flush: true)){
-                    println "error save usuario "+usuario.errors
-                    usuario=null
+                if (!usuario.save(flush: true)) {
+                    println "error save usuario " + usuario.errors
+                    usuario = null
                 }
 
             }
-        }else{
-            usuario=Usuario.get(params.userId)
+        } else {
+            usuario = Usuario.get(params.userId)
         }
-        def band =true
+        def band = true
         def ruta = new Ruta();
-        if(usuario){
+        if (usuario) {
 
-            ruta.descripcion=params.ruta
-            ruta.fecha = new Date().parse("yyyy-MM-dd HH:mm:ss",params.fecha)
-            ruta.usuario=usuario
+            ruta.descripcion = params.ruta
+            ruta.fecha = new Date().parse("yyyy-MM-dd HH:mm:ss", params.fecha)
+            ruta.usuario = usuario
 
-            if(ruta.save(flush: true)){
+            if (ruta.save(flush: true)) {
                 def datos = params.coords.split("\\|")
-                println "datos "+datos
-                datos.each {d->
-                    if(d.size()>0){
+                println "datos " + datos
+                datos.each { d ->
+                    if (d.size() > 0) {
                         def parts = d.split(";")
-                        println "parts "+parts
+                        println "parts " + parts
                         def cord = new Coordenada();
-                        cord.longitud=parts[1].toDouble()
-                        cord.latitud=parts[0].toDouble()
-                        cord.altitud=parts[2].toDouble()
-                        cord.ruta=ruta
-                        if(!cord.save(flush: true)){
-                            println "error save cord "+cord.errors
-                            band=false
+                        cord.longitud = parts[1].toDouble()
+                        cord.latitud = parts[0].toDouble()
+                        cord.altitud = parts[2].toDouble()
+                        cord.ruta = ruta
+                        if (!cord.save(flush: true)) {
+                            println "error save cord " + cord.errors
+                            band = false
                         }
                     }
                 }
-            }else{
-                println "error ruta save "+ruta.errors
-                band=false
+            } else {
+                println "error ruta save " + ruta.errors
+                band = false
             }
-        }else {
+        } else {
             println "no usuario"
-            band=false
+            band = false
         }
 
 
-        if(band){
-            render ""+ruta.id
-        }else{
+        if (band) {
+            render "" + ruta.id
+        } else {
             render "-1"
         }
 
@@ -113,9 +113,9 @@ class RutaController {
         println " foto uploader" + params
 
         def ruta = Ruta.get(params.ruta)
-        if(!ruta){
+        if (!ruta) {
             render "-1"
-        }else{
+        } else {
             def path = servletContext.getRealPath("/") + "uploaded/"
             def folderMk = new File(path)
             folderMk.mkdirs()
@@ -138,9 +138,9 @@ class RutaController {
                 def lon = params.long ? params.long.toDouble() : null
                 def alt = params.alt ? params.alt.toDouble() : null
                 def coord = new Coordenada()
-                coord.latitud=lat
-                coord.longitud=lon
-                coord.altitud=alt
+                coord.latitud = lat
+                coord.longitud = lon
+                coord.altitud = alt
                 coord.save(flush: true)
                 def nombre = fileName + "." + ext
                 def pathFile = path + nombre
