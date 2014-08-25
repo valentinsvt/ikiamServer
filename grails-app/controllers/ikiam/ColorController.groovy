@@ -1,103 +1,113 @@
 package ikiam
 
+import org.springframework.dao.DataIntegrityViolationException
 
-import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
-
-@Transactional(readOnly = true)
 class ColorController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Color.list(params), model: [colorInstanceCount: Color.count()]
+    def index() {
+        redirect(action:"list", params: params)
     }
 
-    def show(Color colorInstance) {
-        respond colorInstance
-    }
-
-    def create() {
-        respond new Color(params)
-    }
-
-    @Transactional
-    def save(Color colorInstance) {
-        if (colorInstance == null) {
-            notFound()
-            return
+    def getList(params, all) {
+        params = params.clone()
+        params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
+        params.offset = params.offset ?: 0
+        if(all) {
+            params.remove("max")
+            params.remove("offset")
         }
-
-        if (colorInstance.hasErrors()) {
-            respond colorInstance.errors, view: 'create'
-            return
-        }
-
-        colorInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'colorInstance.label', default: 'Color'), colorInstance.id])
-                redirect colorInstance
+        def list
+        if(params.search) {
+            def c = Color.createCriteria()
+            list = c.list(params) {
+                or {
+                    /* TODO: cambiar aqui segun sea necesario */
+                    eq("id", "%" + params.search + "%")
+                    
+                    eq("color", "%" + params.search + "%")  
+                }
             }
-            '*' { respond colorInstance, [status: CREATED] }
+        } else {
+            list = Color.list(params)
         }
+        if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
+            params.offset = params.offset.toInteger() - 1
+            list = getList(params, all)
+        }
+        return list
     }
 
-    def edit(Color colorInstance) {
-        respond colorInstance
+    def list() {
+        def colorInstanceList = getList(params, false)
+        def colorInstanceCount = getList(params, true).size()
+        return [colorInstanceList: colorInstanceList, colorInstanceCount: colorInstanceCount]
     }
 
-    @Transactional
-    def update(Color colorInstance) {
-        if (colorInstance == null) {
-            notFound()
+    def show_ajax() {
+        if(params.id) {
+            def colorInstance = Color.get(params.id)
+            if(!colorInstance) {
+                render "ERROR*No se encontró Color."
+                return
+            }
+            return [colorInstance: colorInstance]
+        } else {
+            render "ERROR*No se encontró Color."
+        }
+    } //show para cargar con ajax en un dialog
+
+    def form_ajax() {
+        def colorInstance = new Color()
+        if(params.id) {
+            colorInstance = Color.get(params.id)
+            if(!colorInstance) {
+                render "ERROR*No se encontró Color."
+                return
+            }
+        }
+        colorInstance.properties = params
+        return [colorInstance: colorInstance]
+    } //form para cargar con ajax en un dialog
+
+    def save_ajax() {
+        def colorInstance = new Color()
+        if(params.id) {
+            colorInstance = Color.get(params.id)
+            if(!colorInstance) {
+                render "ERROR*No se encontró Color."
+                return
+            }
+        }
+        colorInstance.properties = params
+        if(!colorInstance.save(flush: true)) {
+            render "ERROR*Ha ocurrido un error al guardar Color: " + renderErrors(bean: colorInstance)
             return
         }
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Color exitosa."
+        return
+    } //save para grabar desde ajax
 
-        if (colorInstance.hasErrors()) {
-            respond colorInstance.errors, view: 'edit'
+    def delete_ajax() {
+        if(params.id) {
+            def colorInstance = Color.get(params.id)
+            if (!colorInstance) {
+                render "ERROR*No se encontró Color."
+                return
+            }
+            try {
+                colorInstance.delete(flush: true)
+                render "SUCCESS*Eliminación de Color exitosa."
+                return
+            } catch (DataIntegrityViolationException e) {
+                render "ERROR*Ha ocurrido un error al eliminar Color"
+                return
+            }
+        } else {
+            render "ERROR*No se encontró Color."
             return
         }
-
-        colorInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Color.label', default: 'Color'), colorInstance.id])
-                redirect colorInstance
-            }
-            '*' { respond colorInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Color colorInstance) {
-
-        if (colorInstance == null) {
-            notFound()
-            return
-        }
-
-        colorInstance.delete flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Color.label', default: 'Color'), colorInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'colorInstance.label', default: 'Color'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
+    } //delete para eliminar via ajax
+    
 }

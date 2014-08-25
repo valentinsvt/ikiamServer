@@ -1,9 +1,47 @@
 package ikiam
 
+import org.springframework.dao.DataIntegrityViolationException
+
 class RutaController {
 
-    def index() {}
+    static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
+    def index() {
+        redirect(action: "list", params: params)
+    }
+
+    def getList(params, all) {
+        params = params.clone()
+        params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
+        params.offset = params.offset ?: 0
+        if (all) {
+            params.remove("max")
+            params.remove("offset")
+        }
+        def list
+        if (params.search) {
+            def c = Ruta.createCriteria()
+            list = c.list(params) {
+                or {
+                    /* TODO: cambiar aqui segun sea necesario */
+                    eq("id", "%" + params.search + "%")
+                }
+            }
+        } else {
+            list = Ruta.list(params)
+        }
+        if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
+            params.offset = params.offset.toInteger() - 1
+            list = getList(params, all)
+        }
+        return list
+    }
+
+    def list() {
+        def rutaInstanceList = getList(params, false)
+        def rutaInstanceCount = getList(params, true).size()
+        return [rutaInstanceList: rutaInstanceList, rutaInstanceCount: rutaInstanceCount]
+    }
 
     def publish() {
         println "params publish " + params
@@ -23,6 +61,9 @@ class RutaController {
                 }
 
             }
+//            println "Ruta: " + ruta
+//            println "coords: " + cords
+//            println "fotos: " + fotos
             [ruta: ruta, cords: cords, fotos: fotos]
         }
     }
@@ -178,4 +219,69 @@ class RutaController {
         }
         render "ok"
     }
+
+    def show_ajax() {
+        if (params.id) {
+            def rutaInstance = Ruta.get(params.id)
+            if (!rutaInstance) {
+                render "ERROR*No se encontró Ruta."
+                return
+            }
+            return [rutaInstance: rutaInstance]
+        } else {
+            render "ERROR*No se encontró Ruta."
+        }
+    } //show para cargar con ajax en un dialog
+
+    def form_ajax() {
+        def rutaInstance = new Ruta()
+        if (params.id) {
+            rutaInstance = Ruta.get(params.id)
+            if (!rutaInstance) {
+                render "ERROR*No se encontró Ruta."
+                return
+            }
+        }
+        rutaInstance.properties = params
+        return [rutaInstance: rutaInstance]
+    } //form para cargar con ajax en un dialog
+
+    def save_ajax() {
+        def rutaInstance = new Ruta()
+        if (params.id) {
+            rutaInstance = Ruta.get(params.id)
+            if (!rutaInstance) {
+                render "ERROR*No se encontró Ruta."
+                return
+            }
+        }
+        rutaInstance.properties = params
+        if (!rutaInstance.save(flush: true)) {
+            render "ERROR*Ha ocurrido un error al guardar Ruta: " + renderErrors(bean: rutaInstance)
+            return
+        }
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Ruta exitosa."
+        return
+    } //save para grabar desde ajax
+
+    def delete_ajax() {
+        if (params.id) {
+            def rutaInstance = Ruta.get(params.id)
+            if (!rutaInstance) {
+                render "ERROR*No se encontró Ruta."
+                return
+            }
+            try {
+                rutaInstance.delete(flush: true)
+                render "SUCCESS*Eliminación de Ruta exitosa."
+                return
+            } catch (DataIntegrityViolationException e) {
+                render "ERROR*Ha ocurrido un error al eliminar Ruta"
+                return
+            }
+        } else {
+            render "ERROR*No se encontró Ruta."
+            return
+        }
+    } //delete para eliminar via ajax
 }
