@@ -13,12 +13,16 @@ class Usuario {
     static constraints = {
 
         email(email: true, blank: true, nullable: true)
-        password(size: 1..255, nullable: true,blank: true)
+        password(size: 1..255, nullable: true, blank: true, password: true)
         esAdmin(size: 1..1)
         esCientifico(size: 1..1)
         nombre(size: 1..100, blank: false)
         apellido(size: 1..100, blank: false)
         facebookId(size: 1..30, blank: true, nullable: true)
         tipo(size: 1..10, blank: true, nullable: false)
+    }
+
+    String toString() {
+        return nombre + " " + apellido
     }
 }

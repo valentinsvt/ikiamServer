@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <imp:favicon/>
-        <link href="${resource(dir: 'css', file: 'login.css')}" rel="stylesheet">
+        <link href="${resource(dir: 'css', file: 'noMenu.css')}" rel="stylesheet">
         <imp:css/>
 
         <imp:js/>

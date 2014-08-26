@@ -1,104 +1,137 @@
 package ikiam
 
+import org.springframework.dao.DataIntegrityViolationException
 
-
-import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
-
-@Transactional(readOnly = true)
 class FotoController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    def imageResizeService
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Foto.list(params), model:[fotoInstanceCount: Foto.count()]
+    static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
+
+    def index() {
+        redirect(action: "list", params: params)
     }
 
-    def show(Foto fotoInstance) {
-        respond fotoInstance
-    }
-
-    def create() {
-        respond new Foto(params)
-    }
-
-    @Transactional
-    def save(Foto fotoInstance) {
-        if (fotoInstance == null) {
-            notFound()
-            return
-        }
-
-        if (fotoInstance.hasErrors()) {
-            respond fotoInstance.errors, view:'create'
-            return
-        }
-
-        fotoInstance.save flush:true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'fotoInstance.label', default: 'Foto'), fotoInstance.id])
-                redirect fotoInstance
+    def fotosUsuario() {
+        def usuario = Usuario.get(params.id)
+        def fotos = Foto.findAllByUsuario(usuario)
+        fotos.each { foto ->
+            def data = foto.path.split("/")
+            println "data " + data
+            if (data.size() > 1) {
+                foto.path = data[7].trim()
+                foto.save(flush: true)
             }
-            '*' { respond fotoInstance, [status: CREATED] }
+            def path = servletContext.getRealPath("/") + "uploaded/"
+            def pathThumb = path + "markers/"
+            new File(pathThumb).mkdirs()
+//                def thumb = new File(pathThumb + foto.path)
+//                if (!thumb.exists()) {
+            imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
+//                }
         }
+        println "FOTOS: " + fotos
+        return [fotos: fotos]
     }
 
-    def edit(Foto fotoInstance) {
-        respond fotoInstance
+    def getList(params, all) {
+        params = params.clone()
+        params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
+        params.offset = params.offset ?: 0
+        if (all) {
+            params.remove("max")
+            params.remove("offset")
+        }
+        def list
+        if (params.search) {
+            def c = Foto.createCriteria()
+            list = c.list(params) {
+                or {
+                    /* TODO: cambiar aqui segun sea necesario */
+
+                    ilike("keyWords", "%" + params.search + "%")
+                    ilike("path", "%" + params.search + "%")
+                }
+            }
+        } else {
+            list = Foto.list(params)
+        }
+        if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
+            params.offset = params.offset.toInteger() - 1
+            list = getList(params, all)
+        }
+        return list
     }
 
-    @Transactional
-    def update(Foto fotoInstance) {
-        if (fotoInstance == null) {
-            notFound()
+    def list() {
+        def fotoInstanceList = getList(params, false)
+        def fotoInstanceCount = getList(params, true).size()
+        return [fotoInstanceList: fotoInstanceList, fotoInstanceCount: fotoInstanceCount, params: params]
+    }
+
+    def show_ajax() {
+        if (params.id) {
+            def fotoInstance = Foto.get(params.id)
+            if (!fotoInstance) {
+                render "ERROR*No se encontró Foto."
+                return
+            }
+            return [fotoInstance: fotoInstance]
+        } else {
+            render "ERROR*No se encontró Foto."
+        }
+    } //show para cargar con ajax en un dialog
+
+    def form_ajax() {
+        def fotoInstance = new Foto()
+        if (params.id) {
+            fotoInstance = Foto.get(params.id)
+            if (!fotoInstance) {
+                render "ERROR*No se encontró Foto."
+                return
+            }
+        }
+        fotoInstance.properties = params
+        return [fotoInstance: fotoInstance]
+    } //form para cargar con ajax en un dialog
+
+    def save_ajax() {
+        def fotoInstance = new Foto()
+        if (params.id) {
+            fotoInstance = Foto.get(params.id)
+            if (!fotoInstance) {
+                render "ERROR*No se encontró Foto."
+                return
+            }
+        }
+        fotoInstance.properties = params
+        if (!fotoInstance.save(flush: true)) {
+            render "ERROR*Ha ocurrido un error al guardar Foto: " + renderErrors(bean: fotoInstance)
             return
         }
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Foto exitosa."
+        return
+    } //save para grabar desde ajax
 
-        if (fotoInstance.hasErrors()) {
-            respond fotoInstance.errors, view:'edit'
+    def delete_ajax() {
+        if (params.id) {
+            def fotoInstance = Foto.get(params.id)
+            if (!fotoInstance) {
+                render "ERROR*No se encontró Foto."
+                return
+            }
+            try {
+                fotoInstance.delete(flush: true)
+                render "SUCCESS*Eliminación de Foto exitosa."
+                return
+            } catch (DataIntegrityViolationException e) {
+                render "ERROR*Ha ocurrido un error al eliminar Foto"
+                return
+            }
+        } else {
+            render "ERROR*No se encontró Foto."
             return
         }
+    } //delete para eliminar via ajax
 
-        fotoInstance.save flush:true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Foto.label', default: 'Foto'), fotoInstance.id])
-                redirect fotoInstance
-            }
-            '*'{ respond fotoInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Foto fotoInstance) {
-
-        if (fotoInstance == null) {
-            notFound()
-            return
-        }
-
-        fotoInstance.delete flush:true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Foto.label', default: 'Foto'), fotoInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'fotoInstance.label', default: 'Foto'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*'{ render status: NOT_FOUND }
-        }
-    }
 }

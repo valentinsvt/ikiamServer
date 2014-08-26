@@ -24,9 +24,8 @@ class ColorController {
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    eq("id", "%" + params.search + "%")
                     
-                    eq("color", "%" + params.search + "%")  
+                    ilike("color", "%" + params.search + "%")  
                 }
             }
         } else {
@@ -42,7 +41,7 @@ class ColorController {
     def list() {
         def colorInstanceList = getList(params, false)
         def colorInstanceCount = getList(params, true).size()
-        return [colorInstanceList: colorInstanceList, colorInstanceCount: colorInstanceCount]
+        return [colorInstanceList: colorInstanceList, colorInstanceCount: colorInstanceCount, params: params]
     }
 
     def show_ajax() {

@@ -1,6 +1,14 @@
 package ikiam
 
+import javax.imageio.ImageIO
+import java.awt.image.BufferedImage
+
+import static java.awt.RenderingHints.KEY_INTERPOLATION
+import static java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC
+
 class UploadCapturaController {
+
+    def imageResizeService
 
     /*
            si tipoUsuario == facebook
@@ -149,8 +157,9 @@ class UploadCapturaController {
         }
 
         def path = servletContext.getRealPath("/") + "uploaded/"
-        def folderMk = new File(path)
-        folderMk.mkdirs()
+        def pathThumb = servletContext.getRealPath("/") + "uploaded/markers"
+        new File(path).mkdirs()
+        new File(pathThumb).mkdirs()
 
         def f = request.getFile("foto-file")
         if (f && !f.empty) {
@@ -187,8 +196,10 @@ class UploadCapturaController {
                 println "error transfer to file ????????\n" + e + "\n???????????"
             }
 
+            imageResizeService.createMarker(pathFile, pathThumb + nombre)
+
             def foto = new Foto()
-            foto.path = pathFile
+            foto.path = nombre
             foto.keyWords = params.keywords
             foto.entry = entry
             if (especie) {

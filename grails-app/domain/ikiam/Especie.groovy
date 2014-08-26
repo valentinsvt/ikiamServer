@@ -11,4 +11,8 @@ class Especie {
         nombre(size: 1..75)
         color2(blank: true, nullable: true)
     }
+
+    String toString() {
+        return nombreComun.decodeURL()
+    }
 }

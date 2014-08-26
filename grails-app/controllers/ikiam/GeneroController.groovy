@@ -1,103 +1,112 @@
 package ikiam
 
+import org.springframework.dao.DataIntegrityViolationException
 
-import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
-
-@Transactional(readOnly = true)
 class GeneroController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Genero.list(params), model: [generoInstanceCount: Genero.count()]
+    def index() {
+        redirect(action:"list", params: params)
     }
 
-    def show(Genero generoInstance) {
-        respond generoInstance
-    }
-
-    def create() {
-        respond new Genero(params)
-    }
-
-    @Transactional
-    def save(Genero generoInstance) {
-        if (generoInstance == null) {
-            notFound()
-            return
+    def getList(params, all) {
+        params = params.clone()
+        params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
+        params.offset = params.offset ?: 0
+        if(all) {
+            params.remove("max")
+            params.remove("offset")
         }
-
-        if (generoInstance.hasErrors()) {
-            respond generoInstance.errors, view: 'create'
-            return
-        }
-
-        generoInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'generoInstance.label', default: 'Genero'), generoInstance.id])
-                redirect generoInstance
+        def list
+        if(params.search) {
+            def c = Genero.createCriteria()
+            list = c.list(params) {
+                or {
+                    /* TODO: cambiar aqui segun sea necesario */
+                    
+                    ilike("nombre", "%" + params.search + "%")  
+                }
             }
-            '*' { respond generoInstance, [status: CREATED] }
+        } else {
+            list = Genero.list(params)
         }
+        if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
+            params.offset = params.offset.toInteger() - 1
+            list = getList(params, all)
+        }
+        return list
     }
 
-    def edit(Genero generoInstance) {
-        respond generoInstance
+    def list() {
+        def generoInstanceList = getList(params, false)
+        def generoInstanceCount = getList(params, true).size()
+        return [generoInstanceList: generoInstanceList, generoInstanceCount: generoInstanceCount, params: params]
     }
 
-    @Transactional
-    def update(Genero generoInstance) {
-        if (generoInstance == null) {
-            notFound()
+    def show_ajax() {
+        if(params.id) {
+            def generoInstance = Genero.get(params.id)
+            if(!generoInstance) {
+                render "ERROR*No se encontró Genero."
+                return
+            }
+            return [generoInstance: generoInstance]
+        } else {
+            render "ERROR*No se encontró Genero."
+        }
+    } //show para cargar con ajax en un dialog
+
+    def form_ajax() {
+        def generoInstance = new Genero()
+        if(params.id) {
+            generoInstance = Genero.get(params.id)
+            if(!generoInstance) {
+                render "ERROR*No se encontró Genero."
+                return
+            }
+        }
+        generoInstance.properties = params
+        return [generoInstance: generoInstance]
+    } //form para cargar con ajax en un dialog
+
+    def save_ajax() {
+        def generoInstance = new Genero()
+        if(params.id) {
+            generoInstance = Genero.get(params.id)
+            if(!generoInstance) {
+                render "ERROR*No se encontró Genero."
+                return
+            }
+        }
+        generoInstance.properties = params
+        if(!generoInstance.save(flush: true)) {
+            render "ERROR*Ha ocurrido un error al guardar Genero: " + renderErrors(bean: generoInstance)
             return
         }
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Genero exitosa."
+        return
+    } //save para grabar desde ajax
 
-        if (generoInstance.hasErrors()) {
-            respond generoInstance.errors, view: 'edit'
+    def delete_ajax() {
+        if(params.id) {
+            def generoInstance = Genero.get(params.id)
+            if (!generoInstance) {
+                render "ERROR*No se encontró Genero."
+                return
+            }
+            try {
+                generoInstance.delete(flush: true)
+                render "SUCCESS*Eliminación de Genero exitosa."
+                return
+            } catch (DataIntegrityViolationException e) {
+                render "ERROR*Ha ocurrido un error al eliminar Genero"
+                return
+            }
+        } else {
+            render "ERROR*No se encontró Genero."
             return
         }
-
-        generoInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Genero.label', default: 'Genero'), generoInstance.id])
-                redirect generoInstance
-            }
-            '*' { respond generoInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Genero generoInstance) {
-
-        if (generoInstance == null) {
-            notFound()
-            return
-        }
-
-        generoInstance.delete flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Genero.label', default: 'Genero'), generoInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'generoInstance.label', default: 'Genero'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
+    } //delete para eliminar via ajax
+    
 }

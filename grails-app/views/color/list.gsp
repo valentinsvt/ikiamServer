@@ -19,11 +19,11 @@
             </div>
             <div class="btn-group pull-right col-md-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar" value="${params.search}">
+                    <input type="text" id="txtSearch" class="form-control" placeholder="Buscar" value="${params.search}">
                     <span class="input-group-btn">
-                        <g:link action="list" class="btn btn-default btn-search" type="button">
+                        <a href="#" class="btn btn-default btn-search" type="button">
                             <i class="fa fa-search"></i>&nbsp;
-                        </g:link>
+                        </a>
                     </span>
                 </div><!-- /input-group -->
             </div>
@@ -41,7 +41,11 @@
                 <g:each in="${colorInstanceList}" status="i" var="colorInstance">
                     <tr data-id="${colorInstance.id}">
                         
-                        <td>${colorInstance.color}</td>
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${colorInstance.color?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
                         
                     </tr>
                 </g:each>
@@ -148,14 +152,29 @@
                 }); //ajax
             } //createEdit
 
+            function buscar() {
+                var search = $.trim($("#txtSearch").val());
+                location.href = "${createLink(controller: 'color', action:'list')}?search=" + search;
+            }
+
             $(function () {
+
+                $(".btn-search").click(function () {
+                    buscar();
+                    return false;
+                });
+                $("#txtSearch").keyup(function (ev) {
+                    if (ev.keyCode == 13) {
+                        buscar();
+                    }
+                });
 
                 $(".btnCrear").click(function() {
                     createEditRow();
                     return false;
                 });
 
-                $("tr").contextMenu({
+                $("tbody tr").contextMenu({
                     items  : {
                         header   : {
                             label  : "Acciones",

@@ -12,7 +12,7 @@ class ImportsTagLib {
         out << text
     }
 
-    def css = { attrs ->
+    def cssNoMenu = { attrs ->
         def bootstrapTheme = attrs.bootstrap ?: "theme"
         def jqueryTheme = attrs.jquery ?: "ui-lightness"
 
@@ -22,16 +22,25 @@ class ImportsTagLib {
         // JQuery
         text += "    <link href=\"${resource(dir: 'js/jquery/css/' + jqueryTheme, file: 'jquery-ui-1.10.4.min.css')}\" rel=\"stylesheet\">\n"
         // FontAwesome
-        text += "    <link href=\"${resource(dir: 'fonts/font-awesome-4.1.0/css', file: 'font-awesome.min.css')}\" rel=\"stylesheet\">"
+        text += "    <link href=\"${resource(dir: 'fonts/font-awesome-4.2.0/css', file: 'font-awesome.min.css')}\" rel=\"stylesheet\">"
         // MFizz
         text += "    <link href=\"${resource(dir: 'fonts/font-mfizz-1.2', file: 'font-mfizz.css')}\" rel=\"stylesheet\">"
         // Octicons
         text += "    <link href=\"${resource(dir: 'fonts/octicons', file: 'octicons.css')}\" rel=\"stylesheet\">"
 
+        // custom font styles
+        text += "    <link href=\"${resource(dir: 'css/custom', file: 'texto.css')}\" rel=\"stylesheet\">"
+
+        out << text
+    }
+
+    def css = { attrs ->
+        def text = ""
+        text += cssNoMenu(bootstrap: attrs.bootstrap, jquery: attrs.jquery)
+
         // CUSTOM
         text += "    <link href=\"${resource(dir: 'css/custom', file: 'custom.css')}\" rel=\"stylesheet\">"
         text += "    <link href=\"${resource(dir: 'css/custom', file: 'inputs.css')}\" rel=\"stylesheet\">"
-        text += "    <link href=\"${resource(dir: 'css/custom', file: 'texto.css')}\" rel=\"stylesheet\">"
         out << text
     }
 

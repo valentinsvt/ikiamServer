@@ -164,7 +164,7 @@
                     return false;
                 });
 
-                $("tr").contextMenu({
+                $("tbody tr").contextMenu({
                     items  : {
                         header   : {
                             label  : "Acciones",
@@ -204,6 +204,15 @@
                             action : function ($element) {
                                 var id = $element.data("id");
                                 createEditRow(id);
+                            }
+                        },
+                        mapa     : {
+                            label            : "Ver en el mapa",
+                            icon             : "fa fa-globe",
+                            separator_before : true,
+                            action           : function ($element) {
+                                var id = $element.data("id");
+                                location.href = "${createLink(controller: 'ruta', action:'publish')}/" + id;
                             }
                         },
                         eliminar : {

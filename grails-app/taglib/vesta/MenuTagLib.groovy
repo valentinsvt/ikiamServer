@@ -12,23 +12,43 @@ class MenuTagLib {
                 [
                         label     : "Inicio",
                         icon      : "fa fa-home",
-                        controller: "inicio"
-                ]/*,
+                        controller: ""
+                ],
                 [
-                        label: "Transacciones",
-                        icon : "fa fa-exchange",
+                        label     : "Atracción turística",
+                        icon      : "fa fa-globe",
+                        controller: "atraccionTuristica"
+                ],
+                [
+                        label     : "Usuarios",
+                        icon      : "fa fa-users",
+                        controller: "usuario"
+                ],
+                [
+                        label     : "Rutas",
+                        icon      : "fa fa-exchange fa-rotate-90",
+                        controller: "ruta"
+                ],
+                [
+                        label     : "Especies",
+                        icon      : "fa fa-leaf",
+                        controller: "especie"
+                ],
+                [
+                        label: "Configuración",
+                        icon : "fa fa-cogs",
                         hijos: [
                                 [
-                                        label: "Compras",
-                                        icon : "fa fa-download"
-                                ],
+                                        label: "Colores",
+                                        icon : "fa fa-paint-brush"
+                                ]/*,
                                 [
                                         label          : "Ventas",
                                         icon           : "fa fa-upload",
                                         separate_before: true
-                                ]
+                                ]*/
                         ]
-                ]*/
+                ]
         ]
 
         def html = "<nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\">"

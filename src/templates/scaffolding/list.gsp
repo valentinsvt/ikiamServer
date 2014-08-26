@@ -19,11 +19,11 @@
             </div>
             <div class="btn-group pull-right col-md-3">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Buscar" value="\${params.search}">
+                    <input type="text" id="txtSearch" class="form-control" placeholder="Buscar" value="\${params.search}">
                     <span class="input-group-btn">
-                        <g:link action="list" class="btn btn-default btn-search" type="button">
+                        <a href="#" class="btn btn-default btn-search" type="button">
                             <i class="fa fa-search"></i>&nbsp;
-                        </g:link>
+                        </a>
                     </span>
                 </div><!-- /input-group -->
             </div>
@@ -42,27 +42,36 @@
                     props.eachWithIndex { p, i ->
 //                        cant = (int)cant+1
                         if (i < 6) {
+                            if(!p.name.contains('pass')) {
                             if (p.isAssociation()) { %>
                     <th>${p.naturalName}</th>
                     <%      } else { %>
                     <g:sortableColumn property="${p.name}" title="${p.naturalName}" />
-                    <%  }   }   } %>
+                    <%  }   }   }  } %>
                 </tr>
             </thead>
             <tbody>
                 <g:each in="\${${propertyName}List}" status="i" var="${propertyName}">
                     <tr data-id="\${${propertyName}.id}">
                         <%  props.eachWithIndex { p, i ->
-                            if (i == 0) { %>
-                        <td>\${${propertyName}.${p.name}}</td>
-                        <%      } else if (i < 6) {
+                        if (i < 6) {
+                            if(!p.name.contains('pass')) {
                             if (p.type == Boolean || p.type == boolean) { %>
-                        <td><g:formatBoolean boolean="\${${propertyName}.${p.name}}" false="No" true="Sí" /></td>
+                        <td>
+                            <g:formatBoolean boolean="\${${propertyName}.${p.name}}" false="No" true="Sí" />
+                        </td>
                         <%          } else if (p.type == Date || p.type == java.sql.Date || p.type == java.sql.Time || p.type == Calendar) { %>
-                        <td><g:formatDate date="\${${propertyName}.${p.name}}" format="dd-MM-yyyy" /></td>
+                        <td>
+                            <g:formatDate date="\${${propertyName}.${p.name}}" format="dd-MM-yyyy" />
+                        </td>
                         <%          } else { %>
-                        <td>\${${propertyName}.${p.name}}</td>
-                        <%  }   }   } %>
+                        <td><% if(p.type == String) { %>
+                            <elm:textoBusqueda busca="\${params.search}">
+                                \${${propertyName}.${p.name}?.toString()?.decodeURL()}
+                            </elm:textoBusqueda><% } else { %>
+                            \${${propertyName}.${p.name}}<% } %>
+                        </td>
+                        <%  }   }   }   } %>
                     </tr>
                 </g:each>
             </tbody>
@@ -170,14 +179,29 @@
                 }); //ajax
             } //createEdit
 
+            function buscar() {
+                var search = \$.trim(\$("#txtSearch").val());
+                location.href = "\${createLink(controller: '${domainClass.propertyName}', action:'list')}?search=" + search;
+            }
+
             \$(function () {
+
+                \$(".btn-search").click(function () {
+                    buscar();
+                    return false;
+                });
+                \$("#txtSearch").keyup(function (ev) {
+                    if (ev.keyCode == 13) {
+                        buscar();
+                    }
+                });
 
                 \$(".btnCrear").click(function() {
                     createEditRow();
                     return false;
                 });
 
-                \$("tr").contextMenu({
+                \$("tbody tr").contextMenu({
                     items  : {
                         header   : {
                             label  : "Acciones",

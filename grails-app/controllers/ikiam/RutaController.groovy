@@ -6,6 +6,8 @@ class RutaController {
 
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
+    def imageResizeService
+
     def index() {
         redirect(action: "list", params: params)
     }
@@ -52,14 +54,20 @@ class RutaController {
         } else {
             def cords = Coordenada.findAllByRuta(ruta)
             def fotos = Foto.findAllByRuta(ruta)
-            fotos.each {
-                def data = it.path.split("/")
+            fotos.each { foto ->
+                def data = foto.path.split("/")
                 println "data " + data
                 if (data.size() > 1) {
-                    it.path = data[7].trim()
-                    it.save(flush: true)
+                    foto.path = data[7].trim()
+                    foto.save(flush: true)
                 }
-
+                def path = servletContext.getRealPath("/") + "uploaded/"
+                def pathThumb = path + "markers/"
+                new File(pathThumb).mkdirs()
+//                def thumb = new File(pathThumb + foto.path)
+//                if (!thumb.exists()) {
+                imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
+//                }
             }
 //            println "Ruta: " + ruta
 //            println "coords: " + cords
@@ -158,6 +166,7 @@ class RutaController {
             render "-1"
         } else {
             def path = servletContext.getRealPath("/") + "uploaded/"
+            def pathThumb = servletContext.getRealPath("/") + "uploaded/markers"
             def folderMk = new File(path)
             folderMk.mkdirs()
             def f = request.getFile("foto-file")
@@ -200,6 +209,8 @@ class RutaController {
                 } catch (e) {
                     println "error transfer to file ????????\n" + e + "\n???????????"
                 }
+
+                imageResizeService.createMarker(pathFile, pathThumb + nombre)
 
                 def foto = new Foto()
                 foto.path = nombre

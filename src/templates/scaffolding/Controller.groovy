@@ -24,10 +24,9 @@ class ${className}Controller {
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    eq("id", "%" + params.search + "%")
                     <% for (p in props) {
                 if(p.type == String && !p.name.contains("pass")) { %>
-                    eq("${p.name}", "%" + params.search + "%")  <% } } %>
+                    ilike("${p.name}", "%" + params.search + "%")  <% } } %>
                 }
             }
         } else {
@@ -43,7 +42,7 @@ class ${className}Controller {
     def list() {
         def ${propertyName}List = getList(params, false)
         def ${propertyName}Count = getList(params, true).size()
-        return [${propertyName}List: ${propertyName}List, ${propertyName}Count: ${propertyName}Count]
+        return [${propertyName}List: ${propertyName}List, ${propertyName}Count: ${propertyName}Count, params: params]
     }
 
     def show_ajax() {

@@ -7,4 +7,8 @@ class Color {
     static constraints = {
         color(size: 1..20)
     }
+
+    String toString() {
+        return color
+    }
 }

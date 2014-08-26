@@ -9,7 +9,8 @@
 allowedNames = domainClass.persistentProperties*.name << 'dateCreated' << 'lastUpdated'
 props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
 Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-props.eachWithIndex { p, i -> %>
+props.eachWithIndex { p, i ->
+    if(!p.name.contains('pass')) { %>
     <g:if test="\${${propertyName}?.${p.name}}">
         <div class="row">
             <div class="col-md-2 text-info">
@@ -43,8 +44,8 @@ props.eachWithIndex { p, i -> %>
             <div class="col-md-3">
                 <g:fieldValue bean="\${${propertyName}}" field="${p.name}"/>
             </div>
-            <%  } %>
+            <%   } %>
         </div>
     </g:if>
-    <%  } %>
+    <%  }   } %>
 </g:else>

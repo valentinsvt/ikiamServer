@@ -8,7 +8,7 @@
 
         <imp:favicon/>
         <link href="${resource(dir: 'css', file: 'noMenu.css')}" rel="stylesheet">
-        <imp:css/>
+        <imp:cssNoMenu/>
 
         <imp:js/>
 
@@ -18,10 +18,10 @@
     </head>
 
     <body>
+        <div class="logo">
+            <img src="${resource(dir: 'images', file: 'ikiam.png')}"/>
+        </div>
         <div class="container">
-            <div class="logo">
-                <img src="${resource(dir: 'images', file: 'ikiam.png')}" width="150px;"/>
-            </div>
             <g:layoutBody/>
         </div>
     </body>

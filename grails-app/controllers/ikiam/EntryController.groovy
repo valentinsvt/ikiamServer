@@ -1,103 +1,112 @@
 package ikiam
 
+import org.springframework.dao.DataIntegrityViolationException
 
-import static org.springframework.http.HttpStatus.*
-import grails.transaction.Transactional
-
-@Transactional(readOnly = true)
 class EntryController {
 
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
-    def index(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
-        respond Entry.list(params), model: [entryInstanceCount: Entry.count()]
+    def index() {
+        redirect(action:"list", params: params)
     }
 
-    def show(Entry entryInstance) {
-        respond entryInstance
-    }
-
-    def create() {
-        respond new Entry(params)
-    }
-
-    @Transactional
-    def save(Entry entryInstance) {
-        if (entryInstance == null) {
-            notFound()
-            return
+    def getList(params, all) {
+        params = params.clone()
+        params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
+        params.offset = params.offset ?: 0
+        if(all) {
+            params.remove("max")
+            params.remove("offset")
         }
-
-        if (entryInstance.hasErrors()) {
-            respond entryInstance.errors, view: 'create'
-            return
-        }
-
-        entryInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'entryInstance.label', default: 'Entry'), entryInstance.id])
-                redirect entryInstance
+        def list
+        if(params.search) {
+            def c = Entry.createCriteria()
+            list = c.list(params) {
+                or {
+                    /* TODO: cambiar aqui segun sea necesario */
+                    
+                    ilike("observaciones", "%" + params.search + "%")  
+                }
             }
-            '*' { respond entryInstance, [status: CREATED] }
+        } else {
+            list = Entry.list(params)
         }
+        if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
+            params.offset = params.offset.toInteger() - 1
+            list = getList(params, all)
+        }
+        return list
     }
 
-    def edit(Entry entryInstance) {
-        respond entryInstance
+    def list() {
+        def entryInstanceList = getList(params, false)
+        def entryInstanceCount = getList(params, true).size()
+        return [entryInstanceList: entryInstanceList, entryInstanceCount: entryInstanceCount, params: params]
     }
 
-    @Transactional
-    def update(Entry entryInstance) {
-        if (entryInstance == null) {
-            notFound()
+    def show_ajax() {
+        if(params.id) {
+            def entryInstance = Entry.get(params.id)
+            if(!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+            return [entryInstance: entryInstance]
+        } else {
+            render "ERROR*No se encontró Entry."
+        }
+    } //show para cargar con ajax en un dialog
+
+    def form_ajax() {
+        def entryInstance = new Entry()
+        if(params.id) {
+            entryInstance = Entry.get(params.id)
+            if(!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+        }
+        entryInstance.properties = params
+        return [entryInstance: entryInstance]
+    } //form para cargar con ajax en un dialog
+
+    def save_ajax() {
+        def entryInstance = new Entry()
+        if(params.id) {
+            entryInstance = Entry.get(params.id)
+            if(!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+        }
+        entryInstance.properties = params
+        if(!entryInstance.save(flush: true)) {
+            render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
             return
         }
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Entry exitosa."
+        return
+    } //save para grabar desde ajax
 
-        if (entryInstance.hasErrors()) {
-            respond entryInstance.errors, view: 'edit'
+    def delete_ajax() {
+        if(params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+            try {
+                entryInstance.delete(flush: true)
+                render "SUCCESS*Eliminación de Entry exitosa."
+                return
+            } catch (DataIntegrityViolationException e) {
+                render "ERROR*Ha ocurrido un error al eliminar Entry"
+                return
+            }
+        } else {
+            render "ERROR*No se encontró Entry."
             return
         }
-
-        entryInstance.save flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Entry.label', default: 'Entry'), entryInstance.id])
-                redirect entryInstance
-            }
-            '*' { respond entryInstance, [status: OK] }
-        }
-    }
-
-    @Transactional
-    def delete(Entry entryInstance) {
-
-        if (entryInstance == null) {
-            notFound()
-            return
-        }
-
-        entryInstance.delete flush: true
-
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Entry.label', default: 'Entry'), entryInstance.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NO_CONTENT }
-        }
-    }
-
-    protected void notFound() {
-        request.withFormat {
-            form {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'entryInstance.label', default: 'Entry'), params.id])
-                redirect action: "index", method: "GET"
-            }
-            '*' { render status: NOT_FOUND }
-        }
-    }
+    } //delete para eliminar via ajax
+    
 }
