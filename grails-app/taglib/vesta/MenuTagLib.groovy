@@ -39,8 +39,9 @@ class MenuTagLib {
                         icon : "fa fa-cogs",
                         hijos: [
                                 [
-                                        label: "Colores",
-                                        icon : "fa fa-paint-brush"
+                                        label     : "Colores",
+                                        icon      : "fa fa-paint-brush",
+                                        controller: "color"
                                 ]/*,
                                 [
                                         label          : "Ventas",

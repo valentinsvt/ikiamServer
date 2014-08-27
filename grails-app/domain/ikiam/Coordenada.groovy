@@ -9,9 +9,10 @@ class Coordenada {
 
 
     static constraints = {
-        ruta(nullable: true,blank:true)
+        ruta(nullable: true, blank: true)
     }
-    String toString(){
+
+    String toString() {
         return "${this.latitud}; ${this.longitud}; ${this.altitud}"
     }
 }
