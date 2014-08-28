@@ -1,4 +1,3 @@
-
 <%@ page import="ikiam.Foto" %>
 <!DOCTYPE html>
 <html>
@@ -6,17 +5,19 @@
         <meta name="layout" content="main">
         <title>Lista de Foto</title>
     </head>
+
     <body>
 
         <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 
-    <!-- botones -->
+        <!-- botones -->
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
                 <g:link action="form" class="btn btn-default btnCrear">
                     <i class="fa fa-file-o"></i> Crear
                 </g:link>
             </div>
+
             <div class="btn-group pull-right col-md-3">
                 <div class="input-group">
                     <input type="text" id="txtSearch" class="form-control" placeholder="Buscar" value="${params.search}">
@@ -32,53 +33,54 @@
         <table class="table table-condensed table-bordered table-striped">
             <thead>
                 <tr>
-                    
-                    <g:sortableColumn property="path" title="Path" />
-                    
+
+                    <g:sortableColumn property="path" title="Path"/>
+
                     <th>Usuario</th>
-                    
+
                     <th>Coordenada</th>
-                    
-                    <g:sortableColumn property="keyWords" title="Key Words" />
-                    
+
+                    <g:sortableColumn property="keyWords" title="Key Words"/>
+
                     <th>Atraccion</th>
-                    
+
                     <th>Entry</th>
-                    
+
                 </tr>
             </thead>
             <tbody>
                 <g:each in="${fotoInstanceList}" status="i" var="fotoInstance">
                     <tr data-id="${fotoInstance.id}">
-                        
+
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${fotoInstance.path?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
+                            <img src="${resource(dir: 'uploaded', file: fotoInstance.path)}" width="200"/>
                         </td>
-                        
+
                         <td>
                             ${fotoInstance.usuario}
                         </td>
-                        
+
                         <td>
                             ${fotoInstance.coordenada}
                         </td>
-                        
+
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${fotoInstance.keyWords?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
-                        
+
                         <td>
                             ${fotoInstance.atraccion}
                         </td>
-                        
+
                         <td>
                             ${fotoInstance.entry}
                         </td>
-                        
+
                     </tr>
                 </g:each>
             </tbody>
@@ -92,25 +94,25 @@
                 var $form = $("#frmFoto");
                 var $btn = $("#dlgCreateEdit").find("#btnSave");
                 if ($form.valid()) {
-                $btn.replaceWith(spinner);
+                    $btn.replaceWith(spinner);
                     $.ajax({
                         type    : "POST",
                         url     : $form.attr("action"),
                         data    : $form.serialize(),
-                            success : function (msg) {
-                        var parts = msg.split("*");
-                        log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                        if (parts[0] == "SUCCESS") {
-                            location.reload(true);
-                        } else {
-                            spinner.replaceWith($btn);
-                            return false;
+                        success : function (msg) {
+                            var parts = msg.split("*");
+                            log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                            if (parts[0] == "SUCCESS") {
+                                location.reload(true);
+                            } else {
+                                spinner.replaceWith($btn);
+                                return false;
+                            }
                         }
-                    }
-                });
-            } else {
-                return false;
-            } //else
+                    });
+                } else {
+                    return false;
+                } //else
             }
             function deleteRow(itemId) {
                 bootbox.dialog({
@@ -149,16 +151,16 @@
             }
             function createEditRow(id) {
                 var title = id ? "Editar" : "Crear";
-                var data = id ? { id: id } : {};
+                var data = id ? { id : id } : {};
                 $.ajax({
                     type    : "POST",
                     url     : "${createLink(action:'form_ajax')}",
                     data    : data,
                     success : function (msg) {
                         var b = bootbox.dialog({
-                            id      : "dlgCreateEdit",
-                            title   : title + " Foto",
-                            
+                            id    : "dlgCreateEdit",
+                            title : title + " Foto",
+
                             message : msg,
                             buttons : {
                                 cancelar : {
@@ -201,7 +203,7 @@
                     }
                 });
 
-                $(".btnCrear").click(function() {
+                $(".btnCrear").click(function () {
                     createEditRow();
                     return false;
                 });

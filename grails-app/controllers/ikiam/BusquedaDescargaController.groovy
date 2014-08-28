@@ -27,6 +27,7 @@ class BusquedaDescargaController {
         }
 
         def str = ""
+//        def path = servletContext.getRealPath("/") + "uploaded/"
 
         especies.each { e ->
             def fotos = Foto.findAllByEspecie(e, [max: 3])
@@ -36,12 +37,15 @@ class BusquedaDescargaController {
             str += e.nombreComun + ";" + e.genero?.familia?.nombre + ";" + e.genero?.nombre + ";" + e.nombre + ";" + e.id + ";" + e.color1.color
             if (e.color2) {
                 str += ";" + e.color2.color
+            } else {
+                str += ";-"
             }
             fotos.each { f ->
-                str += ";" + f.id
+                str += ";uploaded/" + f.path + ";" + f.coordenada.latitud + ";" + f.coordenada.longitud + ";" + f.coordenada.altitud
+//                str += ";" + f.id;
             }
         }
-        println "Retorna: " + str
+//        println "Retorna: " + str
         render str
     }
 }

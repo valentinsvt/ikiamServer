@@ -6,27 +6,39 @@ class AtraccionTuristicaController {
 
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
+    def atracciones() {
+        def atracciones = AtraccionTuristica.list()
+        def datos = ""
+        atracciones.each {
+            def foto = Foto.findByAtraccion(it)
+            datos += it.nombre + "&" + it.likes + "&" + it.coordenada.latitud + "&" + it.coordenada.longitud + "&" + foto.path + "&" + it.url + ";"
+
+        }
+        //println "datos "+datos
+        render datos
+    }
+
     def index() {
-        redirect(action:"list", params: params)
+        redirect(action: "list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if(all) {
+        if (all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if(params.search) {
+        if (params.search) {
             def c = AtraccionTuristica.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    
-                    ilike("nombre", "%" + params.search + "%")  
-                    ilike("url", "%" + params.search + "%")  
+
+                    ilike("nombre", "%" + params.search + "%")
+                    ilike("url", "%" + params.search + "%")
                 }
             }
         } else {
@@ -46,9 +58,9 @@ class AtraccionTuristicaController {
     }
 
     def show_ajax() {
-        if(params.id) {
+        if (params.id) {
             def atraccionTuristicaInstance = AtraccionTuristica.get(params.id)
-            if(!atraccionTuristicaInstance) {
+            if (!atraccionTuristicaInstance) {
                 render "ERROR*No se encontró AtraccionTuristica."
                 return
             }
@@ -60,9 +72,9 @@ class AtraccionTuristicaController {
 
     def form_ajax() {
         def atraccionTuristicaInstance = new AtraccionTuristica()
-        if(params.id) {
+        if (params.id) {
             atraccionTuristicaInstance = AtraccionTuristica.get(params.id)
-            if(!atraccionTuristicaInstance) {
+            if (!atraccionTuristicaInstance) {
                 render "ERROR*No se encontró AtraccionTuristica."
                 return
             }
@@ -73,15 +85,15 @@ class AtraccionTuristicaController {
 
     def save_ajax() {
         def atraccionTuristicaInstance = new AtraccionTuristica()
-        if(params.id) {
+        if (params.id) {
             atraccionTuristicaInstance = AtraccionTuristica.get(params.id)
-            if(!atraccionTuristicaInstance) {
+            if (!atraccionTuristicaInstance) {
                 render "ERROR*No se encontró AtraccionTuristica."
                 return
             }
         }
         atraccionTuristicaInstance.properties = params
-        if(!atraccionTuristicaInstance.save(flush: true)) {
+        if (!atraccionTuristicaInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar AtraccionTuristica: " + renderErrors(bean: atraccionTuristicaInstance)
             return
         }
@@ -90,7 +102,7 @@ class AtraccionTuristicaController {
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if(params.id) {
+        if (params.id) {
             def atraccionTuristicaInstance = AtraccionTuristica.get(params.id)
             if (!atraccionTuristicaInstance) {
                 render "ERROR*No se encontró AtraccionTuristica."
@@ -109,5 +121,5 @@ class AtraccionTuristicaController {
             return
         }
     } //delete para eliminar via ajax
-    
+
 }
