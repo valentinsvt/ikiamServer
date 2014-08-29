@@ -3,7 +3,7 @@ package ikiam
 class BusquedaDescargaController {
 
     def buscaEspecies() {
-//        println params
+        println params
 
         def especies = Especie.withCriteria {
             if (params.comun) {
@@ -41,7 +41,7 @@ class BusquedaDescargaController {
                 str += ";-"
             }
             fotos.each { f ->
-                str += ";uploaded/" + f.path + ";" + f.coordenada.latitud + ";" + f.coordenada.longitud + ";" + f.coordenada.altitud
+                str += ";uploaded/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud
 //                str += ";" + f.id;
             }
         }
