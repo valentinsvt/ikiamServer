@@ -90,7 +90,7 @@ class ImportsTagLib {
         text += "    <script src=\"${resource(dir: 'js/plugins/pines/js', file: 'jquery.pnotify.min.js')}\"></script>"
         text += "    <link href=\"${resource(dir: 'js/plugins/pines/css', file: 'jquery.pnotify.default.css')}\" rel=\"stylesheet\">"
         //typeahead
-        text += "    <script src=\"${resource(dir: 'js/plugins/typeahead.js/js', file: 'typeahead.min.js')}\"></script>"
+        text += "    <script src=\"${resource(dir: 'js/plugins/typeahead.js/js', file: 'typeahead.js')}\"></script>"
         //context js
         text += "    <script type=\"text/javascript\" src=\"${resource(dir: 'js/plugins/lzm.context/js', file: 'lzm.context-0.5.js')}\"></script>"
         text += "    <link href=\"${resource(dir: 'js/plugins/lzm.context/css', file: 'lzm.context-0.5.css')}\" rel=\"stylesheet\">"

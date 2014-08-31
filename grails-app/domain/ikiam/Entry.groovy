@@ -7,6 +7,7 @@ class Entry {
     Date fecha
     String observaciones
 
+    static hasMany = [fotos: Foto]
 
     static constraints = {
         observaciones(size: 1..255)

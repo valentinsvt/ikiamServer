@@ -1,0 +1,11 @@
+[class^="col"] {
+    background-color : rgba(255, 0, 0, 0.3);
+}
+
+[class^="row"] {
+    background-color : rgba(255, 170, 0, 0.3);
+}
+
+[class^="thumbnail"] {
+    background-color : rgba(0, 0, 255, 0.3);
+}

@@ -19,6 +19,10 @@ class ImageResizeService {
         resizeImage(pathFile, newPath, 35, true)
     }
 
+    def resizeAndroid(String pathFile, String newPath) {
+        resizeImage(pathFile, newPath, 700, false)
+    }
+
     def resizeImage(String pathFile, String newPath, int maxW, boolean marker) {
 
         java.awt.Color color = new java.awt.Color(22, 180, 209)

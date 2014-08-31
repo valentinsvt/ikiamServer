@@ -7,26 +7,26 @@ class EspecieController {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def index() {
-        redirect(action:"list", params: params)
+        redirect(action: "list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if(all) {
+        if (all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if(params.search) {
+        if (params.search) {
             def c = Especie.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    
-                    ilike("nombre", "%" + params.search + "%")  
-                    ilike("nombreComun", "%" + params.search + "%")  
+
+                    ilike("nombre", "%" + params.search + "%")
+                    ilike("nombreComun", "%" + params.search + "%")
                 }
             }
         } else {
@@ -46,9 +46,9 @@ class EspecieController {
     }
 
     def show_ajax() {
-        if(params.id) {
+        if (params.id) {
             def especieInstance = Especie.get(params.id)
-            if(!especieInstance) {
+            if (!especieInstance) {
                 render "ERROR*No se encontró Especie."
                 return
             }
@@ -60,9 +60,9 @@ class EspecieController {
 
     def form_ajax() {
         def especieInstance = new Especie()
-        if(params.id) {
+        if (params.id) {
             especieInstance = Especie.get(params.id)
-            if(!especieInstance) {
+            if (!especieInstance) {
                 render "ERROR*No se encontró Especie."
                 return
             }
@@ -73,15 +73,15 @@ class EspecieController {
 
     def save_ajax() {
         def especieInstance = new Especie()
-        if(params.id) {
+        if (params.id) {
             especieInstance = Especie.get(params.id)
-            if(!especieInstance) {
+            if (!especieInstance) {
                 render "ERROR*No se encontró Especie."
                 return
             }
         }
         especieInstance.properties = params
-        if(!especieInstance.save(flush: true)) {
+        if (!especieInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar Especie: " + renderErrors(bean: especieInstance)
             return
         }
@@ -90,7 +90,7 @@ class EspecieController {
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if(params.id) {
+        if (params.id) {
             def especieInstance = Especie.get(params.id)
             if (!especieInstance) {
                 render "ERROR*No se encontró Especie."
@@ -109,5 +109,5 @@ class EspecieController {
             return
         }
     } //delete para eliminar via ajax
-    
+
 }
