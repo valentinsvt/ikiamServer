@@ -10,6 +10,18 @@ class EspecieController {
         redirect(action: "list", params: params)
     }
 
+    def getEspecies(){
+        def especies = Especie.findAllByFeatured("S")
+        def datos=""
+        especies.each {e->
+            def entry = Entry.findByEspecie(e)
+            def foto = Foto.findByEntry(entry)
+            def coord = foto.coordenada
+            datos+=""+e.nombreComun+";"+entry.observaciones+";"+foto.path+";"+coord.latitud+";"+coord.longitud+";"+coord.altitud+"&"
+        }
+        render datos
+    }
+
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
