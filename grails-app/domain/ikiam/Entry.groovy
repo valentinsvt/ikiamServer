@@ -10,7 +10,7 @@ class Entry {
     static hasMany = [fotos: Foto]
 
     static constraints = {
-        observaciones(size: 1..255)
+        observaciones(blank:true,nullable: true)
         usuario(nullable: true, blank: true)
         especie(blank: true, nullable: true)
     }
