@@ -5,6 +5,7 @@ class Especie {
     String nombre
     String nombreComun;
     String featured
+    int likes=0;
     Color color1;
     Color color2;
 

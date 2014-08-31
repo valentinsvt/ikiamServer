@@ -24,7 +24,7 @@ class EspecieController {
             println "foto despues "+foto?.path
             def coord = foto.coordenada
             println "coord "+coord
-            datos+=""+e.nombreComun+";"+entry.observaciones+";"+foto.path+";"+coord.latitud+";"+coord.longitud+";"+coord.altitud+"&"
+            datos+=""+e.nombreComun+";"+entry.observaciones+";"+foto.path+";"+coord.latitud+";"+coord.longitud+";"+coord.altitud+";"+e.likes+"&"
         }
         render datos
     }
