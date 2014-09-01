@@ -157,9 +157,11 @@ class UploadCapturaController {
         }
 
         def path = servletContext.getRealPath("/") + "uploaded/"
-        def pathThumb = servletContext.getRealPath("/") + "uploaded/markers"
+        def pathThumb = servletContext.getRealPath("/") + "uploaded/markers/"
+        def pathAndroid = servletContext.getRealPath("/") + "uploaded/android/"
         new File(path).mkdirs()
         new File(pathThumb).mkdirs()
+        new File(pathAndroid).mkdirs()
 
         def f = request.getFile("foto-file")
         if (f && !f.empty) {
@@ -197,6 +199,7 @@ class UploadCapturaController {
             }
 
             imageResizeService.createMarker(pathFile, pathThumb + nombre)
+            imageResizeService.resizeAndroid(pathFile, pathAndroid + nombre)
 
             def foto = new Foto()
             foto.path = nombre
