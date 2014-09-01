@@ -10,6 +10,32 @@ class EspecieController {
         redirect(action: "list", params: params)
     }
 
+    def form(){
+        def especie = Especie.get(params.id)
+        [especie:especie]
+    }
+
+    def show(){
+//        println "especies "+Especie.list().nombre
+        def especie = Especie.findByNombre(params.nombre)
+        println "id  "+especie?.id
+        if(especie){
+            def entrys = Entry.findAllByEspecie(especie)
+            [especie:especie,entrys:entrys]
+        }else{
+            render "no encontro"
+        }
+
+    }
+
+    def saveTextos(){
+        def especie = Especie.get(params.id)
+        especie.properties=params
+        especie.save(flush: true)
+        flash.message="Datos guardados"
+        redirect(action: "form",id:especie.id )
+    }
+
     def getEspecies(){
         def especies = Especie.findAllByFeatured("S")
         def datos=""
