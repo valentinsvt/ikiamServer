@@ -80,10 +80,10 @@ class EntryController {
             }
         }
 
-        def familia = Familia.findOrSaveByNombre(params.familia)
-        def genero = Genero.findOrSaveByNombreAndFamilia(params.genero, familia)
-        def especie = Especie.findOrSaveByNombreAndGenero(params.especie, genero)
-        especie.nombreComun = params.nombreComun
+        def familia = Familia.findOrSaveByNombre(params.familia.trim())
+        def genero = Genero.findOrSaveByNombreAndFamilia(params.genero.trim(), familia)
+        def especie = Especie.findOrSaveByNombreAndGenero(params.especie.trim(), genero)
+        especie.nombreComun = params.nombreComun.trim()
         especie.color1 = Color.get(params.color1.toLong())
         if (params.color2) {
             especie.color2 = Color.get(params.color2.toLong())
@@ -94,7 +94,7 @@ class EntryController {
         if (!params.id) {
             entry.fecha = new Date()
         }
-        entry.observaciones = params.observaciones
+        entry.observaciones = params.observaciones.trim()
         entry.save(flush: true)
 
         def coord = Coordenada.findOrSaveByLatitudAndLongitud(params.latitud.toDouble(), params.longitud.toDouble())
@@ -106,6 +106,7 @@ class EntryController {
             foto = entry.fotos.first()
         }
         foto.coordenada = coord
+        foto.entry = entry
         def keys = ["animal", "arbol", "corteza", "hoja", "flor", "fruta"]
         def keywords = ""
         keys.each { k ->

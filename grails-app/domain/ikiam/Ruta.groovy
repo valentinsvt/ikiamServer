@@ -6,7 +6,14 @@ class Ruta {
     Date fecha
     Usuario usuario
 
+
+    static mapping = {
+        columns {
+            descripcion type: 'text'
+        }
+    }
+
     static constraints = {
-        descripcion(size:1..50)
+        descripcion(size: 1..50)
     }
 }

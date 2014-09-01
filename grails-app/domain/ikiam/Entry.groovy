@@ -9,6 +9,12 @@ class Entry {
 
     static hasMany = [fotos: Foto]
 
+    static mapping = {
+        columns {
+            observaciones type: 'text'
+        }
+    }
+
     static constraints = {
         observaciones(blank:true,nullable: true)
         usuario(nullable: true, blank: true)

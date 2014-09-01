@@ -32,7 +32,8 @@ class MenuTagLib {
                 [
                         label     : "Especies",
                         icon      : "fa fa-leaf",
-                        controller: "especie"
+                        controller: "entry",
+                        action    : "form"
                 ],
                 [
                         label: "Configuración",

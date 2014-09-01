@@ -5,7 +5,7 @@
   Time: 19:58
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="ikiam.Color" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <meta name="layout" content="main">
@@ -61,6 +61,11 @@
             var lat = -0.15398006977473166;
             var lon = -78.47628593444824;
             var alt = 0;
+            <g:if test="${entry.fotos?.size() > 0}">
+            lat = ${entry.fotos.first().coordenada?.latitud?: -0.15398006977473166};
+            lon = ${entry.fotos.first().coordenada?.longitud?: -78.47628593444824};
+            alt = ${entry.fotos.first().coordenada?.altitud?: 0};
+            </g:if>
             var map;
             var myMarker = null;
 
@@ -69,9 +74,7 @@
             var elevator = new google.maps.ElevationService();
 
             function getElevation() {
-
                 var locations = [];
-                var ret = "";
 
                 // Retrieve the clicked location and push it on the array
 //                var clickedLocation = event.latLng;
@@ -229,22 +232,24 @@
             <div class="row">
                 <div class="col-xs-12 col-md-3">
                     <a href="#" class="thumbnail">
+                        <g:set var="src" value="${resource(dir: 'images', file: 'default-placeholder.png')}"/>
                         <g:if test="${entry.fotos?.size() > 0}">
-                            <img src="${resource(dir: 'uploaded', file: entry.fotos.first().path)}" alt="">
+                            <g:set var="src" value="${resource(dir: 'uploaded', file: entry.fotos.first().path)}"/>
                         </g:if>
-                        <g:else>
-                            <img src="${resource(dir: 'images', file: 'default-placeholder.png')}" alt="">
-                        </g:else>
+                        <img id="preview" src="${src}" alt="">
                     </a>
-                    <input type="file" name="file"/>
+                    <input type="file" name="file" id="file"/>
                 </div>
 
                 <div class="col-xs-12 col-md-3">
                     <div class="form-group">
-                        <label for="observaciones" class="col-xs-12 col-md-12 control-label marginTop">Observaciones</label>
+                        <label for="observaciones" class="col-xs-12 col-md-12 control-label marginTop text-left">
+                            Observaciones
+                        </label>
 
                         <div class="col-xs-12 col-md-12 marginTop">
-                            <g:textArea name="observaciones" class="form-control" style="height:180px;"/>
+                            <g:textArea name="observaciones" class="form-control" style="height:180px;"
+                                        value="${entry.observaciones}"/>
                         </div>
                     </div>
                 </div>
@@ -252,7 +257,7 @@
                 <div class="col-xs-12 col-md-3">
                     <div class="row">
                         <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="animal" data-status="${entry.fotos?.first()?.keyWords?.contains('animal') ? 'on' : 'off'}"
+                            <img class="toggle animal" data-key="animal" data-status="${entry.fotos?.first()?.keyWords?.contains('animal') ? 'on' : 'off'}"
                                  src="${resource(dir: 'images', file: 'ic_menu_animal.png')}" alt="">
                         </div>
 
@@ -274,7 +279,7 @@
                         </div>
 
                         <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="lor" data-status="${entry.fotos?.first()?.keyWords?.contains('flor') ? 'on' : 'off'}"
+                            <img class="toggle" data-key="flor" data-status="${entry.fotos?.first()?.keyWords?.contains('flor') ? 'on' : 'off'}"
                                  src="${resource(dir: 'images', file: 'ic_menu_flower.png')}" alt="">
                         </div>
 
@@ -289,7 +294,8 @@
                             <label for="color1" class="col-xs-5 col-md-6 control-label">Color principal</label>
 
                             <div class="col-xs-7 col-md-6">
-                                <g:select class="form-control" name="color1" from="${ikiam.Color.list()}" optionKey="id"/>
+                                <g:select class="form-control" name="color1" from="${Color.list()}"
+                                          optionKey="id" value="${entry?.especie?.color1Id}"/>
                             </div>
                         </div>
                     </div>
@@ -299,8 +305,8 @@
                             <label for="color2" class="col-xs-5 col-md-6 control-label">Color secundario</label>
 
                             <div class="col-xs-7 col-md-6">
-                                <g:select class="form-control" name="color2" from="${ikiam.Color.list()}" optionKey="id"
-                                          noSelection="['': '- Ninguno -']"/>
+                                <g:select class="form-control" name="color2" from="${Color.list()}" optionKey="id"
+                                          noSelection="['': '- Ninguno -']" value="${entry?.especie?.color2Id}"/>
                             </div>
                         </div>
                     </div>
@@ -309,31 +315,44 @@
 
             <div class="row">
                 <div class="form-group">
-                    <label for="nombreComun" class="col-xs-5 col-md-2 control-label marginTop">Nombre común</label>
+                    <div class="grupo">
+                        <label for="nombreComun" class="col-xs-5 col-md-2 control-label marginTop">Nombre común</label>
 
-                    <div class="col-xs-7 col-md-3 marginTop">
-                        <g:textField name="nombreComun" class="form-control"/>
+                        <div class="col-xs-7 col-md-3 marginTop">
+                            <g:textField name="nombreComun" class="form-control required"
+                                         value="${entry?.especie?.nombreComun}"/>
+                        </div>
                     </div>
 
-                    <label for="familia" class="col-xs-5 col-md-2 control-label marginTop">Familia</label>
+                    <div class="grupo">
+                        <label for="familia" class="col-xs-5 col-md-2 control-label marginTop">Familia</label>
 
-                    <div class="col-xs-7 col-md-3 marginTop">
-                        <g:textField name="familia" class="form-control"/>
+                        <div class="col-xs-7 col-md-3 marginTop">
+                            <g:textField name="familia" class="form-control required"
+                                         value="${entry?.especie?.genero?.familia?.nombre}"/>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group">
-                    <label for="genero" class="col-xs-5 col-md-2 control-label marginTop">Género</label>
+                    <div class="grupo">
+                        <label for="genero" class="col-xs-5 col-md-2 control-label marginTop">Género</label>
 
-                    <div class="col-xs-7 col-md-3 marginTop">
-                        <g:textField name="genero" class="form-control"/>
+                        <div class="col-xs-7 col-md-3 marginTop">
+                            <g:textField name="genero" class="form-control required"
+                                         value="${entry?.especie?.genero?.nombre}"/>
+                        </div>
                     </div>
-                    <label for="especie" class="col-xs-5 col-md-2 control-label marginTop">Especie</label>
 
-                    <div class="col-xs-7 col-md-3 marginTop">
-                        <g:textField name="especie" class="form-control"/>
+                    <div class="grupo">
+                        <label for="especie" class="col-xs-5 col-md-2 control-label marginTop">Especie</label>
+
+                        <div class="col-xs-7 col-md-3 marginTop">
+                            <g:textField name="especie" class="form-control required"
+                                         value="${entry?.especie?.nombre}"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -379,16 +398,34 @@
                     position : "relative"
                 });
                 $span.css({
+                    cursor   : "pointer",
                     position : "absolute",
                     top      : (pHeight / 2) - ($span.innerHeight / 2)
 
                 });
+                $span.click(function () {
+                    toggleStatus($toggle);
+                });
                 var id = $toggle.data("key");
                 $("#" + id).val(status);
             }
-            function updateStatus($toggle) {
-                var $parent = $toggle.parent();
+            function toggleStatus($toggle) {
                 var status = $toggle.data("status");
+                var id = $toggle.data("key");
+
+//                console.log(id, status);
+                if (id == "animal") {
+                    if (status == "off") { //se va a activar el de animal: se desactivan todos los otros
+                        $(".toggle").not($toggle).each(function () {
+                            updateStatus($(this), false);
+                        });
+                    }
+                } else {
+                    if (status == "off") { //se va a activar uno de planta: se desactiva el de animal
+                        updateStatus($(".toggle.animal"), false);
+                    }
+                }
+
                 var str = "Sí";
                 if (status == "off") {
                     $toggle.data("status", "on");
@@ -399,19 +436,64 @@
                 }
                 var $span = $toggle.siblings("span");
                 $span.text(str);
-                var id = $toggle.data("key");
                 $("#" + id).val(status);
+            }
+
+            function updateStatus($toggle, isOn) {
+                var id = $toggle.data("key");
+                var status;
+                var str = "Sí";
+                if (isOn) {
+                    str = "Sí";
+                    status = "on";
+                } else {
+                    str = "No";
+                    status = "off";
+                }
+                $toggle.data("status", status);
+                var $span = $toggle.siblings("span");
+                $span.text(str);
+                $("#" + id).val(status);
+            }
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#preview').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
             }
 
             $(function () {
                 $(".toggle").each(function () {
                     setStatus($(this));
                 }).click(function () {
-                    updateStatus($(this));
+                    toggleStatus($(this));
                 });
 
                 $("#btnSave").click(function () {
                     $("#frmSave").submit();
+                });
+
+                $("#frmSave").validate({
+                    errorClass     : "help-block",
+                    errorPlacement : function (error, element) {
+                        if (element.parent().hasClass("input-group")) {
+                            error.insertAfter(element.parent());
+                        } else {
+                            error.insertAfter(element);
+                        }
+                        element.parents(".grupo").addClass('has-error');
+                    },
+                    success        : function (label) {
+                        label.parents(".grupo").removeClass('has-error');
+                    }
+                });
+
+                $("#file").change(function () {
+                    readURL(this);
                 });
 
             });

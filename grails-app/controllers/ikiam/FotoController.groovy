@@ -18,7 +18,7 @@ class FotoController {
         fotos.each { foto ->
             def data = foto.path.split("/")
             println "data " + data
-            if (data.size() > 1) {
+            if (data.size() == 8) {
                 foto.path = data[7].trim()
                 foto.save(flush: true)
             }

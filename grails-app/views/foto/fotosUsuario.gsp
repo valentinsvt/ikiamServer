@@ -26,85 +26,87 @@
             margin-top : 30px;
         }
         </style>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJGVHKSrM7bH0suD95ii7bhIp-_29BrSk"></script>
-        <script type="text/javascript">
+        <g:if test="${fotos.size() > 0}">
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJGVHKSrM7bH0suD95ii7bhIp-_29BrSk"></script>
+            <script type="text/javascript">
 
-            var lat0 = ${fotos.first().coordenada?.latitud?:0};
-            var long0 = ${fotos.first().coordenada?.longitud?:0};
-            var bounds = new google.maps.LatLngBounds();
+                var lat0 = ${fotos.first().coordenada?.latitud?:0};
+                var long0 = ${fotos.first().coordenada?.longitud?:0};
+                var bounds = new google.maps.LatLngBounds();
 
-            var rutaCoords = [];
+                var rutaCoords = [];
 
-            var markers = [];
+                var markers = [];
 
-            var imagePin = '${resource(dir:"images/markers", file:"map_marker_photo_32.png")}';
+                var imagePin = '${resource(dir:"images/markers", file:"map_marker_photo_32.png")}';
 
-            function initFotos(map) {
-                <g:each in="${fotos}" var="foto">
-                var path = "${resource(dir:'uploaded', file:foto.path)}";
-                var pathThumb = "${resource(dir:'uploaded/markers', file:foto.path)}";
-                var info = "<div id='content'>" +
-                           "<img src='" + path + "' width='300' />" +
-                           "</div>";
-                %{--setMarker(map, ${foto.coordenada?.latitud?:0}, ${foto.coordenada?.longitud?:0}, "Foto", pathThumb, info);--}%
-                setMarker(map, ${foto.coordenada?.latitud?:0}, ${foto.coordenada?.longitud?:0}, "Foto", pathThumb, info);
-                </g:each>
-            }
+                function initFotos(map) {
+                    <g:each in="${fotos}" var="foto">
+                    var path = "${resource(dir:'uploaded', file:foto.path)}";
+                    var pathThumb = "${resource(dir:'uploaded/markers', file:foto.path)}";
+                    var info = "<div id='content'>" +
+                               "<img src='" + path + "' width='300' />" +
+                               "</div>";
+                    %{--setMarker(map, ${foto.coordenada?.latitud?:0}, ${foto.coordenada?.longitud?:0}, "Foto", pathThumb, info);--}%
+                    setMarker(map, ${foto.coordenada?.latitud?:0}, ${foto.coordenada?.longitud?:0}, "Foto", pathThumb, info);
+                    </g:each>
+                }
 
-            function setMarker(map, lat, long, title, icon, infoWindow) {
-                var myLatlng = new google.maps.LatLng(lat, long);
-                bounds.extend(myLatlng);
+                function setMarker(map, lat, long, title, icon, infoWindow) {
+                    var myLatlng = new google.maps.LatLng(lat, long);
+                    bounds.extend(myLatlng);
 
-                var image = {
-                    url : icon
-                };
+                    var image = {
+                        url : icon
+                    };
 
-                // To add the marker to the map, use the 'map' property
-                var marker = new google.maps.Marker({
-                    position : myLatlng,
-                    icon     : image,
-                    title    : title,
-                    map      : map
-                });
-                var m = {
-                    marker : marker
-                };
-                if (infoWindow) {
-                    var infowindow = new google.maps.InfoWindow({
-                        content : infoWindow
+                    // To add the marker to the map, use the 'map' property
+                    var marker = new google.maps.Marker({
+                        position : myLatlng,
+                        icon     : image,
+                        title    : title,
+                        map      : map
                     });
-                    m.info = infoWindow;
+                    var m = {
+                        marker : marker
+                    };
+                    if (infoWindow) {
+                        var infowindow = new google.maps.InfoWindow({
+                            content : infoWindow
+                        });
+                        m.info = infoWindow;
 
-                    google.maps.event.addListener(marker, 'click', function () {
+                        google.maps.event.addListener(marker, 'click', function () {
 //                        closeAllInfo(marker);
-                        infowindow.open(map, marker);
+                            infowindow.open(map, marker);
+                        });
+                    }
+                    markers.push(m);
+                }
+
+                function closeAllInfo(not) {
+                    $.each(markers, function (i, marker) {
+                        if (marker.marker != not) {
+                            marker.info.close();
+                        }
                     });
                 }
-                markers.push(m);
-            }
 
-            function closeAllInfo(not) {
-                $.each(markers, function (i, marker) {
-                    if (marker.marker != not) {
-                        marker.info.close();
-                    }
-                });
-            }
-
-            function initialize() {
-                var mapOptions = {
-                    center : new google.maps.LatLng(lat0, long0),
-                    zoom   : 14
-                };
-                var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-                initFotos(map);
-                map.setOptions({
-                    center : bounds.getCenter()
-                });
-                map.fitBounds(bounds);
-            }
-            google.maps.event.addDomListener(window, 'load', initialize);
-        </script>
+                function initialize() {
+                    var mapOptions = {
+                        center : new google.maps.LatLng(lat0, long0),
+                        zoom   : 14
+                    };
+                    var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+                    initFotos(map);
+                    map.setOptions({
+                        center : bounds.getCenter()
+                    });
+                    map.fitBounds(bounds);
+                }
+                google.maps.event.addDomListener(window, 'load', initialize);
+            </script>
+        </g:if>
     </head>
 
     <body>

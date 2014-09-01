@@ -6,9 +6,16 @@ class ImportsTagLib {
     static namespace = 'imp'
 
     def favicon = { attrs ->
-        def text = "<link rel=\"shortcut icon\" href=\"${resource(dir: 'images', file: 'favicon.ico')}\" type=\"image/x-icon\">\n"
-        text += "   <link rel=\"apple-touch-icon\" href=\"${resource(dir: 'images', file: 'apple-touch-icon.png')}\">\n"
-        text += "   <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}\">"
+//        def text = "<link rel=\"shortcut icon\" href=\"${resource(dir: 'images', file: 'favicon.ico')}\" type=\"image/x-icon\">\n"
+//        text += "   <link rel=\"apple-touch-icon\" href=\"${resource(dir: 'images', file: 'apple-touch-icon.png')}\">\n"
+//        text += "   <link rel=\"apple-touch-icon\" sizes=\"114x114\" href=\"${resource(dir: 'images', file: 'apple-touch-icon-retina.png')}\">"
+
+        def text = "<link rel=\"apple-touch-icon\" sizes=\"57x57\" href=\"${resource(dir: 'images/favicons', file: 'apple-touch-icon-57x57.png')}\">\n" +
+                "<link rel=\"apple-touch-icon\" sizes=\"72x72\" href=\"${resource(dir: 'images/favicons', file: 'apple-touch-icon-72x72.png')}\">\n" +
+                "<link rel=\"apple-touch-icon\" sizes=\"60x60\" href=\"${resource(dir: 'images/favicons', file: 'apple-touch-icon-60x60.png')}\">\n" +
+                "<link rel=\"icon\" type=\"image/png\" href=\"${resource(dir: 'images/favicons', file: 'favicon-16x16.png')}\" sizes=\"16x16\">\n" +
+                "<link rel=\"icon\" type=\"image/png\" href=\"${resource(dir: 'images/favicons', file: 'favicon-32x32.png')}\" sizes=\"32x32\">\n" +
+                "<meta name=\"msapplication-TileColor\" content=\"#ffffff\">"
         out << text
     }
 
@@ -64,8 +71,8 @@ class ImportsTagLib {
 
     def validation = { attrs ->
         //context js
-        def text = "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.11.1/js', file: 'jquery.validate.min.js')}\"></script>"
-        text += "       <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.11.1/localization', file: 'messages_es.js')}\"></script>"
+        def text = "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.13.0/dist', file: 'jquery.validate.min.js')}\"></script>"
+        text += "       <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.13.0/dist/localization', file: 'messages_es.js')}\"></script>"
 
         out << text
     }
