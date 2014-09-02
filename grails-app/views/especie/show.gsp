@@ -28,7 +28,7 @@
 <body>
 
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
-<div class="bloque">
+<div class="row">
     <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;margin-top: 10px;display: inline" />
     <div class="descripcion">
         <div class="row" style="margin-top: 10px">
