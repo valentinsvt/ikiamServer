@@ -90,5 +90,14 @@
         ${especie.texto}
     </div>
 </div>
+<h2 style="margin-top: 10px">Entradas</h2>
+<div class="row">
+<g:each in="${entrys}" var="entry">
+    <div class="col-md-2 col-xs-5">
+        <img src="${g.resource(dir: 'uploaded/',file: entry?.fotos[0]?.path)}" style="width: 100%">
+        ${entry.fecha.format("dd-MM-yyyy")}
+    </div>
+</g:each>
+</div>
 </body>
 </html>
