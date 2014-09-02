@@ -1,4 +1,4 @@
-package vesta
+package ikiam
 
 import org.codehaus.groovy.grails.commons.DomainClassArtefactHandler
 import org.springframework.beans.SimpleTypeConverter
