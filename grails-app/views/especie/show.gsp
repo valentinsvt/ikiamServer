@@ -62,7 +62,7 @@
         </g:else>
     </div>
 </div>
-<h2 style="margin-top: 10px">Distribucion</h2>
+<h2 style="margin-top: 10px">Distribución</h2>
 <div class="bloque">
     <div class="descripcion_larga">
         <g:if test="${especie.distribucion}">
