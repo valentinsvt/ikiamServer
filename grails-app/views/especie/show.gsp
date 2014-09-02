@@ -15,9 +15,9 @@
     .descripcion{
         width: 400px;
         height: 240px;
-        float: left;
         margin-left: 30px;
         font-size: 16px;
+        display: inline;
     }
     .descripcion_larga{
         width: 100%;
@@ -29,7 +29,7 @@
 
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 <div class="bloque">
-    <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;float:left;margin-top: 10px" />
+    <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;margin-top: 10px;display: inline" />
     <div class="descripcion">
         <div class="row" style="margin-top: 10px">
             <div class="labelSvt">Familia:</div>
