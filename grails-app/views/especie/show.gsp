@@ -52,7 +52,7 @@
         <div class="row" >
             <div class="labelSvt">Estado:</div>
             <div class="fieldSvt">${especie.estado?.descripcion}</div>
-            <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: ${especie.estado?.color};display: inline-block">${especie.estado?.codigo}</div>
+            <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''}">${especie.estado?.codigo}</div>
         </div>
     </div>
 </div>
