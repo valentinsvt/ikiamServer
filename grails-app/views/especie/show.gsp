@@ -51,8 +51,8 @@
         </div>
         <div class="row" >
             <div class="labelSvt">Estado:</div>
-            <div class="fieldSvt">${especie.estado}</div>
-            <div style="width: 30px;height: 30px;background: ${especie.estado?.color}">${especie.estado?.codigo}</div>
+            <div class="fieldSvt">${especie.estado?.descripcion}</div>
+            <div style="width: 30px;height: 30px;background: ${especie.estado?.color};display: inline-block">${especie.estado?.codigo}</div>
         </div>
     </div>
 </div>
