@@ -86,7 +86,7 @@ class FichaTecnicaAnimalController {
             render "ERROR*Ha ocurrido un error al guardar FichaTecnicaAnimal: " + renderErrors(bean: fichaTecnicaAnimalInstance)
             return
         }
-        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de FichaTecnicaAnimal exitosa."
+        redirect(controller: 'especie',action: 'fichaAnimal',id: fichaTecnicaAnimalInstance.especie.id)
         return
     } //save para grabar desde ajax
 

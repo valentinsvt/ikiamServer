@@ -43,7 +43,7 @@
 
 <body>
 
-<g:form class="form-horizontal form" name="frmFichaTecnicaPlanta" role="form" action="save_ajax" method="POST">
+<g:form class="form-horizontal form" name="frmFichaTecnicaPlanta" role="form" controller="fichaTecnicaPlanta" action="save_ajax" method="POST">
 <g:hiddenField name="id" value="${fichaTecnicaPlantaInstance?.id}" />
 
 <div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'fruto', 'error')} required">
@@ -218,7 +218,7 @@
             Forma de vida 2
         </label>
         <div class="col-md-7">
-            <g:select id="forma2" name="forma2.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma2?.id}"  optionValue="descripcion"  class="many-to-one form-control"/>
+            <g:select id="forma2" name="forma2.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma2?.id}"  noSelection="['-1':'Seleccione...']" optionValue="descripcion"  class="many-to-one form-control"/>
         </div>
         *
     </span>

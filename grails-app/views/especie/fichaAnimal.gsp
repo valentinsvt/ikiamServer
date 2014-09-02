@@ -44,7 +44,7 @@
 <body>
 
 
-<g:form class="form-horizontal form" name="frmFichaTecnicaAnimal" role="form" action="save_ajax" method="POST">
+<g:form class="form-horizontal form" name="frmFichaTecnicaAnimal"  controller="fichaTecnicaAnimal"  role="form" action="save_ajax" method="POST">
     <g:hiddenField name="id" value="${fichaTecnicaAnimalInstance?.id}" />
 
 
