@@ -52,7 +52,9 @@
             Fruto
         </label>
         <div class="col-md-7">
-            <textarea name="fruto" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.fruto}"/>
+            <textarea name="fruto" required="" class="form-control required">
+                ${fichaTecnicaPlantaInstance?.fruto}
+            </textarea>
         </div>
         *
     </span>
