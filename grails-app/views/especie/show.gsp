@@ -95,9 +95,9 @@
         ${especie.texto}
     </div>
 </div>
-<div class="row">
-    <g:link action="showFicha" id="${especie.id}" class="btn btn-default">Ficha técnica</g:link>
-    <g:link action="showPapers" id="${especie.id}" class="btn btn-default">Papers</g:link>
+<div class="row" style="margin-left: 20px">
+    <g:link action="showFicha" id="${especie.id}" class="btn btn-azul">Ficha técnica</g:link>
+    <g:link action="showPapers" id="${especie.id}" class="btn btn-azul">Papers</g:link>
 </div>
 <h2 style="margin-top: 10px">Entradas</h2>
 <div class="row" style="margin-bottom: 10px">
