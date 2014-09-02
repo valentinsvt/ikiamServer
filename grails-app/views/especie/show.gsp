@@ -95,6 +95,10 @@
         ${especie.texto}
     </div>
 </div>
+<div class="row">
+    <g:createLink action="showFicha" id="${especie.id}" class="btn btn-default">Ficha técnica</g:createLink>
+    <g:createLink action="showPapers" id="${especie.id}" class="btn btn-default">Papers</g:createLink>
+</div>
 <h2 style="margin-top: 10px">Entradas</h2>
 <div class="row" style="margin-bottom: 10px">
     <g:each in="${entrys}" var="entry">
