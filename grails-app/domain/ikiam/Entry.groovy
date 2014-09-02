@@ -20,5 +20,6 @@ class Entry {
         observaciones(blank:true,nullable: true)
         usuario(nullable: true, blank: true)
         especie(blank: true, nullable: true)
+        cautiverio(blank: true, nullable: true,size: 1..1)
     }
 }
