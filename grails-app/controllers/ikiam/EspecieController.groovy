@@ -55,6 +55,30 @@ class EspecieController {
         render datos
     }
 
+
+    def fichaAnimal(){
+        def esp = Especie.get(params.id)
+        def ficha = FichaTecnicaAnimal.findByEspecie(esp)
+        if(!ficha) {
+            ficha = new FichaTecnicaAnimal()
+            ficha.especie=esp;
+            if(!ficha.save(flush: true))
+                println "errors "+ficha.errors
+        }
+        [ficha:ficha]
+    }
+    def fichaPlanta(){
+        def esp = Especie.get(params.id)
+        def ficha = FichaTecnicaPlanta.findByEspecie(esp)
+        if(!ficha) {
+            ficha = new FichaTecnicaPlanta()
+            ficha.especie=esp;
+            if(!ficha.save(flush: true))
+                println "errors "+ficha.errors
+        }
+        [ficha:ficha]
+    }
+
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10

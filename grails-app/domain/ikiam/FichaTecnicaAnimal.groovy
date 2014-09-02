@@ -17,4 +17,9 @@ class FichaTecnicaAnimal {
         social type: "text"
         comportamiento type: "text"
     }
+    static constraints = {
+        alimentacion(blank: true,nullable: true)
+        social(blank: true,nullable: true)
+        comportamiento(blank: true,nullable: true)
+    }
 }

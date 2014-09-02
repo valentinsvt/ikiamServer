@@ -12,7 +12,7 @@ class Especie {
     int likes=0;
     Color color1;
     Color color2;
-
+    EstadoDeConservacion estado
     static hasMany = [entries: Entry, fotos: Foto]
 
     static mapping = {
@@ -32,6 +32,7 @@ class Especie {
         distribucion(blank: true, nullable: true)
         etimologia(blank: true, nullable: true)
         texto(blank: true, nullable: true)
+        estado(blank: true, nullable: true)
     }
 
     String toString() {

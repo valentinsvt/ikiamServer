@@ -51,6 +51,18 @@
 
 <g:uploadForm class="form-horizontal especieForm" role="form" name="frmSave" action="saveTextos">
 <input type="hidden" name="id" value="${especie?.id}">
+    <div class="row">
+        <g:link action="fichaAnimal" class="btn btn-success " id="${especie.id}" >Ficha técnica animal</g:link>
+        <g:link action="fichaPlanta" class="btn btn-success" id="${especie.id}" >Ficha técnica planta</g:link>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            Estado de conservación:
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <g:select name="estado.id" from="${ikiam.EstadoDeConservacion.list([sort: 'id'])}" optionKey="id" optionValue="descripcion" id="estado"></g:select>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-xs-12 col-md-3">
