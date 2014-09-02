@@ -86,6 +86,10 @@ class FichaTecnicaPlantaController {
                 return
             }
         }
+        if(params.forma2.id=="-1") {
+            params.remove("forma2.id")
+            params.remove("forma2")
+        }
         fichaTecnicaPlantaInstance.properties = params
         if (!fichaTecnicaPlantaInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar FichaTecnicaPlanta: " + renderErrors(bean: fichaTecnicaPlantaInstance)

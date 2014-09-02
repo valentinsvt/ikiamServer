@@ -81,6 +81,7 @@ class FichaTecnicaAnimalController {
                 return
             }
         }
+
         fichaTecnicaAnimalInstance.properties = params
         if (!fichaTecnicaAnimalInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar FichaTecnicaAnimal: " + renderErrors(bean: fichaTecnicaAnimalInstance)

@@ -79,7 +79,7 @@
             Flor
         </label>
         <div class="col-md-7">
-            <textarea name="flor" required="" class="form-control required" >
+            <textarea name="flor" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.flor}
             </textarea>
         </div>
@@ -93,7 +93,7 @@
             Tronco
         </label>
         <div class="col-md-7">
-            <textarea name="tronco" required="" class="form-control required" >
+            <textarea name="tronco" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.tronco}
             </textarea>
         </div>
@@ -106,7 +106,7 @@
             Semilla
         </label>
         <div class="col-md-7">
-            <textarea name="semilla" required="" class="form-control required" >
+            <textarea name="semilla" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.semilla}
             </textarea>
         </div>
@@ -119,7 +119,7 @@
             Factores Limitantes Crecimiento
         </label>
         <div class="col-md-7">
-            <textarea name="factoresLimitantesCrecimiento" required="" class="form-control required" >
+            <textarea name="factoresLimitantesCrecimiento" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.factoresLimitantesCrecimiento}
             </textarea>
         </div>
@@ -129,26 +129,26 @@
 
 
 
-<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'fenologia', 'error')} required">
+<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'fenologia', 'error')} ">
     <span class="grupo">
         <label for="fenologia" class="col-md-2 control-label text-info">
             Fenologia
         </label>
         <div class="col-md-7">
-            <textarea name="fenologia" required="" class="form-control required" >
+            <textarea name="fenologia" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.fenologia}
             </textarea>
         </div>
         *
     </span>
 </div>
-<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'edaficos', 'error')} required">
+<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'edaficos', 'error')} ">
     <span class="grupo">
         <label for="edaficos" class="col-md-2 control-label text-info">
             Requerimientos edáficos
         </label>
         <div class="col-md-7">
-            <textarea name="edaficos" required="" class="form-control required" >
+            <textarea name="edaficos" required="" class="form-control " >
                 ${fichaTecnicaPlantaInstance?.edaficos}
             </textarea>
         </div>
@@ -158,7 +158,7 @@
 
 
 
-<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'alturaMax', 'error')} required">
+<div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'alturaMax', 'error')} ">
     <span class="grupo">
         <label for="alturaMax" class="col-md-2 control-label text-info">
             Altura Max
