@@ -48,25 +48,43 @@
         <g:hiddenField name="id" value="${fichaTecnicaAnimalInstance?.id}" />
 
 
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alimentacion', 'error')} required">
+        <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alimentacion', 'error')} required">
             <span class="grupo">
-                <label for="alimentacion" class="col-md-2 control-label text-info">
+                <label for="" class="col-md-3 control-label text-info">
                     Alimentacion
                 </label>
-                <div class="col-md-7">
-                    <g:textField name="alimentacion" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.alimentacion}"/>
+                <div class="col-md-9">
+                    <textArea name="alimentacion" required="" class="form-control required">
+                        ${fichaTecnicaAnimalInstance?.alimentacion}
+                    </textArea>
                 </div>
                 *
             </span>
         </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'comportamiento', 'error')} required">
+        <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'comportamiento', 'error')} required">
             <span class="grupo">
-                <label for="comportamiento" class="col-md-2 control-label text-info">
+                <label for="" class="col-md-3 control-label text-info">
                     Comportamiento
                 </label>
-                <div class="col-md-7">
-                    <g:textField name="comportamiento" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.comportamiento}"/>
+                <div class="col-md-9">
+                    <textArea name="comportamiento" required="" class="form-control required">
+                        ${fichaTecnicaAnimalInstance?.comportamiento}
+                    </textArea>
+                </div>
+                *
+            </span>
+        </div>
+
+        <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'social', 'error')} required">
+            <span class="grupo">
+                <label for="social" class="col-md-2 control-label text-info">
+                    Social
+                </label>
+                <div class="col-md-9">
+                    <textarea name="social" required="" class="form-control required" >
+                        ${fichaTecnicaAnimalInstance?.social}
+                    </textarea>
                 </div>
                 *
             </span>
@@ -132,17 +150,7 @@
             </span>
         </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'social', 'error')} required">
-            <span class="grupo">
-                <label for="social" class="col-md-2 control-label text-info">
-                    Social
-                </label>
-                <div class="col-md-7">
-                    <g:textField name="social" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.social}"/>
-                </div>
-                *
-            </span>
-        </div>
+
 
         <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'tallaMax', 'error')} required">
             <span class="grupo">
