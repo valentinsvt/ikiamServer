@@ -17,7 +17,7 @@
         height: 240px;
         margin-left: 30px;
         font-size: 16px;
-        display: inline-block;
+        display: inline;
     }
     .descripcion_larga{
         width: 100%;
