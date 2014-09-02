@@ -40,16 +40,16 @@ class EspecieController {
         def especies = Especie.findAllByFeatured("S")
         def datos=""
         especies.each {e->
-            println "especie "+e.nombreComun
+            //println "especie "+e.nombreComun
             def entry = Entry.findByEspecie(e)
-            println "entry "+entry.observaciones
+            //println "entry "+entry.observaciones
             def foto = Foto.findByEntry(entry)
-            println "foto entry "+foto?.path
+            //println "foto entry "+foto?.path
             if(!foto)
                 foto=Foto.findByEspecie(e)
-            println "foto despues "+foto?.path
+            //println "foto despues "+foto?.path
             def coord = foto.coordenada
-            println "coord "+coord
+            //println "coord "+coord
             datos+=""+e.nombreComun+";"+entry.observaciones+";"+foto.path+";"+coord.latitud+";"+coord.longitud+";"+coord.altitud+";"+e.likes+"&"
         }
         render datos

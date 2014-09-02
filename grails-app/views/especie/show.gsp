@@ -10,7 +10,7 @@
     <style>
     .bloque{
         width: 100%;
-        height: 250px;
+        margin-top: 10px;
     }
     .descripcion{
         width: 400px;
@@ -20,7 +20,7 @@
         font-size: 16px;
     }
     .descripcion_larga{
-        width: 600px;
+        width: 100%;
         height: auto;
         float: left;
         font-size: 13px;
