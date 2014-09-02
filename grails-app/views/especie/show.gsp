@@ -29,8 +29,10 @@
 
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 <div class="row">
-    <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;margin-top: 10px;display: inline" />
-    <div class="descripcion">
+    <div class="col-md-6">
+        <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;margin-top: 10px;display: inline" />
+    </div>
+    <div class="col-md-6">
         <div class="row" style="margin-top: 10px">
             <div class="labelSvt">Familia:</div>
             <div class="fieldSvt">${especie.genero.familia.nombre}</div>
