@@ -52,7 +52,7 @@
             Fruto
         </label>
         <div class="col-md-7">
-            <g:textField name="fruto" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.fruto}"/>
+            <textarea name="fruto" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.fruto}"/>
         </div>
         *
     </span>
@@ -64,7 +64,9 @@
             Hojas
         </label>
         <div class="col-md-7">
-            <g:textField name="hojas" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.hojas}"/>
+            <textarea name="hojas" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.hojas}
+            </textarea>
         </div>
         *
     </span>
@@ -75,7 +77,9 @@
             Flor
         </label>
         <div class="col-md-7">
-            <g:textField name="flor" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.flor}"/>
+            <textarea name="flor" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.flor}
+            </textarea>
         </div>
         *
     </span>
@@ -87,7 +91,9 @@
             Tronco
         </label>
         <div class="col-md-7">
-            <g:textField name="tronco" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.tronco}"/>
+            <textarea name="tronco" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.tronco}
+            </textarea>
         </div>
         *
     </span>
@@ -98,7 +104,9 @@
             Semilla
         </label>
         <div class="col-md-7">
-            <g:textField name="semilla" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.semilla}"/>
+            <textarea name="semilla" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.semilla}
+            </textarea>
         </div>
         *
     </span>
@@ -109,7 +117,9 @@
             Factores Limitantes Crecimiento
         </label>
         <div class="col-md-7">
-            <g:textField name="factoresLimitantesCrecimiento" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.factoresLimitantesCrecimiento}"/>
+            <textarea name="factoresLimitantesCrecimiento" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.factoresLimitantesCrecimiento}
+            </textarea>
         </div>
         *
     </span>
@@ -123,7 +133,9 @@
             Fenologia
         </label>
         <div class="col-md-7">
-            <g:textField name="fenologia" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.fenologia}"/>
+            <textarea name="fenologia" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.fenologia}
+            </textarea>
         </div>
         *
     </span>
@@ -131,10 +143,12 @@
 <div class="row ${hasErrors(bean: fichaTecnicaPlantaInstance, field: 'edaficos', 'error')} required">
     <span class="grupo">
         <label for="edaficos" class="col-md-2 control-label text-info">
-            Edaficos
+            Requerimientos edáficos
         </label>
         <div class="col-md-7">
-            <g:textField name="edaficos" required="" class="form-control required" value="${fichaTecnicaPlantaInstance?.edaficos}"/>
+            <textarea name="edaficos" required="" class="form-control required" >
+                ${fichaTecnicaPlantaInstance?.edaficos}
+            </textarea>
         </div>
         *
     </span>
