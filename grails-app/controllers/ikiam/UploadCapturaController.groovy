@@ -18,20 +18,36 @@ class UploadCapturaController {
     def uploadData() {
         println "::: " + params
 
-        def familia = Familia.findAllByNombre(params.familia)
-        def genero = Genero.findAllByNombre(params.genero)
-        def especie = Especie.findAllByNombre(params.especie)
+        def color1 = null, color2 = null, familia = null, genero = null, especie = null, usuario = null, coord = null
 
-        def color1 = Color.findAllByColor(params.color1)
-        def color2 = Color.findAllByColor(params.color2)
+        def lat = params.lat ? params.lat.toDouble() : 0
+        def lon = params.long ? params.long.toDouble() : 0
 
-        def userId = params.userId //id (faceboook - fb id, ikiam db.id
-        def userName = params.userName
-        def userType = params.userType //facebook || ikiam
-        def userMail = params.userMail
-        def userCientifico = params.userCientifico //N || S
+        def alt = params.alt ? params.alt.toDouble() : 0
 
-        def usuario
+        if (params.color1) {
+            color1 = Color.findOrSaveByColor(params.color1.trim())
+        }
+        if (params.color2) {
+            color2 = Color.findOrSaveByColor(params.color2.trim())
+        }
+
+        if (params.familia) {
+            familia = Familia.findOrSaveByNombre(params.familia.trim())
+            genero = Genero.findOrSaveByNombreAndFamilia(params.genero.trim(), familia)
+            especie = Especie.findOrSaveByNombreAndGenero(params.especie.trim(), genero)
+            especie.nombreComun = params.comun.trim()
+            especie.color1 = color1
+            especie.color2 = color2
+            especie.save(flush: true)
+        }
+
+        def userId = params.userId.trim() //id (faceboook - fb id, ikiam db.id
+        def userName = params.userName.trim()
+        def userType = params.userType.trim() //facebook || ikiam
+        def userMail = params.userMail.trim()
+        def userCientifico = params.userCientifico.trim() //N || S
+
         if (userType == "facebook") {
             usuario = Usuario.findByFacebookId(userId)
             if (!usuario) {
@@ -50,107 +66,24 @@ class UploadCapturaController {
                     println "error save usuario: " + usuario.errors
                 }
             }
+        } else {
+            usuario = Usuario.get(userId)
         }
 
-        def lat = params.lat ? params.lat.toDouble() : null
-        def lon = params.long ? params.long.toDouble() : null
-
-        def coord = null
-        if (lat && lon) {
-            coord = Coordenada.findAllByLatitudAndLongitud(lat, lon)
-            if (coord.size() == 1) {
-                coord = coord.first()
-            } else if (coord.size() == 0) {
-                coord = new Coordenada()
-                coord.latitud = lat
-                coord.longitud = lon
-                if (!coord.save(flush: true)) {
-                    println "Error coord: " + coord.errors
-                }
-            }
+        if (lat > 0 && lon > 0) {
+            coord = Coordenada.findOrSaveByLatitudAndLongitud(lat, lon)
+            coord.altitud = alt
+            coord.save(flush: true)
         }
 
         def fecha = new Date().parse("yyyy-MM-dd HH:mm:ss", params.fecha)
-
-        if (color1.size() == 1) {
-            color1 = color1.first()
-        } else if (color1.size() == 0) {
-            if (params.color1) {
-                color1 = new Color()
-                color1.color = params.color1
-                if (!color1.save(flush: true)) {
-                    println "Error color1: " + color1.errors
-                }
-            } else {
-                color1 = null
-            }
-        }
-        if (color2.size() == 1) {
-            color2 = color2.first()
-        } else if (color2.size() == 0) {
-            if (params.color2) {
-                color2 = new Color()
-                color2.color = params.color2
-                if (!color2.save(flush: true)) {
-                    println "Error color2: " + color2.errors
-                }
-            } else {
-                color2 = null
-            }
-        }
-        if (familia.size() == 1) {
-            familia = familia.first()
-        } else if (familia.size() == 0) {
-            if (params.familia) {
-                familia = new Familia()
-                familia.nombre = params.familia
-                if (!familia.save(flush: true)) {
-                    println "Error familia: " + familia.errors
-                }
-            } else {
-                familia = null
-            }
-        }
-        if (genero.size() == 1) {
-            genero = genero.first()
-        } else if (genero.size() == 0) {
-            if (params.genero) {
-                genero = new Genero()
-                genero.nombre = params.genero
-                genero.familia = familia
-                if (!genero.save(flush: true)) {
-                    println "Error genero: " + genero.errors
-                }
-            } else {
-                genero = null
-            }
-        }
-        if (especie.size() == 1) {
-            especie = especie.first()
-        } else if (especie.size() == 0) {
-            if (params.especie) {
-                especie = new Especie()
-                especie.nombre = params.especie
-                especie.nombreComun = params.comun
-                if (genero) {
-                    especie.genero = genero
-                }
-                especie.color1 = color1
-                especie.color2 = color2
-                if (!especie.save(flush: true)) {
-                    println "Error especie: " + especie.errors
-                }
-            } else {
-                especie = null
-            }
-        }
 
         def entry = new Entry()
         if (especie) {
             entry.especie = especie
         }
         entry.fecha = fecha
-        entry.observaciones = params.comentarios
+        entry.observaciones = params.comentarios.trim()
         entry.usuario = usuario
         if (!entry.save(flush: true)) {
             println "Error entry: " + entry.errors

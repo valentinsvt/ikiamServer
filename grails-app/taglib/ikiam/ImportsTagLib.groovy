@@ -1,4 +1,4 @@
-package vesta
+package ikiam
 
 class ImportsTagLib {
 //    static defaultEncodeAs = 'html'
@@ -57,8 +57,8 @@ class ImportsTagLib {
         text += "    <script src=\"${resource(dir: 'js/jquery/js', file: 'jquery-ui-1.10.4.min.js')}\"></script>\n"
         // Include all compiled plugins (below), or include individual files as needed
         text += "    <script src=\"${resource(dir: 'bootstrap-3.2.0/js', file: 'bootstrap.min.js')}\"></script>"
-        text += "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.11.1/js', file: 'jquery.validate.min.js')}\"></script>"
-        text += "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.11.1/localization', file: 'messages_es.js')}\"></script>"
+        text += "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.13.0/dist', file: 'jquery.validate.min.js')}\"></script>"
+        text += "    <script src=\"${resource(dir: 'js/plugins/jquery-validation-1.13.0/dist/localization', file: 'messages_es.js')}\"></script>"
 
         out << text
     }
