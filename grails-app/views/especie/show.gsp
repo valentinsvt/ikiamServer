@@ -54,19 +54,34 @@
 <h2 style="margin-top: 10px">Descripción</h2>
 <div class="bloque">
     <div class="descripcion_larga">
-        ${especie.descripcion}
+        <g:if test="${especie.descripcion}">
+            ${especie.descripcion}
+        </g:if>
+        <g:else>
+            No hay datos
+        </g:else>
     </div>
 </div>
 <h2 style="margin-top: 10px">Distribucion</h2>
 <div class="bloque">
     <div class="descripcion_larga">
-        ${especie.distribucion}
+        <g:if test="${especie.distribucion}">
+            ${especie.distribucion}
+        </g:if>
+        <g:else>
+            No hay datos
+        </g:else>
     </div>
 </div>
 <h2 style="margin-top: 10px">Etimología</h2>
 <div class="bloque">
     <div class="descripcion_larga">
-        ${especie.etimologia}
+        <g:if test="${especie.etimologia}">
+            ${especie.etimologia}
+        </g:if>
+        <g:else>
+            No hay datos
+        </g:else>
     </div>
 </div>
 <h2 style="margin-top: 10px">Datos adicionales</h2>
