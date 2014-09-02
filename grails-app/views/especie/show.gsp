@@ -52,7 +52,7 @@
         <div class="row" >
             <div class="labelSvt">Estado:</div>
             <div class="fieldSvt">${especie.estado?.descripcion}</div>
-            <div style="width: 30px;height: 30px;background: ${especie.estado?.color};display: inline-block">${especie.estado?.codigo}</div>
+            <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: ${especie.estado?.color};display: inline-block">${especie.estado?.codigo}</div>
         </div>
     </div>
 </div>
@@ -96,8 +96,8 @@
     </div>
 </div>
 <div class="row">
-    <g:createLink action="showFicha" id="${especie.id}" class="btn btn-default">Ficha técnica</g:createLink>
-    <g:createLink action="showPapers" id="${especie.id}" class="btn btn-default">Papers</g:createLink>
+    <g:link action="showFicha" id="${especie.id}" class="btn btn-default">Ficha técnica</g:link>
+    <g:link action="showPapers" id="${especie.id}" class="btn btn-default">Papers</g:link>
 </div>
 <h2 style="margin-top: 10px">Entradas</h2>
 <div class="row" style="margin-bottom: 10px">
