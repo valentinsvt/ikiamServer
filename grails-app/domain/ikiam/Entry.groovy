@@ -6,6 +6,7 @@ class Entry {
     Especie especie
     Date fecha
     String observaciones
+    String cautiverio ="N"/*S--> si N--> no*/
 
     static hasMany = [fotos: Foto]
 
