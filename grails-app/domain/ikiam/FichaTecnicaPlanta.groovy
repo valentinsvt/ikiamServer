@@ -31,15 +31,15 @@ class FichaTecnicaPlanta {
         edaficos type: "text"
     }
     static constraints = {
-         forma1(blank:true,nullable: true)
-         forma2(blank:true,nullable: true)
-         fenologia(blank:true,nullable: true)
-         flor(blank:true,nullable: true)
-         fruto(blank:true,nullable: true)
-         semilla(blank:true,nullable: true)
-         hojas(blank:true,nullable: true)
-         tronco(blank:true,nullable: true)
-         factoresLimitantesCrecimiento(blank:true,nullable: true)
-
+        forma1(blank:true,nullable: true)
+        forma2(blank:true,nullable: true)
+        fenologia(blank:true,nullable: true)
+        flor(blank:true,nullable: true)
+        fruto(blank:true,nullable: true)
+        semilla(blank:true,nullable: true)
+        hojas(blank:true,nullable: true)
+        tronco(blank:true,nullable: true)
+        factoresLimitantesCrecimiento(blank:true,nullable: true)
+        edaficos(blank:true,nullable: true)
     }
 }
