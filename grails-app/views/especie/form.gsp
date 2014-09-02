@@ -60,7 +60,7 @@
             Estado de conservación:
         </div>
         <div class="col-xs-12 col-md-3">
-            <g:select name="estado.id" from="${ikiam.EstadoDeConservacion.list([sort: 'id'])}" optionKey="id" optionValue="descripcion" id="estado"></g:select>
+            <g:select name="estado.id" from="${ikiam.EstadoDeConservacion.list([sort: 'id'])}" optionKey="id" optionValue="descripcion" id="estado" value="${especie?.estado?.id}"></g:select>
         </div>
     </div>
 
