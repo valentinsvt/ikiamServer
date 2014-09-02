@@ -49,6 +49,11 @@
             <div class="labelSvt">N. común:</div>
             <div class="fieldSvt">${especie.nombreComun}</div>
         </div>
+        <div class="row" >
+            <div class="labelSvt">Estado:</div>
+            <div class="fieldSvt">${especie.estado}</div>
+            <div style="width: 30px;height: 30px;background: ${especie.estado?.color}">${especie.estado?.codigo}</div>
+        </div>
     </div>
 </div>
 <h2 style="margin-top: 10px">Descripción</h2>
