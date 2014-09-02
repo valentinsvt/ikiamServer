@@ -21,8 +21,6 @@
     }
     .descripcion_larga{
         width: 100%;
-        height: auto;
-        float: left;
         font-size: 13px;
     }
     </style>
@@ -31,7 +29,7 @@
 
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 <div class="bloque">
-    <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;float:left;margin: 0px" />
+    <img src="${g.resource(dir: 'uploaded/',file: entrys[0]?.fotos[0]?.path)}" style="width: 300px;float:left;margin-top: 10px" />
     <div class="descripcion">
         <div class="row" style="margin-top: 10px">
             <div class="labelSvt">Familia:</div>
