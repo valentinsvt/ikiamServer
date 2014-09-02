@@ -50,7 +50,7 @@
 
     <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alimentacion', 'error')} required">
         <span class="grupo">
-            <label for="" class="col-md-3 control-label text-info">
+            <label for="" class="col-md-2 control-label text-info">
                 Alimentacion
             </label>
             <div class="col-md-9">
@@ -64,7 +64,7 @@
 
     <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'comportamiento', 'error')} required">
         <span class="grupo">
-            <label for="" class="col-md-3 control-label text-info">
+            <label for="" class="col-md-2 control-label text-info">
                 Comportamiento
             </label>
             <div class="col-md-9">
@@ -78,7 +78,7 @@
 
     <div class="row ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'social', 'error')} required">
         <span class="grupo">
-            <label for="social" class="col-md-3 control-label text-info">
+            <label for="" class="col-md-2 control-label text-info">
                 Social
             </label>
             <div class="col-md-9">
