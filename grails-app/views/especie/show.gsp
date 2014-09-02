@@ -91,9 +91,9 @@
     </div>
 </div>
 <h2 style="margin-top: 10px">Entradas</h2>
-<div class="row" style="margin-left: 10px;">
+<div class="row">
     <g:each in="${entrys}" var="entry">
-        <div class="col-md-2 col-xs-5" style="border: 1px solid #0088CC;padding: 3px;cursor: pointer">
+        <div class="col-md-2 col-xs-5" style="border: 1px solid #0088CC;padding: 3px;cursor: pointer;margin-left: 10px">
             <img src="${g.resource(dir: 'uploaded/',file: entry?.fotos[0]?.path)}" style="width: 100%">
             <div style="margin-top: 3px;width: 100%;text-align: center;font-weight: bold">
                 ${entry.fecha.format("dd-MM-yyyy")}
@@ -101,9 +101,9 @@
         </div>
     </g:each>
     <g:each in="${entrys}" var="entry">
-        <div class="col-md-2 col-xs-5" style="border: 1px solid #0088CC;padding: 3px;cursor: pointer">
-            <img src="${g.resource(dir: 'uploaded/',file: entry?.fotos[0]?.path)}" style="width: 100%">
-            <div style="margin-top: 3px;width: 100%;text-align: center;font-weight: bold">
+        <div class="col-md-2 col-xs-5" style="border: 1px solid #0088CC;padding: 3px;cursor: pointer;margin-left: 10px" class="ui-corner-all">
+            <img src="${g.resource(dir: 'uploaded/',file: entry?.fotos[0]?.path)}" style="width: 100%" class="ui-corner-all">
+            <div style="margin-top: 3px;width: 100%;text-align: center;font-weight: bold" >
                 ${entry.fecha.format("dd-MM-yyyy")}
             </div>
         </div>
