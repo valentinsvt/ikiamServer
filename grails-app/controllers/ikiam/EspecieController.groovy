@@ -65,7 +65,7 @@ class EspecieController {
             if(!ficha.save(flush: true))
                 println "errors "+ficha.errors
         }
-        [ficha:ficha]
+        [fichaTecnicaAnimalInstance:ficha]
     }
     def fichaPlanta(){
         def esp = Especie.get(params.id)
@@ -76,7 +76,7 @@ class EspecieController {
             if(!ficha.save(flush: true))
                 println "errors "+ficha.errors
         }
-        [ficha:ficha]
+        [fichaTecnicaPlantaInstance:ficha]
     }
 
     def getList(params, all) {
