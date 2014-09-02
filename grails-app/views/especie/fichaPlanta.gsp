@@ -190,7 +190,7 @@
             Forma de vida
         </label>
         <div class="col-md-7">
-            <g:select id="forma1" name="forma1.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma1?.id}" class="many-to-one form-control"/>
+            <g:select id="forma1" name="forma1.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma1?.id}" optionValue="descripcion"  class="many-to-one form-control"/>
         </div>
         *
     </span>
@@ -202,7 +202,7 @@
             Forma de vida 2
         </label>
         <div class="col-md-7">
-            <g:select id="forma2" name="forma2.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma2?.id}" class="many-to-one form-control"/>
+            <g:select id="forma2" name="forma2.id" from="${ikiam.FormaDeVida.list()}" optionKey="id" required="" value="${fichaTecnicaPlantaInstance?.forma2?.id}"  optionValue="descripcion"  class="many-to-one form-control"/>
         </div>
         *
     </span>
