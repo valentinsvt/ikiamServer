@@ -7,25 +7,27 @@ class EstadoDeConservacionController {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def index() {
-        redirect(action: "list", params: params)
+        redirect(action:"list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if (all) {
+        if(all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if (params.search) {
+        if(params.search) {
             def c = EstadoDeConservacion.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-
-                    ilike("descripcion", "%" + params.search + "%")
+                    
+                    ilike("codigo", "%" + params.search + "%")  
+                    ilike("color", "%" + params.search + "%")  
+                    ilike("descripcion", "%" + params.search + "%")  
                 }
             }
         } else {
@@ -45,9 +47,9 @@ class EstadoDeConservacionController {
     }
 
     def show_ajax() {
-        if (params.id) {
+        if(params.id) {
             def estadoDeConservacionInstance = EstadoDeConservacion.get(params.id)
-            if (!estadoDeConservacionInstance) {
+            if(!estadoDeConservacionInstance) {
                 render "ERROR*No se encontró EstadoDeConservacion."
                 return
             }
@@ -59,9 +61,9 @@ class EstadoDeConservacionController {
 
     def form_ajax() {
         def estadoDeConservacionInstance = new EstadoDeConservacion()
-        if (params.id) {
+        if(params.id) {
             estadoDeConservacionInstance = EstadoDeConservacion.get(params.id)
-            if (!estadoDeConservacionInstance) {
+            if(!estadoDeConservacionInstance) {
                 render "ERROR*No se encontró EstadoDeConservacion."
                 return
             }
@@ -72,15 +74,15 @@ class EstadoDeConservacionController {
 
     def save_ajax() {
         def estadoDeConservacionInstance = new EstadoDeConservacion()
-        if (params.id) {
+        if(params.id) {
             estadoDeConservacionInstance = EstadoDeConservacion.get(params.id)
-            if (!estadoDeConservacionInstance) {
+            if(!estadoDeConservacionInstance) {
                 render "ERROR*No se encontró EstadoDeConservacion."
                 return
             }
         }
         estadoDeConservacionInstance.properties = params
-        if (!estadoDeConservacionInstance.save(flush: true)) {
+        if(!estadoDeConservacionInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar EstadoDeConservacion: " + renderErrors(bean: estadoDeConservacionInstance)
             return
         }
@@ -89,7 +91,7 @@ class EstadoDeConservacionController {
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if (params.id) {
+        if(params.id) {
             def estadoDeConservacionInstance = EstadoDeConservacion.get(params.id)
             if (!estadoDeConservacionInstance) {
                 render "ERROR*No se encontró EstadoDeConservacion."
@@ -108,5 +110,22 @@ class EstadoDeConservacionController {
             return
         }
     } //delete para eliminar via ajax
-
+    
+    def validar_unique_codigo_ajax() {
+        params.codigo = params.codigo.toString().trim()
+        if (params.id) {
+            def obj = EstadoDeConservacion.get(params.id)
+            if (obj.codigo.toLowerCase() == params.codigo.toLowerCase()) {
+                render true
+                return
+            } else {
+                render EstadoDeConservacion.countByCodigoIlike(params.codigo) == 0
+                return
+            }
+        } else {
+            render EstadoDeConservacion.countByCodigoIlike(params.codigo) == 0
+            return
+        }
+    }
+        
 }

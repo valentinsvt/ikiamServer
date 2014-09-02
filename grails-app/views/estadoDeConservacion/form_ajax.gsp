@@ -22,6 +22,30 @@
             </span>
         </div>
         
+        <div class="form-group keeptogether ${hasErrors(bean: estadoDeConservacionInstance, field: 'codigo', 'error')} required">
+            <span class="grupo">
+                <label for="codigo" class="col-md-2 control-label text-info">
+                    Codigo
+                </label>
+                <div class="col-md-6">
+                    <g:textField name="codigo" maxlength="2" required="" class="form-control required unique" value="${estadoDeConservacionInstance?.codigo}"/>
+                </div>
+                 *
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: estadoDeConservacionInstance, field: 'color', 'error')} required">
+            <span class="grupo">
+                <label for="color" class="col-md-2 control-label text-info">
+                    Color
+                </label>
+                <div class="col-md-6">
+                    <g:textField name="color" maxlength="10" required="" class="form-control required" value="${estadoDeConservacionInstance?.color}"/>
+                </div>
+                 *
+            </span>
+        </div>
+        
     </g:form>
     
 
@@ -38,6 +62,27 @@
             },
             success        : function (label) {
                 label.parents(".grupo").removeClass('has-error');
+            }
+            
+            , rules          : {
+                
+                codigo: {
+                    remote: {
+                        url: "${createLink(action: 'validar_unique_codigo_ajax')}",
+                        type: "post",
+                        data: {
+                            id: "${estadoDeConservacionInstance?.id}"
+                        }
+                    }
+                }
+                
+            },
+            messages : {
+                
+                codigo: {
+                    remote: "Ya existe Codigo"
+                }
+                
             }
             
         });

@@ -35,6 +35,10 @@
                     
                     <g:sortableColumn property="descripcion" title="Descripcion" />
                     
+                    <g:sortableColumn property="codigo" title="Codigo" />
+                    
+                    <g:sortableColumn property="color" title="Color" />
+                    
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +48,18 @@
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${estadoDeConservacionInstance.descripcion?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
+                        
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${estadoDeConservacionInstance.codigo?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
+                        
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${estadoDeConservacionInstance.color?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
                         
