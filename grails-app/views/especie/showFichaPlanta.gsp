@@ -134,11 +134,11 @@
     </div>
 </div>
 <h2 style="margin-top: 20px" >Fenología</h2>
-<div class="row" style="margin-left: 20px">
+<div class="row" style="margin-left: 0px">
     ${ficha.fenologia}
 </div>
 <h2 style="margin-top: 20px" >Requerimientos edáficos</h2>
-<div class="row" style="margin-left: 20px">
+<div class="row" style="margin-left: 0px">
     ${ficha.edaficos}
 </div>
 </body>
