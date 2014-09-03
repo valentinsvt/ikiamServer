@@ -7,27 +7,31 @@ class FichaTecnicaAnimalController {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def index() {
-        redirect(action: "list", params: params)
+        redirect(action:"list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if (all) {
+        if(all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if (params.search) {
+        if(params.search) {
             def c = FichaTecnicaAnimal.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-
-                    ilike("alimentacion", "%" + params.search + "%")
-                    ilike("comportamiento", "%" + params.search + "%")
-                    ilike("social", "%" + params.search + "%")
+                    
+                    ilike("alimentacion", "%" + params.search + "%")  
+                    ilike("comportamiento", "%" + params.search + "%")  
+                    ilike("conservacion", "%" + params.search + "%")  
+                    ilike("etimologia", "%" + params.search + "%")  
+                    ilike("habitat", "%" + params.search + "%")  
+                    ilike("social", "%" + params.search + "%")  
+                    ilike("taxonomia", "%" + params.search + "%")  
                 }
             }
         } else {
@@ -47,9 +51,9 @@ class FichaTecnicaAnimalController {
     }
 
     def show_ajax() {
-        if (params.id) {
+        if(params.id) {
             def fichaTecnicaAnimalInstance = FichaTecnicaAnimal.get(params.id)
-            if (!fichaTecnicaAnimalInstance) {
+            if(!fichaTecnicaAnimalInstance) {
                 render "ERROR*No se encontró FichaTecnicaAnimal."
                 return
             }
@@ -61,9 +65,9 @@ class FichaTecnicaAnimalController {
 
     def form_ajax() {
         def fichaTecnicaAnimalInstance = new FichaTecnicaAnimal()
-        if (params.id) {
+        if(params.id) {
             fichaTecnicaAnimalInstance = FichaTecnicaAnimal.get(params.id)
-            if (!fichaTecnicaAnimalInstance) {
+            if(!fichaTecnicaAnimalInstance) {
                 render "ERROR*No se encontró FichaTecnicaAnimal."
                 return
             }
@@ -74,25 +78,24 @@ class FichaTecnicaAnimalController {
 
     def save_ajax() {
         def fichaTecnicaAnimalInstance = new FichaTecnicaAnimal()
-        if (params.id) {
+        if(params.id) {
             fichaTecnicaAnimalInstance = FichaTecnicaAnimal.get(params.id)
-            if (!fichaTecnicaAnimalInstance) {
+            if(!fichaTecnicaAnimalInstance) {
                 render "ERROR*No se encontró FichaTecnicaAnimal."
                 return
             }
         }
-
         fichaTecnicaAnimalInstance.properties = params
-        if (!fichaTecnicaAnimalInstance.save(flush: true)) {
+        if(!fichaTecnicaAnimalInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar FichaTecnicaAnimal: " + renderErrors(bean: fichaTecnicaAnimalInstance)
             return
         }
-        redirect(controller: 'especie',action: 'fichaAnimal',id: fichaTecnicaAnimalInstance.especie.id)
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de FichaTecnicaAnimal exitosa."
         return
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if (params.id) {
+        if(params.id) {
             def fichaTecnicaAnimalInstance = FichaTecnicaAnimal.get(params.id)
             if (!fichaTecnicaAnimalInstance) {
                 render "ERROR*No se encontró FichaTecnicaAnimal."
@@ -111,5 +114,5 @@ class FichaTecnicaAnimalController {
             return
         }
     } //delete para eliminar via ajax
-
+    
 }

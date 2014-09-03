@@ -74,7 +74,7 @@
         Longevidad :
     </div>
     <div class="col-md-5">
-        ${ficha.longevidad} Años, en cautiverio: ${ficha.longevidadCautiverio}
+        ${ficha.longevidad} años, en cautiverio: ${ficha.longevidadCautiverio} años
     </div>
 </div>
 <div class="row">

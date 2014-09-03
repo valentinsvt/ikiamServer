@@ -35,15 +35,15 @@
                     
                     <g:sortableColumn property="alimentacion" title="Alimentacion" />
                     
+                    <g:sortableColumn property="social" title="Social" />
+                    
                     <g:sortableColumn property="comportamiento" title="Comportamiento" />
                     
-                    <th>Especie</th>
+                    <g:sortableColumn property="etimologia" title="Etimologia" />
                     
-                    <g:sortableColumn property="longevidad" title="Longevidad" />
+                    <g:sortableColumn property="conservacion" title="Conservacion" />
                     
-                    <g:sortableColumn property="longevidadCautiverio" title="Longevidad Cautiverio" />
-                    
-                    <g:sortableColumn property="pesoMax" title="Peso Max" />
+                    <g:sortableColumn property="habitat" title="Habitat" />
                     
                 </tr>
             </thead>
@@ -59,24 +59,32 @@
                         
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
+                                ${fichaTecnicaAnimalInstance.social?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
+                        
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
                                 ${fichaTecnicaAnimalInstance.comportamiento?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
                         
                         <td>
-                            ${fichaTecnicaAnimalInstance.especie}
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${fichaTecnicaAnimalInstance.etimologia?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
                         </td>
                         
                         <td>
-                            ${fichaTecnicaAnimalInstance.longevidad}
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${fichaTecnicaAnimalInstance.conservacion?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
                         </td>
                         
                         <td>
-                            ${fichaTecnicaAnimalInstance.longevidadCautiverio}
-                        </td>
-                        
-                        <td>
-                            ${fichaTecnicaAnimalInstance.pesoMax}
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${fichaTecnicaAnimalInstance.habitat?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
                         </td>
                         
                     </tr>

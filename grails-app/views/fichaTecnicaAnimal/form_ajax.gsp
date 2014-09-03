@@ -12,25 +12,133 @@
         <g:hiddenField name="id" value="${fichaTecnicaAnimalInstance?.id}" />
 
         
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alimentacion', 'error')} required">
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alimentacion', 'error')} ">
             <span class="grupo">
                 <label for="alimentacion" class="col-md-2 control-label text-info">
                     Alimentacion
                 </label>
                 <div class="col-md-7">
-                    <g:textField name="alimentacion" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.alimentacion}"/>
+                    <g:textField name="alimentacion" class="form-control" value="${fichaTecnicaAnimalInstance?.alimentacion}"/>
                 </div>
-                 *
+                
             </span>
         </div>
         
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'comportamiento', 'error')} required">
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'social', 'error')} ">
+            <span class="grupo">
+                <label for="social" class="col-md-2 control-label text-info">
+                    Social
+                </label>
+                <div class="col-md-7">
+                    <g:textField name="social" class="form-control" value="${fichaTecnicaAnimalInstance?.social}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'comportamiento', 'error')} ">
             <span class="grupo">
                 <label for="comportamiento" class="col-md-2 control-label text-info">
                     Comportamiento
                 </label>
                 <div class="col-md-7">
-                    <g:textField name="comportamiento" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.comportamiento}"/>
+                    <g:textField name="comportamiento" class="form-control" value="${fichaTecnicaAnimalInstance?.comportamiento}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'etimologia', 'error')} ">
+            <span class="grupo">
+                <label for="etimologia" class="col-md-2 control-label text-info">
+                    Etimologia
+                </label>
+                <div class="col-md-7">
+                    <g:textField name="etimologia" class="form-control" value="${fichaTecnicaAnimalInstance?.etimologia}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'conservacion', 'error')} ">
+            <span class="grupo">
+                <label for="conservacion" class="col-md-2 control-label text-info">
+                    Conservacion
+                </label>
+                <div class="col-md-7">
+                    <g:textField name="conservacion" class="form-control" value="${fichaTecnicaAnimalInstance?.conservacion}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'habitat', 'error')} ">
+            <span class="grupo">
+                <label for="habitat" class="col-md-2 control-label text-info">
+                    Habitat
+                </label>
+                <div class="col-md-7">
+                    <g:textField name="habitat" class="form-control" value="${fichaTecnicaAnimalInstance?.habitat}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'taxonomia', 'error')} ">
+            <span class="grupo">
+                <label for="taxonomia" class="col-md-2 control-label text-info">
+                    Taxonomia
+                </label>
+                <div class="col-md-7">
+                    <g:textField name="taxonomia" class="form-control" value="${fichaTecnicaAnimalInstance?.taxonomia}"/>
+                </div>
+                
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alturaMin', 'error')} required">
+            <span class="grupo">
+                <label for="alturaMin" class="col-md-2 control-label text-info">
+                    Altura Min
+                </label>
+                <div class="col-md-3">
+                    <g:field name="alturaMin" type="number" value="${fieldValue(bean: fichaTecnicaAnimalInstance, field: 'alturaMin')}" class="number form-control  required" required=""/>
+                </div>
+                 *
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'alturaMax', 'error')} required">
+            <span class="grupo">
+                <label for="alturaMax" class="col-md-2 control-label text-info">
+                    Altura Max
+                </label>
+                <div class="col-md-3">
+                    <g:field name="alturaMax" type="number" value="${fieldValue(bean: fichaTecnicaAnimalInstance, field: 'alturaMax')}" class="number form-control  required" required=""/>
+                </div>
+                 *
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'temperaturaMax', 'error')} required">
+            <span class="grupo">
+                <label for="temperaturaMax" class="col-md-2 control-label text-info">
+                    Temperatura Max
+                </label>
+                <div class="col-md-3">
+                    <g:field name="temperaturaMax" type="number" value="${fieldValue(bean: fichaTecnicaAnimalInstance, field: 'temperaturaMax')}" class="number form-control  required" required=""/>
+                </div>
+                 *
+            </span>
+        </div>
+        
+        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'temperaturaMin', 'error')} required">
+            <span class="grupo">
+                <label for="temperaturaMin" class="col-md-2 control-label text-info">
+                    Temperatura Min
+                </label>
+                <div class="col-md-3">
+                    <g:field name="temperaturaMin" type="number" value="${fieldValue(bean: fichaTecnicaAnimalInstance, field: 'temperaturaMin')}" class="number form-control  required" required=""/>
                 </div>
                  *
             </span>
@@ -91,18 +199,6 @@
                 </label>
                 <div class="col-md-3">
                     <g:field name="pesoMin" type="number" value="${fieldValue(bean: fichaTecnicaAnimalInstance, field: 'pesoMin')}" class="number form-control  required" required=""/>
-                </div>
-                 *
-            </span>
-        </div>
-        
-        <div class="form-group keeptogether ${hasErrors(bean: fichaTecnicaAnimalInstance, field: 'social', 'error')} required">
-            <span class="grupo">
-                <label for="social" class="col-md-2 control-label text-info">
-                    Social
-                </label>
-                <div class="col-md-7">
-                    <g:textField name="social" required="" class="form-control required" value="${fichaTecnicaAnimalInstance?.social}"/>
                 </div>
                  *
             </span>
