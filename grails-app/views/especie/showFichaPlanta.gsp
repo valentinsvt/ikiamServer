@@ -39,7 +39,7 @@
     <div class="col-md-2 col-xs-4 bold">Estado:</div>
     <div class="col-md-3 col-xs-8">
         ${especie.estado?.descripcion}
-        <div style="width: 30px;height: 30px;line-height:30px;padding-left:6px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px" class="ui-corner-all">${especie.estado?.codigo}</div>
+        <div style="width: 30px;height: 30px;line-height:30px;padding-left:6px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px" class="ui-corner-all bold">${especie.estado?.codigo}</div>
     </div>
 </div>
 <div class="row">

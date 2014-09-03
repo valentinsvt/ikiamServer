@@ -19,6 +19,9 @@
         font-size: 16px;
         display: inline-block;
     }
+    .bold{
+        font-weight: bold;
+    }
     .descripcion_larga{
         width: 100%;
         font-size: 13px;
@@ -53,7 +56,7 @@
             <div class="labelSvt">Estado:</div>
             <div class="col-md-6">
                 ${especie.estado?.descripcion}
-                <div class="ui-corner-all" style="width: 30px;height: 30px;line-height:30px;padding-left:6px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px">${especie.estado?.codigo}</div>
+                <div class="ui-corner-all bold" style="width: 30px;height: 30px;line-height:30px;padding-left:6px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px">${especie.estado?.codigo}</div>
             </div>
         </div>
     </div>
