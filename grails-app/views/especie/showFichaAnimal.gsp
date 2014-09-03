@@ -68,15 +68,6 @@
         ${ficha.social}
     </div>
 </div>
-<h2 style="margin-top: 20px" >Hábitat</h2>
-<div class="row">
-    <div class="col-md-2 bold" >
-        Longevidad :
-    </div>
-    <div class="col-md-5">
-        ${ficha.longevidad} años, en cautiverio: ${ficha.longevidadCautiverio} años
-    </div>
-</div>
 <div class="row">
     <div class="col-md-2 bold" >
         Peso :
@@ -93,6 +84,53 @@
         ${ficha.tallaMin.round(2)} - ${ficha.tallaMax.round(2)} Centímetros
     </div>
 </div>
-
+<h2 style="margin-top: 20px" >Hábitat</h2>
+<div class="row">
+    <div class="col-md-12">
+        ${ficha.habitat}
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Altitud :
+    </div>
+    <div class="col-md-5">
+        ${ficha.alturaMin.round(2)} - ${ficha.alturaMax.round(2)} Metros
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Temperatura :
+    </div>
+    <div class="col-md-5">
+        ${ficha.temperaturaMin.round(2)} - ${ficha.temperaturaMax.round(2)} Grados centigrados
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Longevidad :
+    </div>
+    <div class="col-md-5">
+        ${ficha.longevidad} años, en cautiverio: ${ficha.longevidadCautiverio} años
+    </div>
+</div>
+<h2 style="margin-top: 20px" >Conservación</h2>
+<div class="row">
+    <div class="col-md-12">
+        ${ficha.conservacion}
+    </div>
+</div>
+<h2 style="margin-top: 20px" >Taxonomía</h2>
+<div class="row">
+    <div class="col-md-12">
+        ${ficha.taxonomia}
+    </div>
+</div>
+<h2 style="margin-top: 20px" >Etimología</h2>
+<div class="row">
+    <div class="col-md-12">
+        ${ficha.etimologia}
+    </div>
+</div>
 </body>
 </html>
