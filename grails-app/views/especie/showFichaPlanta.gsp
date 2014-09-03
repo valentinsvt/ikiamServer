@@ -37,11 +37,11 @@
 </div>
 <div class="row" >
     <div class="col-md-2 bold">Estado:</div>
-    <div class="col-md-5">${especie.estado?.descripcion}</div>
+    <div class="col-md-3">${especie.estado?.descripcion}</div>
     <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''}">${especie.estado?.codigo}</div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" style="margin-left: 20px">
+    <div class="col-md-2 bold" >
         Tronco:
     </div>
     <div class="col-md-5">
@@ -49,7 +49,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" style="margin-left: 20px">
+    <div class="col-md-2 bold" >
         Hoja:
     </div>
     <div class="col-md-5">
@@ -57,7 +57,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" style="margin-left: 20px">
+    <div class="col-md-2 bold" >
         Flor:
     </div>
     <div class="col-md-5">
@@ -65,7 +65,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" style="margin-left: 20px">
+    <div class="col-md-2 bold" >
         Fruto:
     </div>
     <div class="col-md-5">
@@ -73,7 +73,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" style="margin-left: 20px">
+    <div class="col-md-2 bold" >
         Semilla:
     </div>
     <div class="col-md-5">
