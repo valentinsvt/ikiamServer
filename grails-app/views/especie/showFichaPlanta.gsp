@@ -83,7 +83,31 @@
         ${ficha.semilla}
     </div>
 </div>
-<div class="row"></div>
+<h2 style="margin-top: 10px">Hábitat</h2>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Altitud :
+    </div>
+    <div class="col-md-5">
+        ${ficha.alturaMin.round(2)} - ${ficha.alturaMax.round(2)} Metros
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Temperatura :
+    </div>
+    <div class="col-md-5">
+        ${ficha.temperaturaMin.round(2)} - ${ficha.temperaturaMax.round(2)} Grados centigrados
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Precpitación :
+    </div>
+    <div class="col-md-5">
+        ${ficha.precipitacionMin.round(2)} - ${ficha.precipitacionMax.round(2)} 
+    </div>
+</div>
 <div class="row"></div>
 <div class="row"></div>
 <div class="row"></div>
