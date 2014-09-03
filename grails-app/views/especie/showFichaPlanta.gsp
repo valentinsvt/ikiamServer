@@ -19,43 +19,43 @@
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 
 <div class="row" style="margin-top: 30px">
-    <div class="col-md-2 col-xs-3  bold">Familia:</div>
-    <div class="col-md-5 col-xs-9">${especie.genero.familia.nombre}</div>
+    <div class="col-md-2 col-xs-4  bold">Familia:</div>
+    <div class="col-md-5 col-xs-8">${especie.genero.familia.nombre}</div>
 </div>
 <div class="row" >
-    <div class="col-md-2  col-xs-3 bold">Género:</div>
-    <div class="col-md-5 col-xs-9">${especie.genero.nombre}</div>
+    <div class="col-md-2  col-xs-4 bold">Género:</div>
+    <div class="col-md-5 col-xs-8">${especie.genero.nombre}</div>
 </div>
 <div class="row" >
-    <div class="col-md-2 bold">Especie:</div>
-    <div class="col-md-5">${especie.nombre}</div>
+    <div class="col-md-2 col-xs-4 bold">Especie:</div>
+    <div class="col-md-5 col-xs-8">${especie.nombre}</div>
 </div>
 
 <div class="row" >
-    <div class="col-md-2 bold">N. común:</div>
-    <div class="col-md-5">${especie.nombreComun}</div>
+    <div class="col-md-2 col-xs-4 bold">N. común:</div>
+    <div class="col-md-5 col-xs-8">${especie.nombreComun}</div>
 </div>
 <div class="row" >
-    <div class="col-md-2 bold">Estado:</div>
-    <div class="col-md-3">
+    <div class="col-md-2 col-xs-4 bold">Estado:</div>
+    <div class="col-md-3 col-xs-8">
         ${especie.estado?.descripcion}
         <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px">${especie.estado?.codigo}</div>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2 bold" >
+    <div class="col-md-2 bold col-xs-4" >
         Forma de vida:
     </div>
-    <div class="col-md-5">
+    <div class="col-md-5 col-xs-8">
         ${ficha.forma1?.descripcion}
     </div>
 </div>
 <g:if test="${ficha.forma2}">
     <div class="row">
-        <div class="col-md-2 bold" >
+        <div class="col-md-2 bold col-xs-4" >
             Forma de vida 2:
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 col-xs-8">
             ${ficha.forma2?.descripcion}
         </div>
     </div>
