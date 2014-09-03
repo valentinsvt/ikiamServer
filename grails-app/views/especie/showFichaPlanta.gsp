@@ -41,8 +41,25 @@
         ${especie.estado?.descripcion}
         <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px">${especie.estado?.codigo}</div>
     </div>
-
 </div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Forma de vida:
+    </div>
+    <div class="col-md-5">
+        ${ficha.forma1?.descripcion}
+    </div>
+</div>
+<g:if test="${ficha.forma2}">
+    <div class="row">
+        <div class="col-md-2 bold" >
+            Forma de vida 2:
+        </div>
+        <div class="col-md-5">
+            ${ficha.forma2?.descripcion}
+        </div>
+    </div>
+</g:if>
 <div class="row">
     <div class="col-md-2 bold" >
         Tronco:
@@ -83,7 +100,7 @@
         ${ficha.semilla}
     </div>
 </div>
-<h2 style="margin-top: 10px">Hábitat</h2>
+<h2 style="margin-top: 20px" >Hábitat</h2>
 <div class="row">
     <div class="col-md-2 bold" >
         Altitud :
@@ -105,11 +122,24 @@
         Precpitación :
     </div>
     <div class="col-md-5">
-        ${ficha.precipitacionMin.round(2)} - ${ficha.precipitacionMax.round(2)} 
+        ${ficha.precipitacionMin.round(2)} - ${ficha.precipitacionMax.round(2)} Centímetros cúbicos
     </div>
 </div>
-<div class="row"></div>
-<div class="row"></div>
-<div class="row"></div>
+<div class="row">
+    <div class="col-md-2 bold" >
+        Factores limitantes de crecimiento :
+    </div>
+    <div class="col-md-5">
+        ${ficha.factoresLimitantesCrecimiento}
+    </div>
+</div>
+<h2 style="margin-top: 20px" >Fenología</h2>
+<div class="row">
+    ${ficha.fenologia}
+</div>
+<h2 style="margin-top: 20px" >Requerimientos edáficos</h2>
+<div class="row">
+    ${ficha.edaficos}
+</div>
 </body>
 </html>
