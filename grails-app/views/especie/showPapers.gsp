@@ -53,7 +53,7 @@
     </tbody>
 </table>
 
-<elm:pagination total="${paperInstanceCount}" params="${params}"/>
+
 
 <script type="text/javascript">
 
