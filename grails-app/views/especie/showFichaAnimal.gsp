@@ -56,7 +56,7 @@
     <div class="col-md-2 bold" >
         Comportamiento:
     </div>
-    <div class="col-md-5">
+    <div class="col-md-10">
         ${ficha.comportamiento}
     </div>
 </div>

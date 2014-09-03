@@ -63,7 +63,7 @@ class EspecieController {
         else{
             def fichaAnimal = FichaTecnicaAnimal.findByEspecie(esp)
             if(fichaAnimal)
-                redirect(action: "showFichaAnimal",id:fichaAnimal.id)
+                redirect(action: "showFichaAnimal",id:fichaAnimal?.id)
             else
                 redirect(action: "show",params: ["nombre":esp.nombre])
         }
