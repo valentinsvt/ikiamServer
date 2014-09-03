@@ -85,6 +85,7 @@ class UploadCapturaController {
         entry.fecha = fecha
         entry.observaciones = params.comentarios.trim()
         entry.usuario = usuario
+        entry.cautiverio = (params.cautiverio == "1" ? "S" : "N")
         if (!entry.save(flush: true)) {
             println "Error entry: " + entry.errors
         }
