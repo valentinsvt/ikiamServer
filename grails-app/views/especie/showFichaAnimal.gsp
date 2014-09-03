@@ -127,7 +127,7 @@
     </div>
 </div>
 <h2 style="margin-top: 20px" >Etimología</h2>
-<div class="row">
+<div class="row" style="margin-bottom: 20px">
     <div class="col-md-12">
         ${ficha.etimologia}
     </div>
