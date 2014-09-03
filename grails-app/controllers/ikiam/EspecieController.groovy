@@ -55,6 +55,30 @@ class EspecieController {
         render datos
     }
 
+    def showFicha(){
+        def esp = Especie.get(params.id)
+        def fichaplanta = FichaTecnicaPlanta.findByEspecie(esp)
+        if(fichaplanta)
+        redirect(action: "showFichaPlanta",id:fichaplanta.id)
+        else{
+            def fichaAnimal = FichaTecnicaAnimal.findByEspecie(esp)
+            if(fichaAnimal)
+                redirect(action: "showFichaAnimal",id:fichaAnimal.id)
+            else
+                redirect(action: "show",params: ["nombre":esp.nombre])
+        }
+    }
+
+    def showFichaPlanta(){
+        def ficha = FichaTecnicaPlanta.get(params.id)
+        [ficha:ficha,especie: ficha.especie]
+    }
+
+    def showFichaAnimal(){
+        def ficha = FichaTecnicaAnimal.get(params.id)
+        [ficha:ficha,especie: ficha.especie]
+    }
+
 
     def fichaAnimal(){
         def esp = Especie.get(params.id)
