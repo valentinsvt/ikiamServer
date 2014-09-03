@@ -34,6 +34,18 @@
             </span>
         </div>
         
+        <div class="form-group keeptogether ${hasErrors(bean: paperInstance, field: 'autor', 'error')} required">
+            <span class="grupo">
+                <label for="autor" class="col-md-2 control-label text-info">
+                    Autor
+                </label>
+                <div class="col-md-6">
+                    <g:textField name="autor" maxlength="150" required="" class="form-control required" value="${paperInstance?.autor}"/>
+                </div>
+                 *
+            </span>
+        </div>
+        
         <div class="form-group keeptogether ${hasErrors(bean: paperInstance, field: 'especie', 'error')} required">
             <span class="grupo">
                 <label for="especie" class="col-md-2 control-label text-info">

@@ -7,26 +7,27 @@ class PaperController {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def index() {
-        redirect(action: "list", params: params)
+        redirect(action:"list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if (all) {
+        if(all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if (params.search) {
+        if(params.search) {
             def c = Paper.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-
-                    ilike("path", "%" + params.search + "%")
-                    ilike("titulo", "%" + params.search + "%")
+                    
+                    ilike("autor", "%" + params.search + "%")  
+                    ilike("path", "%" + params.search + "%")  
+                    ilike("titulo", "%" + params.search + "%")  
                 }
             }
         } else {
@@ -46,9 +47,9 @@ class PaperController {
     }
 
     def show_ajax() {
-        if (params.id) {
+        if(params.id) {
             def paperInstance = Paper.get(params.id)
-            if (!paperInstance) {
+            if(!paperInstance) {
                 render "ERROR*No se encontró Paper."
                 return
             }
@@ -60,9 +61,9 @@ class PaperController {
 
     def form_ajax() {
         def paperInstance = new Paper()
-        if (params.id) {
+        if(params.id) {
             paperInstance = Paper.get(params.id)
-            if (!paperInstance) {
+            if(!paperInstance) {
                 render "ERROR*No se encontró Paper."
                 return
             }
@@ -73,15 +74,15 @@ class PaperController {
 
     def save_ajax() {
         def paperInstance = new Paper()
-        if (params.id) {
+        if(params.id) {
             paperInstance = Paper.get(params.id)
-            if (!paperInstance) {
+            if(!paperInstance) {
                 render "ERROR*No se encontró Paper."
                 return
             }
         }
         paperInstance.properties = params
-        if (!paperInstance.save(flush: true)) {
+        if(!paperInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar Paper: " + renderErrors(bean: paperInstance)
             return
         }
@@ -90,7 +91,7 @@ class PaperController {
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if (params.id) {
+        if(params.id) {
             def paperInstance = Paper.get(params.id)
             if (!paperInstance) {
                 render "ERROR*No se encontró Paper."
@@ -109,5 +110,5 @@ class PaperController {
             return
         }
     } //delete para eliminar via ajax
-
+    
 }

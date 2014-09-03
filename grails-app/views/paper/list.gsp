@@ -37,6 +37,8 @@
                     
                     <g:sortableColumn property="path" title="Path" />
                     
+                    <g:sortableColumn property="autor" title="Autor" />
+                    
                     <th>Especie</th>
                     
                     <g:sortableColumn property="fecha" title="Fecha" />
@@ -56,6 +58,12 @@
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${paperInstance.path?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
+                        
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${paperInstance.autor?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
                         

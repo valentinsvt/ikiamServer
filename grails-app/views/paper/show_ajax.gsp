@@ -32,6 +32,19 @@
         </div>
     </g:if>
     
+    <g:if test="${paperInstance?.autor}">
+        <div class="row">
+            <div class="col-md-2 text-info">
+                Autor
+            </div>
+            
+            <div class="col-md-3">
+                <g:fieldValue bean="${paperInstance}" field="autor"/>
+            </div>
+            
+        </div>
+    </g:if>
+    
     <g:if test="${paperInstance?.especie}">
         <div class="row">
             <div class="col-md-2 text-info">
