@@ -69,6 +69,13 @@ class EspecieController {
         }
     }
 
+    def showPapers(){
+        def esp = Especie.get(params.id)
+        def papers= Paper.findAllByEspecie(esp)
+        [papers:papers,especie: esp]
+    }
+
+
     def showFichaPlanta(){
         def ficha = FichaTecnicaPlanta.get(params.id)
         [ficha:ficha,especie: ficha.especie]
