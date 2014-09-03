@@ -68,22 +68,6 @@
         ${ficha.social}
     </div>
 </div>
-<div class="row">
-    <div class="col-md-2 bold" >
-        Fruto:
-    </div>
-    <div class="col-md-5">
-        ${ficha.fruto}
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-2 bold" >
-        Semilla:
-    </div>
-    <div class="col-md-5">
-        ${ficha.semilla}
-    </div>
-</div>
 <h2 style="margin-top: 20px" >Hábitat</h2>
 <div class="row">
     <div class="col-md-2 bold" >
