@@ -11,6 +11,7 @@
         font-weight: bold;
     }
     </style>
+    <link href="${resource(dir: 'css', file: 'CustomSvt.css')}" rel="stylesheet"/>
 </head>
 <body>
 
