@@ -3,7 +3,7 @@
 <head>
     <meta name="layout" content="main">
     <title>
-        Ficha técnica: ${ficha.especie.genero.nombre} ${ficha.especie.nombre}
+        Ficha técnica
     </title>
 
     <link href="${resource(dir: 'css', file: 'CustomSvt.css')}" rel="stylesheet"/>
@@ -19,12 +19,12 @@
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 
 <div class="row" style="margin-top: 30px">
-    <div class="col-md-2 bold">Familia:</div>
-    <div class="col-md-5">${especie.genero.familia.nombre}</div>
+    <div class="col-md-2 col-xs-3  bold">Familia:</div>
+    <div class="col-md-5 col-xs-9">${especie.genero.familia.nombre}</div>
 </div>
 <div class="row" >
-    <div class="col-md-2 bold">Género:</div>
-    <div class="col-md-5">${especie.genero.nombre}</div>
+    <div class="col-md-2  col-xs-3 bold">Género:</div>
+    <div class="col-md-5 col-xs-9">${especie.genero.nombre}</div>
 </div>
 <div class="row" >
     <div class="col-md-2 bold">Especie:</div>
@@ -138,7 +138,7 @@
     ${ficha.fenologia}
 </div>
 <h2 style="margin-top: 20px" >Requerimientos edáficos</h2>
-<div class="row" style="margin-left: 0px">
+<div class="row" style="margin-left: 0px;margin-bottom: 20px">
     ${ficha.edaficos}
 </div>
 </body>
