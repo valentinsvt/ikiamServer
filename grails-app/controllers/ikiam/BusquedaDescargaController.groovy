@@ -12,18 +12,19 @@ class BusquedaDescargaController {
             if (params.especie) {
                 ilike("nombre", "%" + params.especie.trim() + "%")
             }
-            if (params.genero || params.familia) {
-                genero {
-                    if (params.genero) {
-                        ilike("nombre", "%" + params.genero.trim() + "%")
-                        if (params.familia) {
-                            familia {
-                                ilike("nombre", "%" + params.familia.trim() + "%")
-                            }
-                        }
-                    }
+            genero {
+                if (params.genero) {
+                    ilike("nombre", "%" + params.genero.trim() + "%")
                 }
+                familia {
+                    if (params.familia) {
+                        ilike("nombre", "%" + params.familia.trim() + "%")
+                    }
+                    order("nombre", "asc")
+                }
+                order("nombre", "asc")
             }
+            order("nombre", "asc")
         }
 
         def str = ""
@@ -41,11 +42,11 @@ class BusquedaDescargaController {
                 str += ";-"
             }
             fotos.each { f ->
-                str += ";uploaded/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud
+                str += ";uploaded/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud + ";" + f.entry?.observaciones
 //                str += ";" + f.id;
             }
         }
-//        println "Retorna: " + str
+        println "Retorna: " + str
         render str
     }
 }
