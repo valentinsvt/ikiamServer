@@ -45,8 +45,8 @@
             <td>
                 <g:formatDate date="${paperInstance.fecha}" format="dd-MM-yyyy" />
             </td>
-            <td>
-                <a href="${g.resource(dir: 'papers',file: paperInstance.path)}" class="btn btn-azul">Descargar</a>
+            <td style="text-align: center">
+                <a href="${g.resource(dir: 'papers',file: paperInstance.path)}" class="btn btn-azul" target="_blank">Descargar</a>
             </td>
 
         </tr>
