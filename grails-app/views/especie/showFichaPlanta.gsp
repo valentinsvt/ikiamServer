@@ -60,6 +60,7 @@
         </div>
     </div>
 </g:if>
+<h2 style="margin-top: 20px" >Características</h2>
 <div class="row">
     <div class="col-md-2 bold" >
         Tronco:
