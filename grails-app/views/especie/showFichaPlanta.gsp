@@ -18,7 +18,7 @@
 
 <h1 style="margin-top: 10px"> ${especie.genero.nombre} ${especie.nombre}</h1>
 
-<div class="row" style="margin-top: 10px">
+<div class="row" style="margin-top: 30px">
     <div class="col-md-2 bold">Familia:</div>
     <div class="col-md-5">${especie.genero.familia.nombre}</div>
 </div>
@@ -37,8 +37,11 @@
 </div>
 <div class="row" >
     <div class="col-md-2 bold">Estado:</div>
-    <div class="col-md-3">${especie.estado?.descripcion}</div>
-    <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''}">${especie.estado?.codigo}</div>
+    <div class="col-md-3">
+        ${especie.estado?.descripcion}
+        <div style="width: 30px;height: 30px;line-height:30px;padding-left:5px;background: #${especie.estado?.color};display: inline-block;${(especie.estado?.color=='000000')?'color:red;':''};margin-left: 10px">${especie.estado?.codigo}</div>
+    </div>
+
 </div>
 <div class="row">
     <div class="col-md-2 bold" >
