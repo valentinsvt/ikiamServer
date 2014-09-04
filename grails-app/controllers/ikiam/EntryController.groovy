@@ -107,6 +107,7 @@ class EntryController {
         }
         foto.coordenada = coord
         foto.entry = entry
+        foto.especie = especie
         def keys = ["animal", "arbol", "corteza", "hoja", "flor", "fruta"]
         def keywords = ""
         keys.each { k ->
