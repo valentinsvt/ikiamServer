@@ -45,6 +45,7 @@
                     <th>Atraccion</th>
 
                     <th>Entry</th>
+                    <th>Especie</th>
 
                 </tr>
             </thead>
@@ -79,6 +80,10 @@
 
                         <td>
                             ${fotoInstance.entry}
+                        </td>
+
+                        <td>
+                            ${fotoInstance.especie}
                         </td>
 
                     </tr>

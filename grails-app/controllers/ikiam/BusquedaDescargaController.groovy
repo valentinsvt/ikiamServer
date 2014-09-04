@@ -31,7 +31,17 @@ class BusquedaDescargaController {
 //        def path = servletContext.getRealPath("/") + "uploaded/"
 
         especies.each { e ->
-            def fotos = Foto.findAllByEspecie(e, [max: 3])
+//            def fotos = Foto.findAllByEspecie(e, [max: 3])
+            def c = Foto.createCriteria()
+            def fotos = c.listDistinct() {
+                or {
+                    eq("especie", e)
+                    entry {
+                        eq("especie", e)
+                    }
+                }
+                maxResults(3)
+            }
             if (str != "") {
                 str += "&"
             }
