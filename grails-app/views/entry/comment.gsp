@@ -40,7 +40,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-xs-12">
-                    <g:each in="${entryInstance.fotos}" var="foto">
+                    <g:each in="${entryInstance.fotos}" var="foto" status="i">
                         <div class="thumbnail">
 
                             <a href="${resource(dir: 'uploaded', file: foto.path)}" class="image-popup-vertical-fit">
@@ -49,7 +49,7 @@
 
                             <div class="caption text-center">
                                 <span class="label label-info" style="margin-right: 15px;">
-                                    <i class="fa fa-thumbs-o-up"></i> ${foto.likes}
+                                    <i class="fa fa-thumbs-o-up"></i> <span id="spanLike${i}">${foto.likes}</span>
                                 </span>
 
                                 <a href="#" class="btn btn-primary" id="btnLike" role="button">
@@ -89,10 +89,16 @@
                                 id : "${entryInstance.id}"
                             },
                             success : function (msg) {
+                                console.log(msg);
                                 var parts = msg.split("*");
-                                log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+//                                log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
                                 if (parts[0] == "SUCCESS") {
-
+                                    parts = parts[1].split("_");
+                                    console.log(parts);
+                                    for (var i = 0; i < parts.length; i++) {
+                                        $("spanLike" + i).text(parts[i]);
+                                        console.log("spanLike" + i, $("spanLike" + i));
+                                    }
                                 } else {
                                     log(parts[1], "error");
                                 }

@@ -48,7 +48,32 @@ class EntryController {
     }
 
     def like_ajax() {
-
+        if (params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render "ERROR*No se encontró Entry"
+                return
+            }
+            def msg = ""
+            def ok = ""
+            def fotos = entryInstance.fotos
+            fotos.each { f ->
+                f.likes = f.likes ?: 0 + 1
+                if (!f.save(flush: true)) {
+                    msg += "<li>" + renderErrors(bean: f) + "</li>"
+                } else {
+                    ok += f.likes + "_"
+                }
+            }
+            if (msg != "") {
+                render "<ul>" + msg + "</ul>"
+                return
+            }
+            render "SUCCESS*" + ok
+            return
+        } else {
+            render "ERROR*No se encontró Entry"
+        }
     }
 
     def reportar_ajax() {
