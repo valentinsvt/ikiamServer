@@ -26,27 +26,27 @@ class UploadCapturaController {
         def alt = params.alt ? params.alt.toDouble() : 0
 
         if (params.color1) {
-            color1 = Color.findOrSaveByColor(params.color1.trim())
+            color1 = Color.findOrSaveByColor(params.color1?.trim())
         }
         if (params.color2) {
-            color2 = Color.findOrSaveByColor(params.color2.trim())
+            color2 = Color.findOrSaveByColor(params.color2?.trim())
         }
 
         if (params.familia) {
-            familia = Familia.findOrSaveByNombre(params.familia.trim())
-            genero = Genero.findOrSaveByNombreAndFamilia(params.genero.trim(), familia)
-            especie = Especie.findOrSaveByNombreAndGenero(params.especie.trim(), genero)
-            especie.nombreComun = params.comun.trim()
+            familia = Familia.findOrSaveByNombre(params.familia?.trim())
+            genero = Genero.findOrSaveByNombreAndFamilia(params.genero?.trim(), familia)
+            especie = Especie.findOrSaveByNombreAndGenero(params.especie?.trim(), genero)
+            especie.nombreComun = params.comun?.trim()
             especie.color1 = color1
             especie.color2 = color2
             especie.save(flush: true)
         }
 
-        def userId = params.userId.trim() //id (faceboook - fb id, ikiam db.id
-        def userName = params.userName.trim()
-        def userType = params.userType.trim() //facebook || ikiam
-        def userMail = params.userMail.trim()
-        def userCientifico = params.userCientifico.trim() //N || S
+        def userId = params.userId?.trim() //id (faceboook - fb id, ikiam db.id
+        def userName = params.userName?.trim()
+        def userType = params.userType?.trim() //facebook || ikiam
+        def userMail = params.userMail?.trim()
+        def userCientifico = params.userCientifico?.trim() //N || S
 
         if (userType == "facebook") {
             usuario = Usuario.findByFacebookId(userId)
@@ -83,7 +83,7 @@ class UploadCapturaController {
             entry.especie = especie
         }
         entry.fecha = fecha
-        entry.observaciones = params.comentarios.trim()
+        entry.observaciones = params.comentarios?.trim()
         entry.usuario = usuario
         entry.cautiverio = (params.cautiverio == "1" ? "S" : "N")
         if (!entry.save(flush: true)) {
