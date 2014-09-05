@@ -23,7 +23,7 @@ class SocialController {
         def data =""
         entrys.each {e->
             println "entry "+e.usuario.nombre+" "+e.id
-            def foto = Foto.findAllByEntry(e)
+            def foto = Foto.findByEntry(e)
             if(foto){
                 data+=""+e.observaciones+";"+foto.path+";"+foto.coordenada.latitud+";"+foto.coordenada.longitud+";"+e.usuario.nombre+" "+e.usuario.apellido+";"+e.usuario.titulo+";"+foto.likes+";"+e.id+"&";
             }
