@@ -15,6 +15,7 @@ class SocialController {
         println "usuario "+usuario
         if(usuario){
             entrys=Entry.findAllByUsuarioNotEqualAndEspecieIsNull(usuario)
+            println "wtf "+entrys
         }else{
             entrys=Entry.findAllByEspecieIsNull()
         }
