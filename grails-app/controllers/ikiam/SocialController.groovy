@@ -12,7 +12,7 @@ class SocialController {
                 usuario=Usuario.findByFacebookId(params.usuario)
         }
         def entrys
-        println "usuario "+usuario
+        println "usuario "+usuario+" "+usuario?.id
         if(usuario){
             entrys=Entry.findAll("from Entry  where usuario!=${usuario.id} and especie is null")
             println "wtf "+entrys
