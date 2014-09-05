@@ -26,6 +26,7 @@ class SocialController {
             def foto = Foto.findByEntry(e)
             if(foto){
                 println "foto "+foto+" "+foto.coordenada
+                println "obs "+e.observaciones
                 data+=""+e.observaciones+";"+foto.path+";"+foto.coordenada.latitud+";"+foto.coordenada.longitud+";"+e.usuario.nombre+" "+e.usuario.apellido+";"+e.usuario.titulo+";"+foto.likes+";"+e.id+"&";
             }
         }
