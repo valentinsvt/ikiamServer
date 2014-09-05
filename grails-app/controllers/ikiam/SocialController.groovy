@@ -12,11 +12,13 @@ class SocialController {
                 usuario=Usuario.findByFacebookId(params.usuario)
         }
         def entrys
+        println "usuario "+usuario
         if(usuario){
             entrys=Entry.findAllByUsuarioNotEqualAndEspecieIsNull(usuario)
         }else{
             entrys=Entry.findAllByEspecieIsNull()
         }
+        println "entrys "+entrys
         def data =""
         entrys.each {e->
             println "entry "+e.usuario.nombre+" "+e.id
