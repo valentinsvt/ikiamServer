@@ -47,16 +47,41 @@ class EntryController {
         return list
     }
 
+    def like_ajax() {
+
+    }
+
+    def reportar_ajax() {
+        if (params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render "ERROR*No se encontró Entry"
+                return
+            }
+            entryInstance.reportado = entryInstance.reportado ?: 0 + 1
+            if (!entryInstance.save(flush: true)) {
+                render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
+                return
+            }
+            render "SUCCESS"
+            return
+        } else {
+            render "ERROR*No se encontró Entry"
+        }
+    }
+
     def comment() {
         if (params.id) {
             def entryInstance = Entry.get(params.id)
             if (!entryInstance) {
-                render "ERROR*No se encontró Entry."
-                return
+                flash.tipo = "notFound"
+                flash.message = "No se encontró nada que mostrar"
             }
             return [entryInstance: entryInstance]
         } else {
-            render "ERROR*No se encontró Entry."
+            flash.tipo = "notFound"
+            flash.message = "No se encontró nada que mostrar"
+            return [entryInstance: null]
         }
     }
 

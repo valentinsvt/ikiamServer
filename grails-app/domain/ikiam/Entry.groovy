@@ -7,7 +7,7 @@ class Entry {
     Date fecha
     String observaciones
     String cautiverio = "N"/*S--> si N--> no*/
-    String reportado = "N"/*S--> si N--> no*/
+    int reportado = 0 /* Cuenta cuantas veces ha sido reportada */
 
     static hasMany = [fotos: Foto]
 
