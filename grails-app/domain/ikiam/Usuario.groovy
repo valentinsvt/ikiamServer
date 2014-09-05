@@ -9,6 +9,7 @@ class Usuario {
     String esCientifico = "N" /*N o S*/
     String email
     String tipo /*facebook o ikiam*/
+    String titulo
 
     static constraints = {
 
@@ -20,6 +21,7 @@ class Usuario {
         apellido(size: 1..100, blank: false)
         facebookId(size: 1..30, blank: true, nullable: true)
         tipo(size: 1..10, blank: true, nullable: false)
+        titulo(size: 1..100, blank: true, nullable: true)
     }
 
     String toString() {
