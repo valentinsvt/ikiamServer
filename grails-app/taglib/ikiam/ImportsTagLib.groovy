@@ -47,6 +47,7 @@ class ImportsTagLib {
 
         // CUSTOM
         text += "    <link href=\"${resource(dir: 'css/custom', file: 'custom.css')}\" rel=\"stylesheet\">"
+        text += "    <link href=\"${resource(dir: 'css/custom', file: 'tablas.css')}\" rel=\"stylesheet\">"
         text += "    <link href=\"${resource(dir: 'css/custom', file: 'inputs.css')}\" rel=\"stylesheet\">"
         out << text
     }

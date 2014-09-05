@@ -6,7 +6,8 @@ class Entry {
     Especie especie
     Date fecha
     String observaciones
-    String cautiverio ="N"/*S--> si N--> no*/
+    String cautiverio = "N"/*S--> si N--> no*/
+    String reportado = "N"/*S--> si N--> no*/
 
     static hasMany = [fotos: Foto]
 
@@ -17,9 +18,10 @@ class Entry {
     }
 
     static constraints = {
-        observaciones(blank:true,nullable: true)
+        observaciones(blank: true, nullable: true)
         usuario(nullable: true, blank: true)
         especie(blank: true, nullable: true)
-        cautiverio(blank: true, nullable: true,size: 1..1)
+        cautiverio(blank: true, nullable: true, size: 1..1)
+        reportado(blank: true, nullable: true, size: 1..1)
     }
 }

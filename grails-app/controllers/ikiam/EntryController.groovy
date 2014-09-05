@@ -25,9 +25,16 @@ class EntryController {
             def c = Entry.createCriteria()
             list = c.list(params) {
                 or {
-                    /* TODO: cambiar aqui segun sea necesario */
-
-                    ilike("observaciones", "%" + params.search + "%")
+                    especie {
+                        ilike("nombre", "%" + params.search + "%")
+                        ilike("nombreComun", "%" + params.search + "%")
+                        genero {
+                            ilike("nombre", "%" + params.search + "%")
+                            familia {
+                                ilike("nombre", "%" + params.search + "%")
+                            }
+                        }
+                    }
                 }
             }
         } else {
@@ -38,6 +45,19 @@ class EntryController {
             list = getList(params, all)
         }
         return list
+    }
+
+    def comment() {
+        if (params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+            return [entryInstance: entryInstance]
+        } else {
+            render "ERROR*No se encontró Entry."
+        }
     }
 
     def list() {

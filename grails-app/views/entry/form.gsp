@@ -217,6 +217,13 @@
 
         </script>
 
+        <div class="btn-group">
+            <g:link action="list" class="btn btn-default"><i class="fa fa-list"></i> Lista</g:link>
+            <a href="#" class="btn btn-success btnSave">
+                <i class="fa fa-save"></i> Guardar
+            </a>
+        </div>
+
         <g:uploadForm class="form-horizontal" role="form" name="frmSave" id="${entry.id}" action="save">
             <g:hiddenField name="animal" value="${entry.fotos?.first()?.keyWords?.contains('animal') ? 'on' : 'off'}"/>
             <g:hiddenField name="arbol" value="${entry.fotos?.first()?.keyWords?.contains('arbol') ? 'on' : 'off'}"/>
@@ -373,7 +380,7 @@
             </div>
 
             <div class="row text-center">
-                <a href="#" class="btn btn-success" id="btnSave">
+                <a href="#" class="btn btn-success btnSave">
                     <i class="fa fa-save"></i> Guardar
                 </a>
             </div>
@@ -473,7 +480,7 @@
                     toggleStatus($(this));
                 });
 
-                $("#btnSave").click(function () {
+                $(".btnSave").click(function () {
                     $("#frmSave").submit();
                 });
 
