@@ -70,10 +70,13 @@ class UploadCapturaController {
             usuario = Usuario.get(userId)
         }
 
-        if (lat > 0 && lon > 0) {
+        if (lat > 0 || lon > 0) {
+            println "Creando coord"
             coord = Coordenada.findOrSaveByLatitudAndLongitud(lat, lon)
             coord.altitud = alt
-            coord.save(flush: true)
+            if (!coord.save(flush: true)) {
+                println "ERROR SAVE COORD " + coord.errors
+            }
         }
 
         def fecha = new Date().parse("yyyy-MM-dd HH:mm:ss", params.fecha)
