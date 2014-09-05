@@ -70,7 +70,7 @@ class UploadCapturaController {
             usuario = Usuario.get(userId)
         }
 
-        if (lat > 0 || lon > 0) {
+        if (lat != 0 || lon != 0) {
             println "Creando coord"
             coord = Coordenada.findOrSaveByLatitudAndLongitud(lat, lon)
             coord.altitud = alt
