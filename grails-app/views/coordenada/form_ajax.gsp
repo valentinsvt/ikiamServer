@@ -29,7 +29,7 @@
                     Altitud
                 </label>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <g:textField name="altitud" value="${fieldValue(bean: coordenadaInstance, field: 'altitud')}"
                                  class="number form-control  required" required=""/>
                 </div>
@@ -43,7 +43,7 @@
                     Latitud
                 </label>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <g:textField name="latitud" type="number" value="${fieldValue(bean: coordenadaInstance, field: 'latitud')}"
                                  class="number form-control  required" required=""/>
                 </div>
@@ -57,7 +57,7 @@
                     Longitud
                 </label>
 
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <g:textField name="longitud" type="number" value="${fieldValue(bean: coordenadaInstance, field: 'longitud')}"
                                  class="number form-control  required" required=""/>
                 </div>

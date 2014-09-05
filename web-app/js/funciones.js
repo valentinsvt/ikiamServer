@@ -22,11 +22,15 @@
  * @returns {boolean}
  */
 function validarDec(ev) {
-    return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||
-            (ev.keyCode >= 96 && ev.keyCode <= 105) ||
-            ev.keyCode == 190 || ev.keyCode == 110 ||
-            ev.keyCode == 8 || ev.keyCode == 46 || ev.keyCode == 9 ||
-            ev.keyCode == 37 || ev.keyCode == 39);
+    if (ev.ctrlKey) {
+        return true;
+    }
+    return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||                   // 0-9 teclado normal
+            (ev.keyCode >= 96 && ev.keyCode <= 105) ||                  // 0-9 teclado numerico
+            ev.keyCode == 190 || ev.keyCode == 110 ||                   // punto tec. normal, punto tec. num
+            ev.keyCode == 8 || ev.keyCode == 46 || ev.keyCode == 9 ||   // backspace, delete, tab
+            ev.keyCode == 37 || ev.keyCode == 39 ||                     // flecha izq, flecha der
+            ev.keyCode == 116);                                         // F5
 }
 
 /**
@@ -35,10 +39,14 @@ function validarDec(ev) {
  * @returns {boolean}
  */
 function validarInt(ev) {
+    if (ev.ctrlKey) {
+        return true;
+    }
     return ((ev.keyCode >= 48 && ev.keyCode <= 57) ||
             (ev.keyCode >= 96 && ev.keyCode <= 105) ||
             ev.keyCode == 8 || ev.keyCode == 46 || ev.keyCode == 9 ||
-            ev.keyCode == 37 || ev.keyCode == 39);
+            ev.keyCode == 37 || ev.keyCode == 39 ||
+            ev.keyCode == 116);
 }
 
 /**
