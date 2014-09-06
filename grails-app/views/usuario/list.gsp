@@ -44,6 +44,8 @@
 
                     <g:sortableColumn property="apellido" title="Apellido"/>
 
+                    <g:sortableColumn property="titulo" title="Titulo"/>
+
                 </tr>
             </thead>
             <tbody>
@@ -77,6 +79,12 @@
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${usuarioInstance.apellido?.toString()?.decodeURL()}
+                            </elm:textoBusqueda>
+                        </td>
+
+                        <td>
+                            <elm:textoBusqueda busca="${params.search}">
+                                ${usuarioInstance.titulo?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
 

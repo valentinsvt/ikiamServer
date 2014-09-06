@@ -105,6 +105,18 @@
                  *
             </span>
         </div>
+
+        <div class="form-group keeptogether ${hasErrors(bean: usuarioInstance, field: 'titulo', 'error')} required">
+            <span class="grupo">
+                <label for="titulo" class="col-md-2 control-label text-info">
+                    Titulo
+                </label>
+                <div class="col-md-6">
+                    <g:textField name="titulo" maxlength="30" required="" class="form-control required" value="${usuarioInstance?.titulo }"/>
+                </div>
+                 *
+            </span>
+        </div>
         
     </g:form>
     

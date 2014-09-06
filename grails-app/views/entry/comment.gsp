@@ -16,7 +16,17 @@
         <title>Comentarios de foto</title>
 
         <style type="text/css">
+        .my-media {
+            box-shadow  : 1px 1px 1px #888888;
+            /*background : #fff;*/
+            padding     : 10px;
+            border-top  : solid 1px #ffffff;
+            border-left : solid 1px #ffffff;
+        }
 
+        .thumbnail {
+            margin-bottom : 0;
+        }
         </style>
 
     </head>
@@ -39,12 +49,12 @@
             </g:if>
 
             <div class="row">
-                <div class="col-md-12 col-xs-12">
+                <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <g:each in="${entryInstance.fotos}" var="foto" status="i">
                         <div class="thumbnail">
 
                             <a href="${resource(dir: 'uploaded', file: foto.path)}" class="image-popup-vertical-fit">
-                                <img src="${resource(dir: 'uploaded', file: foto.path)}"/>
+                                <img class="img-rounded" src="${resource(dir: 'uploaded', file: foto.path)}"/>
                             </a>
 
                             <div class="caption text-center">
@@ -65,11 +75,82 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" style="margin-bottom: 25px;">
+                <div class="col-md-6 col-md-offset-3 col-xs-12">
+                    <div class="thumbnail">
+                        <a href="#" class="btn btn-success pull-right" id="btnComentario" title="Nuevo comentario">
+                            <i class="fa fa-plus"></i>
+                        </a>
 
+                        <h3 class="text-center">Comentarios</h3>
+
+                        <div id="divComentarios">
+                            <util:renderHTML html="${comentarios}"/>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <script type="text/javascript">
+
+                function dialogComentario(idPadre) {
+                    var $div = $("<div>");
+                    var $i = $("<i class='fa fa-comment-o fa-flip-horizontal fa-3x pull-left text-success text-shadow'></i>");
+                    var $txa = $("<textarea class='form-control' maxlength='250' id='txaComentario' cols='5' rows='5'></textarea>");
+                    var titulo = "Comentar";
+                    var btnGuardar = "<i class='fa fa-comment fa-flip-horizontal'></i> Guardar";
+                    if (idPadre) {
+                        titulo = "Contestar comentario";
+                        $i = $("<i class='fa fa-comments-o fa-flip-horizontal fa-3x pull-left text-success text-shadow'></i>");
+                        btnGuardar = "<i class='fa fa-comments fa-flip-horizontal'></i> Guardar";
+                    }
+                    $txa.maxlength({
+                        alwaysShow        : true,
+                        warningClass      : "label label-success",
+                        limitReachedClass : "label label-danger"
+                    });
+                    $div.append($i).append($txa);
+                    bootbox.dialog({
+                        title   : titulo,
+                        message : $div,
+                        buttons : {
+                            cancelar : {
+                                label     : "Cancelar",
+                                className : "btn-primary",
+                                callback  : function () {
+                                }
+                            },
+                            aceptar  : {
+                                label     : btnGuardar,
+                                className : "btn-success",
+                                callback  : function () {
+                                    var comment = $("#txaComentario").val();
+                                    var id = "${entryInstance.id}";
+                                    var data = {
+                                        id  : id,
+                                        com : comment
+                                    };
+                                    if (idPadre) {
+                                        data = {
+                                            id    : id,
+                                            padre : idPadre,
+                                            com   : comment
+                                        };
+                                    }
+                                    $.ajax({
+                                        type    : "POST",
+                                        url     : '${createLink(action:'comentar_ajax')}',
+                                        data    : data,
+                                        success : function (msg) {
+                                            $("#divComentarios").html(msg);
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+
                 $(function () {
 
                     $('.image-popup-vertical-fit').magnificPopup({
@@ -96,8 +177,7 @@
                                     parts = parts[1].split("_");
                                     console.log(parts);
                                     for (var i = 0; i < parts.length; i++) {
-                                        $("spanLike" + i).text(parts[i]);
-                                        console.log("spanLike" + i, $("spanLike" + i));
+                                        $("#spanLike" + i).text(parts[i]);
                                     }
                                 } else {
                                     log(parts[1], "error");
@@ -133,17 +213,22 @@
                                             success : function (msg) {
                                                 var parts = msg.split("*");
                                                 log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                                                if (parts[0] == "SUCCESS") {
-
-                                                } else {
-                                                    log(parts[1], "error");
-                                                }
                                             }
                                         });
                                     }
                                 }
                             }
                         });
+                        return false;
+                    });
+
+                    $(".btnContestar").click(function () {
+                        dialogComentario($(this).attr("id"));
+                        return false;
+                    });
+
+                    $("#btnComentario").click(function () {
+                        dialogComentario();
                         return false;
                     });
                 });

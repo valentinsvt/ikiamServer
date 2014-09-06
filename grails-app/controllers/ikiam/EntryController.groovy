@@ -58,7 +58,7 @@ class EntryController {
             def ok = ""
             def fotos = entryInstance.fotos
             fotos.each { f ->
-                f.likes = f.likes ?: 0 + 1
+                f.likes = (f.likes ?: 0) + 1
                 if (!f.save(flush: true)) {
                     msg += "<li>" + renderErrors(bean: f) + "</li>"
                 } else {
@@ -83,12 +83,12 @@ class EntryController {
                 render "ERROR*No se encontró Entry"
                 return
             }
-            entryInstance.reportado = entryInstance.reportado ?: 0 + 1
+            entryInstance.reportado = (entryInstance.reportado ?: 0) + 1
             if (!entryInstance.save(flush: true)) {
                 render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
                 return
             }
-            render "SUCCESS"
+            render "SUCCESS*Se ha registrado su reporte"
             return
         } else {
             render "ERROR*No se encontró Entry"
@@ -102,11 +102,101 @@ class EntryController {
                 flash.tipo = "notFound"
                 flash.message = "No se encontró nada que mostrar"
             }
-            return [entryInstance: entryInstance]
+            def comentarios = ""
+
+            Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
+                comentarios += printComment(com)
+            }
+
+            return [entryInstance: entryInstance, comentarios: comentarios]
         } else {
             flash.tipo = "notFound"
             flash.message = "No se encontró nada que mostrar"
             return [entryInstance: null]
+        }
+    }
+
+    def getComments(id) {
+        if (id) {
+            def entryInstance = Entry.get(id)
+            if (!entryInstance) {
+                render ""
+            }
+            def comentarios = ""
+
+            Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
+                comentarios += printComment(com)
+            }
+
+            def js = "<script type='text/javascript'>"
+            js += '$(".btnContestar").click(function () {'
+            js += 'dialogComentario($(this).attr("id"));'
+            js += 'return false;'
+            js += '});'
+            js += "</script>"
+
+            render comentarios + js
+        } else {
+            render ""
+            return
+        }
+    }
+
+    def printComment(Comentario comentario) {
+        def html = ""
+        html += '<div class="media my-media bg-info ui-corner-all">'
+//        html += "<div>"
+        html += '<div class="thumbnail pull-left text-center">'
+        if (comentario.usuario) {
+            html += "<p>" + comentario.usuario.nombre + " " + comentario.usuario.apellido + "<br/>" + comentario.usuario.titulo + "</p>"
+        }
+        html += "<p><i class='fa fa-comment${comentario.padre ? 's' : ''} fa-3x fa-flip-horizontal text-info'></i></p>"
+        html += '</div>'
+        html += '<div class="media-body">'
+        html += '<div class="text-right text-info"><small>' + comentario.fecha.format("dd-MM-yyyy HH:mm") + "</small></div>"
+        html += "<p>${comentario.texto}</p>"
+        html += "<a href='#' class='btn btn-info pull-right btnContestar' id='${comentario.id}' title='Contestar'><i class='fa fa-comments'></i> </a>"
+
+        html += '</div>'
+//        html += "</div>"
+        Comentario.findAllByPadre(comentario, [sort: "fecha"]).each { com ->
+            html += printComment(com)
+        }
+
+        html += "</div>"
+        return html
+    }
+
+    def comentar_ajax() {
+        if (params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render ""
+                return
+            }
+            // TODO: Deberia salir del session!!!!!
+            def usuario = Usuario.get(9)
+            def comentario = params.com
+            def comment = new Comentario()
+            if (params.padre) {
+                comment.entry = null
+                comment.padre = Comentario.get(params.padre)
+            } else {
+                comment.entry = entryInstance
+                comment.padre = null
+            }
+            comment.texto = comentario
+            comment.usuario = usuario
+            comment.fecha = new Date()
+            comment.likes = 0
+            if (!comment.save(flush: true)) {
+                render ""
+                return
+            }
+            render getComments(params.id)
+        } else {
+            render ""
+            return
         }
     }
 
