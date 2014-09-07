@@ -255,6 +255,7 @@ class EntryController {
             entry.fecha = new Date()
         }
         entry.observaciones = params.observaciones.trim()
+        entry.reportado=0;
         entry.save(flush: true)
 
         def coord = Coordenada.findOrSaveByLatitudAndLongitud(params.latitud.toDouble(), params.longitud.toDouble())
