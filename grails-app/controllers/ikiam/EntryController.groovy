@@ -206,6 +206,19 @@ class EntryController {
         return [entryInstanceList: entryInstanceList, entryInstanceCount: entryInstanceCount, params: params]
     }
 
+    def show() {
+        if (params.id) {
+            def entryInstance = Entry.get(params.id)
+            if (!entryInstance) {
+                render "ERROR*No se encontró Entry."
+                return
+            }
+            return [entryInstance: entryInstance]
+        } else {
+            render "ERROR*No se encontró Entry."
+        }
+    } //show
+
     def show_ajax() {
         if (params.id) {
             def entryInstance = Entry.get(params.id)
@@ -329,7 +342,7 @@ class EntryController {
         } else {
             println "error es empty"
         }
-        redirect(controller: "especie", action: "list")
+        redirect(controller: "entry", action: "list")
     }//save
 
     def form_ajax() {

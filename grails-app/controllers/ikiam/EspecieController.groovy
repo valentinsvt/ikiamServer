@@ -10,104 +10,105 @@ class EspecieController {
         redirect(action: "list", params: params)
     }
 
-    def form(){
+    def form() {
         def especie = Especie.get(params.id)
-        [especie:especie]
+        [especie: especie]
     }
 
-    def show(){
+    def show() {
 //        println "especies "+Especie.list().nombre
         def especie = Especie.findByNombre(params.nombre)
-        println "id  "+especie?.id
-        if(especie){
+        println "id  " + especie?.id
+        if (especie) {
             def entrys = Entry.findAllByEspecie(especie)
-            [especie:especie,entrys:entrys]
-        }else{
+            [especie: especie, entrys: entrys]
+        } else {
             render "no encontro"
         }
 
     }
 
-    def saveTextos(){
+    def saveTextos() {
         def especie = Especie.get(params.id)
-        especie.properties=params
+        especie.properties = params
         especie.save(flush: true)
-        flash.message="Datos guardados"
-        redirect(action: "form",id:especie.id )
+        flash.message = "Datos guardados"
+        redirect(action: "form", id: especie.id)
     }
 
-    def getEspecies(){
+    def getEspecies() {
         def especies = Especie.findAllByFeatured("S")
-        def datos=""
-        especies.each {e->
+        def datos = ""
+        especies.each { e ->
             //println "especie "+e.nombreComun
             def entry = Entry.findByEspecie(e)
             //println "entry "+entry.observaciones
             def foto = Foto.findByEntry(entry)
             //println "foto entry "+foto?.path
-            if(!foto)
-                foto=Foto.findByEspecie(e)
+            if (!foto)
+                foto = Foto.findByEspecie(e)
             //println "foto despues "+foto?.path
             def coord = foto.coordenada
             //println "coord "+coord
-            datos+=""+e.nombreComun+";"+entry.observaciones+";"+foto.path+";"+coord.latitud+";"+coord.longitud+";"+coord.altitud+";"+e.likes+";"+e.nombre+"&"
+            datos += "" + e.nombreComun + ";" + entry.observaciones + ";" + foto.path + ";" + coord.latitud + ";" + coord.longitud + ";" + coord.altitud + ";" + e.likes + ";" + e.nombre + "&"
         }
         render datos
     }
 
-    def showFicha(){
+    def showFicha() {
         def esp = Especie.get(params.id)
         def fichaplanta = FichaTecnicaPlanta.findByEspecie(esp)
-        if(fichaplanta)
-        redirect(action: "showFichaPlanta",id:fichaplanta.id)
-        else{
+        if (fichaplanta)
+            redirect(action: "showFichaPlanta", id: fichaplanta.id)
+        else {
             def fichaAnimal = FichaTecnicaAnimal.findByEspecie(esp)
-            if(fichaAnimal)
-                redirect(action: "showFichaAnimal",id:fichaAnimal?.id)
+            if (fichaAnimal)
+                redirect(action: "showFichaAnimal", id: fichaAnimal?.id)
             else
-                redirect(action: "show",params: ["nombre":esp.nombre])
+                redirect(action: "show", params: ["nombre": esp.nombre])
         }
     }
 
-    def showPapers(){
+    def showPapers() {
         def esp = Especie.get(params.id)
-        def papers= Paper.findAllByEspecie(esp)
-        [papers:papers,especie: esp]
+        def papers = Paper.findAllByEspecie(esp)
+        [papers: papers, especie: esp]
     }
 
 
-    def showFichaPlanta(){
+    def showFichaPlanta() {
         def ficha = FichaTecnicaPlanta.get(params.id)
-        [ficha:ficha,especie: ficha.especie]
+        [ficha: ficha, especie: ficha.especie]
     }
 
-    def showFichaAnimal(){
+    def showFichaAnimal() {
         def ficha = FichaTecnicaAnimal.get(params.id)
-        [ficha:ficha,especie: ficha.especie]
+        [ficha: ficha, especie: ficha.especie]
     }
 
 
-    def fichaAnimal(){
+    def fichaAnimal() {
         def esp = Especie.get(params.id)
         def ficha = FichaTecnicaAnimal.findByEspecie(esp)
-        if(!ficha) {
+        if (!ficha) {
             ficha = new FichaTecnicaAnimal()
-            ficha.especie=esp;
-            if(!ficha.save(flush: true))
-                println "errors "+ficha.errors
+            ficha.especie = esp;
+            if (!ficha.save(flush: true))
+                println "errors " + ficha.errors
         }
-        [fichaTecnicaAnimalInstance:ficha]
+        [fichaTecnicaAnimalInstance: ficha]
     }
-    def fichaPlanta(){
+
+    def fichaPlanta() {
         def esp = Especie.get(params.id)
         def ficha = FichaTecnicaPlanta.findByEspecie(esp)
-        if(!ficha) {
+        if (!ficha) {
             ficha = new FichaTecnicaPlanta()
-            ficha.especie=esp;
-            if(!ficha.save(flush: true))
-                println "errors "+ficha.errors
+            ficha.especie = esp;
+            if (!ficha.save(flush: true))
+                println "errors " + ficha.errors
         }
-        [fichaTecnicaPlantaInstance:ficha]
+        [fichaTecnicaPlantaInstance: ficha]
     }
 
     def getList(params, all) {

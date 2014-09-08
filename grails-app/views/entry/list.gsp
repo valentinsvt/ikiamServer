@@ -172,7 +172,6 @@
                     image               : {
                         verticalFit : true
                     }
-
                 });
 
                 $("tbody tr").contextMenu({
