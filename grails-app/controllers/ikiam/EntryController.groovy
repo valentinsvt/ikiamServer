@@ -77,33 +77,46 @@ class EntryController {
     }
 
     def listReportados() {
+        def list = Entry.findAllByReportadoGreaterThan(0, [sort: "reportado", order: "desc"])
 
+        return [list: list]
     }
 
     def reportar_ajax() {
         if (params.id) {
-            def entryInstance = Entry.get(params.id)
-            if (!entryInstance) {
-                render "ERROR*No se encontró Entry"
+            if (params.razon.trim() != "") {
+                def entryInstance = Entry.get(params.id)
+                if (!entryInstance) {
+                    render "ERROR*No se encontró Entry"
+                    return
+                }
+                entryInstance.reportado = (entryInstance.reportado ?: 0) + 1
+                if (!entryInstance.save(flush: true)) {
+                    render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
+                    return
+                }
+                def usuario = Usuario.get(params.usu)
+                def reporte = ReporteEntry.findOrSaveByEntryAndUsuario(entryInstance, usuario)
+                reporte.razon = params.razon
+                if (!reporte.save(flush: true)) {
+                    render "ERROR*Ha ocurrido un error al guardar Reporte: " + renderErrors(bean: reporte)
+                    return
+                }
+                render "SUCCESS*Se ha registrado su reporte"
+                return
+            } else {
+                render "ERROR*No se puede registrar un reporte sin razón"
                 return
             }
-            entryInstance.reportado = (entryInstance.reportado ?: 0) + 1
-            if (!entryInstance.save(flush: true)) {
-                render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
-                return
-            }
-            def reporte = ReporteEntry.findOrSaveByEntryAndUsuario()
-            render "SUCCESS*Se ha registrado su reporte"
-            return
         } else {
             render "ERROR*No se encontró Entry"
         }
     }
 
     def comment() {
-        def usuario = Usuario.get(9)
+        def usuario = Usuario.get(params.usuario)
         if (params.id) {
-            def entryInstance = Entry.get(params.id)
+            def entryInstance = Entry.get(params.id.toLong())
             if (!entryInstance) {
                 flash.tipo = "notFound"
                 flash.message = "No se encontró nada que mostrar"
@@ -111,7 +124,7 @@ class EntryController {
             def comentarios = ""
 
             Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
-                comentarios += printComment(com)
+                comentarios += printComment(com, usuario)
             }
 
             return [entryInstance: entryInstance, comentarios: comentarios, usuario: usuario]
@@ -122,7 +135,7 @@ class EntryController {
         }
     }
 
-    def getComments(id) {
+    def getComments(id, usuario) {
         if (id) {
             def entryInstance = Entry.get(id)
             if (!entryInstance) {
@@ -131,7 +144,7 @@ class EntryController {
             def comentarios = ""
 
             Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
-                comentarios += printComment(com)
+                comentarios += printComment(com, usuario)
             }
 
             def js = "<script type='text/javascript'>"
@@ -148,7 +161,7 @@ class EntryController {
         }
     }
 
-    def printComment(Comentario comentario) {
+    def printComment(Comentario comentario, Usuario usuario) {
         def html = ""
         html += '<div class="media my-media bg-info ui-corner-all">'
 //        html += "<div >"
@@ -161,11 +174,13 @@ class EntryController {
         html += '<div class="media-body">'
         html += '<div class="text-right text-info"><small>' + comentario.fecha.format("dd-MM-yyyy HH:mm") + "</small></div>"
         html += "<p>${comentario.texto}</p>"
-        html += "<a href='#' class='btn btn-info pull-right btnContestar' id='${comentario.id}' title='Contestar'><i class='fa fa-comments'></i> </a>"
+        if (usuario) {
+            html += "<a href='#' class='btn btn-info pull-right btnContestar' id='${comentario.id}' title='Contestar'><i class='fa fa-comments'></i> </a>"
+        }
         html += '</div>'
 //        html += "</div>"
         Comentario.findAllByPadre(comentario, [sort: "fecha"]).each { com ->
-            html += printComment(com)
+            html += printComment(com, usuario)
         }
 
         html += "</div>"
@@ -197,7 +212,7 @@ class EntryController {
                 render ""
                 return
             }
-            render getComments(params.id)
+            render getComments(params.id, usuario)
         } else {
             render ""
             return

@@ -61,14 +61,15 @@
                                 <span class="label label-info" style="margin-right: 15px;">
                                     <i class="fa fa-thumbs-o-up"></i> <span id="spanLike${i}">${foto.likes}</span>
                                 </span>
+                                <g:if test="${usuario}">
+                                    <a href="#" class="btn btn-primary" id="btnLike" role="button">
+                                        <i class="fa fa-thumbs-o-up"></i> Me gusta
+                                    </a>
 
-                                <a href="#" class="btn btn-primary" id="btnLike" role="button">
-                                    <i class="fa fa-thumbs-o-up"></i> Me gusta
-                                </a>
-
-                                <a href="#" class="btn btn-danger" id="btnReport" role="button">
-                                    <i class="fa fa-warning"></i> Reportar
-                                </a>
+                                    <a href="#" class="btn btn-danger" id="btnReport" role="button">
+                                        <i class="fa fa-warning"></i> Reportar
+                                    </a>
+                                </g:if>
                             </div>
                         </div>
                     </g:each>
@@ -78,9 +79,11 @@
             <div class="row" style="margin-bottom: 25px;">
                 <div class="col-md-6 col-md-offset-3 col-xs-12">
                     <div class="thumbnail">
-                        <a href="#" class="btn btn-success pull-right" id="btnComentario" title="Nuevo comentario">
-                            <i class="fa fa-plus"></i>
-                        </a>
+                        <g:if test="${usuario}">
+                            <a href="#" class="btn btn-success pull-right" id="btnComentario" title="Nuevo comentario">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </g:if>
 
                         <h3 class="text-center">Comentarios</h3>
 
@@ -129,7 +132,7 @@
                                     var data = {
                                         id  : id,
                                         com : comment,
-                                        usu : "${usuario.id}"
+                                        usu : "${usuario?.id}"
                                     };
                                     if (idPadre) {
                                         data.padre = idPadre;
@@ -209,7 +212,7 @@
                                             data    : {
                                                 id    : "${entryInstance.id}",
                                                 razon : $.trim($("#txaRazon").val()),
-                                                usu   : "${usuario.id}"
+                                                usu   : "${usuario?.id}"
                                             },
                                             success : function (msg) {
                                                 var parts = msg.split("*");

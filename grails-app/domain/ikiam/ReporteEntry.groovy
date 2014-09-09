@@ -5,8 +5,9 @@ class ReporteEntry {
     Entry entry
     Usuario usuario
     String razon
-    Date fecha
+    Date fecha = new Date()
 
     static constraints = {
+        razon blank: true, nullable: true
     }
 }
