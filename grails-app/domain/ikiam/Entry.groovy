@@ -9,6 +9,8 @@ class Entry {
     String cautiverio = "N"/*S--> si N--> no*/
     int reportado = 0 /* Cuenta cuantas veces ha sido reportada */
 
+    int deleted = 0
+
     static hasMany = [fotos: Foto, comentarios: Comentario, reportes: ReporteEntry]
 
     static mapping = {

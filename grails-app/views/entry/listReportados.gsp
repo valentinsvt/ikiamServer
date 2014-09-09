@@ -144,9 +144,10 @@
                                 }
                             },
                             aceptar  : {
-                                label     : "<i class='fa fa-warning'></i> Reportar",
+                                label     : "<i class='fa fa-warning'></i> Eliminar",
                                 className : "btn-danger",
                                 callback  : function () {
+                                    openLoader("Eliminando");
                                     $.ajax({
                                         type    : "POST",
                                         url     : '${createLink(action:'delete_ajax')}',
@@ -156,6 +157,7 @@
                                         success : function (msg) {
                                             var parts = msg.split("*");
                                             log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                                            location.reload(true);
                                         }
                                     });
                                 }

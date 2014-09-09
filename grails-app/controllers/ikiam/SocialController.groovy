@@ -14,10 +14,10 @@ class SocialController {
         def entrys
         println "usuario " + usuario + " " + usuario?.id
         if (usuario) {
-            entrys = Entry.findAll("from Entry  where usuario!=${usuario.id} and especie is null")
+            entrys = Entry.findAll("from Entry where usuario!=${usuario.id} and especie is null and deleted=0")
             println "wtf " + entrys
         } else {
-            entrys = Entry.findAllByEspecieIsNull()
+            entrys = Entry.findAllByEspecieIsNullAndDeleted(0)
         }
         println "entrys " + entrys
         def data = ""

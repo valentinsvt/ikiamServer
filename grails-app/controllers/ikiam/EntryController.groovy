@@ -36,9 +36,10 @@ class EntryController {
                         }
                     }
                 }
+                eq("deleted", 0)
             }
         } else {
-            list = Entry.list(params)
+            list = Entry.findAllByDeleted(0, params)
         }
         if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
             params.offset = params.offset.toInteger() - 1
@@ -77,7 +78,7 @@ class EntryController {
     }
 
     def listReportados() {
-        def list = Entry.findAllByReportadoGreaterThan(0, [sort: "reportado", order: "desc"])
+        def list = Entry.findAllByDeletedAndReportadoGreaterThan(0, 0, [sort: "reportado", order: "desc"])
 
         return [list: list]
     }
@@ -114,6 +115,10 @@ class EntryController {
     }
 
     def comment() {
+        if (!params.usuario) {
+            params.usuario = 9
+        }
+
         def usuario = Usuario.get(params.usuario)
         if (params.id) {
             def entryInstance = Entry.get(params.id.toLong())
@@ -219,7 +224,8 @@ class EntryController {
         }
     }
 
-    def list() {
+    def
+    list() {
         def entryInstanceList = getList(params, false)
         def entryInstanceCount = getList(params, true).size()
         return [entryInstanceList: entryInstanceList, entryInstanceCount: entryInstanceCount, params: params]
@@ -411,18 +417,37 @@ class EntryController {
                 render "ERROR*No se encontró Entry."
                 return
             }
-            try {
-                entryInstance.delete(flush: true)
+//                entryInstance.delete(flush: true)
+            entryInstance.deleted = 1
+            if (entryInstance.save(flush: true)) {
                 render "SUCCESS*Eliminación de Entry exitosa."
-                return
-            } catch (DataIntegrityViolationException e) {
-                render "ERROR*Ha ocurrido un error al eliminar Entry"
-                return
             }
+            return
         } else {
             render "ERROR*No se encontró Entry."
             return
         }
     } //delete para eliminar via ajax
+
+//    def delete_ajax() {
+//        if (params.id) {
+//            def entryInstance = Entry.get(params.id)
+//            if (!entryInstance) {
+//                render "ERROR*No se encontró Entry."
+//                return
+//            }
+//            try {
+//                entryInstance.delete(flush: true)
+//                render "SUCCESS*Eliminación de Entry exitosa."
+//                return
+//            } catch (DataIntegrityViolationException e) {
+//                render "ERROR*Ha ocurrido un error al eliminar Entry"
+//                return
+//            }
+//        } else {
+//            render "ERROR*No se encontró Entry."
+//            return
+//        }
+//    } //delete para eliminar via ajax
 
 }

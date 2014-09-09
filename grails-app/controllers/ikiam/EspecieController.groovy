@@ -20,7 +20,7 @@ class EspecieController {
         def especie = Especie.findByNombre(params.nombre)
         println "id  " + especie?.id
         if (especie) {
-            def entrys = Entry.findAllByEspecie(especie)
+            def entrys = Entry.findAllByEspecieAndDeleted(especie, 0)
             return [especie: especie, entrys: entrys]
         } else {
             return [especie: null, entrys: null]
