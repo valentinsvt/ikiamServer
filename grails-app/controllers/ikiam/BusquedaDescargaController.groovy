@@ -67,7 +67,8 @@ class BusquedaDescargaController {
                 if (!android.exists()) {
                     imageResizeService.resizeAndroid(path + f.path, pathAndroid + f.path)
                 }
-                str += ";uploaded/android/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud + ";" + f.entry?.observaciones
+                str += ";uploaded/android/" + f.path + ";" + f.coordenada?.latitud ?: 0 + ";" + f.coordenada?.longitud ?: 0 +
+                        ";" + f.coordenada?.altitud ?: 0 + ";" + f.entry?.observaciones ?: ""
 //                str += ";" + f.id;
             }
         }
