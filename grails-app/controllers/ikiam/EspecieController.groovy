@@ -21,9 +21,9 @@ class EspecieController {
         println "id  " + especie?.id
         if (especie) {
             def entrys = Entry.findAllByEspecie(especie)
-            [especie: especie, entrys: entrys]
+            return [especie: especie, entrys: entrys]
         } else {
-            render "no encontro"
+            return [especie: null, entrys: null]
         }
 
     }

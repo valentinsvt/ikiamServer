@@ -54,6 +54,9 @@ class RutaController {
         } else {
             def cords = Coordenada.findAllByRuta(ruta)
             def fotos = Foto.findAllByRuta(ruta)
+            def path = servletContext.getRealPath("/") + "uploaded/"
+            def pathThumb = path + "markers/"
+            new File(pathThumb).mkdirs()
             fotos.each { foto ->
                 def data = foto.path.split("/")
                 println "data " + data
@@ -61,13 +64,10 @@ class RutaController {
                     foto.path = data[7].trim()
                     foto.save(flush: true)
                 }
-                def path = servletContext.getRealPath("/") + "uploaded/"
-                def pathThumb = path + "markers/"
-                new File(pathThumb).mkdirs()
-//                def thumb = new File(pathThumb + foto.path)
-//                if (!thumb.exists()) {
-                imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
-//                }
+                def thumb = new File(pathThumb + foto.path)
+                if (!thumb.exists()) {
+                    imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
+                }
             }
 //            println "Ruta: " + ruta
 //            println "coords: " + cords

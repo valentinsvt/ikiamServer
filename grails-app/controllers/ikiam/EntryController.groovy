@@ -213,6 +213,15 @@ class EntryController {
                 render "ERROR*No se encontró Entry."
                 return
             }
+            def path = servletContext.getRealPath("/") + "uploaded/"
+            def pathThumb = path + "markers/"
+            new File(pathThumb).mkdirs()
+            entryInstance.fotos.each { foto ->
+                def thumb = new File(pathThumb + foto.path)
+                if (!thumb.exists()) {
+                    imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
+                }
+            }
             return [entryInstance: entryInstance]
         } else {
             render "ERROR*No se encontró Entry."
