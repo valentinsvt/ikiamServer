@@ -2,6 +2,8 @@ package ikiam
 
 class BusquedaDescargaController {
 
+    def imageResizeService
+
     def buscaEspecies() {
         println params
 
@@ -28,7 +30,12 @@ class BusquedaDescargaController {
         }
 
         def str = ""
-//        def path = servletContext.getRealPath("/") + "uploaded/"
+        def path = servletContext.getRealPath("/") + "uploaded/"
+        def pathThumb = servletContext.getRealPath("/") + "uploaded/markers/"
+        def pathAndroid = servletContext.getRealPath("/") + "uploaded/android/"
+        new File(path).mkdirs()
+        new File(pathThumb).mkdirs()
+        new File(pathAndroid).mkdirs()
 
         especies.each { e ->
 //            def fotos = Foto.findAllByEspecie(e, [max: 3])
@@ -40,7 +47,7 @@ class BusquedaDescargaController {
                         eq("especie", e)
                     }
                 }
-                maxResults(3)
+                maxResults(6)
             }
             if (str != "") {
                 str += "&"
@@ -52,7 +59,15 @@ class BusquedaDescargaController {
                 str += ";-"
             }
             fotos.each { f ->
-                str += ";uploaded/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud + ";" + f.entry?.observaciones
+                def thumb = new File(pathThumb + f.path)
+                def android = new File(pathAndroid + f.path)
+                if (!thumb.exists()) {
+                    imageResizeService.createMarker(path + f.path, pathThumb + f.path)
+                }
+                if (!android.exists()) {
+                    imageResizeService.resizeAndroid(path + f.path, pathAndroid + f.path)
+                }
+                str += ";uploaded/android/" + f.path + ";" + f.coordenada?.latitud + ";" + f.coordenada?.longitud + ";" + f.coordenada?.altitud + ";" + f.entry?.observaciones
 //                str += ";" + f.id;
             }
         }
