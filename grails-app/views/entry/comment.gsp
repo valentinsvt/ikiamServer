@@ -128,14 +128,11 @@
                                     var id = "${entryInstance.id}";
                                     var data = {
                                         id  : id,
-                                        com : comment
+                                        com : comment,
+                                        usu : "${usuario.id}"
                                     };
                                     if (idPadre) {
-                                        data = {
-                                            id    : id,
-                                            padre : idPadre,
-                                            com   : comment
-                                        };
+                                        data.padre = idPadre;
                                     }
                                     $.ajax({
                                         type    : "POST",
@@ -192,6 +189,8 @@
                             message : "<div class='alert alert-danger' style='padding-bottom: 35px;'>" +
                                       "<i class='fa fa-warning fa-3x pull-left text-danger text-shadow'></i>" +
                                       "<p>¿Está seguro de querer reportar esta foto como ofensiva?</p>" +
+                                      "<p>Ingrese la razón por la cual está reportando esta foto:</p>" +
+                                      "<p><textarea id='txaRazon' class='form-control' cols='5' rows='5'></textarea></p>" +
                                       "</div>",
                             buttons : {
                                 cancelar : {
@@ -208,7 +207,9 @@
                                             type    : "POST",
                                             url     : '${createLink(action:'reportar_ajax')}',
                                             data    : {
-                                                id : "${entryInstance.id}"
+                                                id    : "${entryInstance.id}",
+                                                razon : $.trim($("#txaRazon").val()),
+                                                usu   : "${usuario.id}"
                                             },
                                             success : function (msg) {
                                                 var parts = msg.split("*");

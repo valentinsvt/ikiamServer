@@ -76,6 +76,10 @@ class EntryController {
         }
     }
 
+    def listReportados() {
+
+    }
+
     def reportar_ajax() {
         if (params.id) {
             def entryInstance = Entry.get(params.id)
@@ -88,6 +92,7 @@ class EntryController {
                 render "ERROR*Ha ocurrido un error al guardar Entry: " + renderErrors(bean: entryInstance)
                 return
             }
+            def reporte = ReporteEntry.findOrSaveByEntryAndUsuario()
             render "SUCCESS*Se ha registrado su reporte"
             return
         } else {
@@ -96,6 +101,7 @@ class EntryController {
     }
 
     def comment() {
+        def usuario = Usuario.get(9)
         if (params.id) {
             def entryInstance = Entry.get(params.id)
             if (!entryInstance) {
@@ -108,7 +114,7 @@ class EntryController {
                 comentarios += printComment(com)
             }
 
-            return [entryInstance: entryInstance, comentarios: comentarios]
+            return [entryInstance: entryInstance, comentarios: comentarios, usuario: usuario]
         } else {
             flash.tipo = "notFound"
             flash.message = "No se encontró nada que mostrar"
@@ -145,7 +151,7 @@ class EntryController {
     def printComment(Comentario comentario) {
         def html = ""
         html += '<div class="media my-media bg-info ui-corner-all">'
-//        html += "<div>"
+//        html += "<div >"
         html += '<div class="thumbnail pull-left text-center">'
         if (comentario.usuario) {
             html += "<p>" + comentario.usuario.nombre + " " + comentario.usuario.apellido + "<br/>" + comentario.usuario.titulo + "</p>"
@@ -156,7 +162,6 @@ class EntryController {
         html += '<div class="text-right text-info"><small>' + comentario.fecha.format("dd-MM-yyyy HH:mm") + "</small></div>"
         html += "<p>${comentario.texto}</p>"
         html += "<a href='#' class='btn btn-info pull-right btnContestar' id='${comentario.id}' title='Contestar'><i class='fa fa-comments'></i> </a>"
-
         html += '</div>'
 //        html += "</div>"
         Comentario.findAllByPadre(comentario, [sort: "fecha"]).each { com ->
@@ -174,8 +179,7 @@ class EntryController {
                 render ""
                 return
             }
-            // TODO: Deberia salir del session!!!!!
-            def usuario = Usuario.get(9)
+            def usuario = Usuario.get(params.usu)
             def comentario = params.com
             def comment = new Comentario()
             if (params.padre) {
