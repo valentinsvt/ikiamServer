@@ -51,11 +51,11 @@ class BusquedaDescargaController {
                 maxResults(6)
             }
             obj.nombreComun = e.nombreComun
-            obj.familia = e.genero?.familia?.nombre
-            obj.genero = e.genero?.nombre
-            obj.especie = e.nombre
-            obj.color1 = e.color1.color
-            obj.color2 = e.color2 ? e.color2.color : "-"
+            obj.familia = e.genero?.familia?.nombre ?: ""
+            obj.genero = e.genero?.nombre ?: ""
+            obj.especie = e.nombre ?: ""
+            obj.color1 = e.color1.color ?: ""
+            obj.color2 = e.color2 ? e.color2.color : ""
             obj.fotos = []
             fotos.each { f ->
                 def thumb = new File(pathThumb + f.path)
@@ -68,12 +68,15 @@ class BusquedaDescargaController {
                 }
 
                 def objf = [:]
-                objf.path = "uploaded/android/" + f.path
+                objf.path = f.path ? ("uploaded/android/" + f.path) : ""
                 objf.latitud = f.coordenada?.latitud ?: 0
                 objf.longitud = f.coordenada?.longitud ?: 0
                 objf.altitud = f.coordenada?.altitud ?: 0
                 objf.keywords = f.keyWords
                 objf.observaciones = f.entry?.observaciones ?: ""
+
+                println "${e.nombreComun}   " + f.keyWords
+
                 obj.fotos += objf
             }
             objs += obj
