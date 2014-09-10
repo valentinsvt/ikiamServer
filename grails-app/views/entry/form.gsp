@@ -420,7 +420,6 @@
                 var status = $toggle.data("status");
                 var id = $toggle.data("key");
 
-//                console.log(id, status);
                 if (id == "animal") {
                     if (status == "off") { //se va a activar el de animal: se desactivan todos los otros
                         $(".toggle").not($toggle).each(function () {
@@ -437,9 +436,11 @@
                 if (status == "off") {
                     $toggle.data("status", "on");
                     str = "Sí";
+                    status = "on";
                 } else {
                     $toggle.data("status", "off");
                     str = "No";
+                    status = "off";
                 }
                 var $span = $toggle.siblings("span");
                 $span.text(str);
