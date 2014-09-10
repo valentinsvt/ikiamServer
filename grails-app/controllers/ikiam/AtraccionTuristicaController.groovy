@@ -79,8 +79,8 @@ class AtraccionTuristicaController {
                 render "ERROR*No se encontró Atracción Turística."
                 return
             }
-            def path = servletContext.getRealPath("/")
-            def pathThumb = path + "atraccion/markers/"
+            def path = servletContext.getRealPath("/") + "atraccion/"
+            def pathThumb = path + "markers/"
             new File(pathThumb).mkdirs()
             atraccionInstance.fotos.each { foto ->
                 def thumb = new File(pathThumb + foto.path)
@@ -144,9 +144,9 @@ class AtraccionTuristicaController {
         foto.atraccion = atraccion
         foto.save(flush: true)
 
-        def path = servletContext.getRealPath("/")
-        def pathThumb = servletContext.getRealPath("/") + "atraccion/markers/"
-        def pathAndroid = servletContext.getRealPath("/") + "atraccion/android/"
+        def path = servletContext.getRealPath("/") + "atraccion/"
+        def pathThumb = servletContext.getRealPath("/") + "markers/"
+        def pathAndroid = servletContext.getRealPath("/") + "android/"
         new File(path).mkdirs()
         new File(pathThumb).mkdirs()
         new File(pathAndroid).mkdirs()
@@ -192,9 +192,9 @@ class AtraccionTuristicaController {
 //            println "OLD PATH: " + oldPath
 //            println "OLD PATH: " + path + oldPath
             if (oldPath != "") {
-                def oldFile = new File(path + oldPath)
-                def oldMarker = new File(path + "atraccion/markers/" + oldPath)
-                def oldAndroid = new File(path + "atraccion/android/" + oldPath)
+                def oldFile = new File(path + oldPath) + "atraccion/"
+                def oldMarker = new File(path + "markers/" + oldPath)
+                def oldAndroid = new File(path + "android/" + oldPath)
 //                println "exists: " + oldFile.exists()
                 if (oldFile.exists()) {
                     oldFile.delete()
