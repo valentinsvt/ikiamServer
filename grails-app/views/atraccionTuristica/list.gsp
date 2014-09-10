@@ -1,4 +1,3 @@
-
 <%@ page import="ikiam.AtraccionTuristica" %>
 <!DOCTYPE html>
 <html>
@@ -6,17 +5,19 @@
         <meta name="layout" content="main">
         <title>Lista de AtraccionTuristica</title>
     </head>
+
     <body>
 
         <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 
-    <!-- botones -->
+        <!-- botones -->
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
-                <g:link action="form" class="btn btn-default btnCrear">
+                <g:link action="form" class="btn btn-default">
                     <i class="fa fa-file-o"></i> Crear
                 </g:link>
             </div>
+
             <div class="btn-group pull-right col-md-3">
                 <div class="input-group">
                     <input type="text" id="txtSearch" class="form-control" placeholder="Buscar" value="${params.search}">
@@ -32,47 +33,47 @@
         <table class="table table-condensed table-bordered table-striped">
             <thead>
                 <tr>
-                    
-                    <g:sortableColumn property="nombre" title="Nombre" />
-                    
-                    <g:sortableColumn property="url" title="Url" />
-                    
+
+                    <g:sortableColumn property="nombre" title="Nombre"/>
+
+                    <g:sortableColumn property="url" title="Url"/>
+
                     <th>Coordenada</th>
-                    
-                    <g:sortableColumn property="fecha" title="Fecha" />
-                    
-                    <g:sortableColumn property="likes" title="Likes" />
-                    
+
+                    <g:sortableColumn property="fecha" title="Fecha"/>
+
+                    <g:sortableColumn property="likes" title="Likes"/>
+
                 </tr>
             </thead>
             <tbody>
                 <g:each in="${atraccionTuristicaInstanceList}" status="i" var="atraccionTuristicaInstance">
                     <tr data-id="${atraccionTuristicaInstance.id}">
-                        
+
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${atraccionTuristicaInstance.nombre?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
-                        
+
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
                                 ${atraccionTuristicaInstance.url?.toString()?.decodeURL()}
                             </elm:textoBusqueda>
                         </td>
-                        
+
                         <td>
                             ${atraccionTuristicaInstance.coordenada}
                         </td>
-                        
+
                         <td>
-                            <g:formatDate date="${atraccionTuristicaInstance.fecha}" format="dd-MM-yyyy" />
+                            <g:formatDate date="${atraccionTuristicaInstance.fecha}" format="dd-MM-yyyy"/>
                         </td>
-                        
+
                         <td>
                             ${atraccionTuristicaInstance.likes}
                         </td>
-                        
+
                     </tr>
                 </g:each>
             </tbody>
@@ -82,30 +83,7 @@
 
         <script type="text/javascript">
             var id = null;
-            function submitForm() {
-                var $form = $("#frmAtraccionTuristica");
-                var $btn = $("#dlgCreateEdit").find("#btnSave");
-                if ($form.valid()) {
-                $btn.replaceWith(spinner);
-                    $.ajax({
-                        type    : "POST",
-                        url     : $form.attr("action"),
-                        data    : $form.serialize(),
-                            success : function (msg) {
-                        var parts = msg.split("*");
-                        log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                        if (parts[0] == "SUCCESS") {
-                            location.reload(true);
-                        } else {
-                            spinner.replaceWith($btn);
-                            return false;
-                        }
-                    }
-                });
-            } else {
-                return false;
-            } //else
-            }
+
             function deleteRow(itemId) {
                 bootbox.dialog({
                     title   : "Alerta",
@@ -141,42 +119,6 @@
                     }
                 });
             }
-            function createEditRow(id) {
-                var title = id ? "Editar" : "Crear";
-                var data = id ? { id: id } : {};
-                $.ajax({
-                    type    : "POST",
-                    url     : "${createLink(action:'form_ajax')}",
-                    data    : data,
-                    success : function (msg) {
-                        var b = bootbox.dialog({
-                            id      : "dlgCreateEdit",
-                            title   : title + " AtraccionTuristica",
-                            
-                            message : msg,
-                            buttons : {
-                                cancelar : {
-                                    label     : "Cancelar",
-                                    className : "btn-primary",
-                                    callback  : function () {
-                                    }
-                                },
-                                guardar  : {
-                                    id        : "btnSave",
-                                    label     : "<i class='fa fa-save'></i> Guardar",
-                                    className : "btn-success",
-                                    callback  : function () {
-                                        return submitForm();
-                                    } //callback
-                                } //guardar
-                            } //buttons
-                        }); //dialog
-                        setTimeout(function () {
-                            b.find(".form-control").first().focus()
-                        }, 500);
-                    } //success
-                }); //ajax
-            } //createEdit
 
             function buscar() {
                 var search = $.trim($("#txtSearch").val());
@@ -195,11 +137,6 @@
                     }
                 });
 
-                $(".btnCrear").click(function() {
-                    createEditRow();
-                    return false;
-                });
-
                 $("tbody tr").contextMenu({
                     items  : {
                         header   : {
@@ -211,27 +148,7 @@
                             icon   : "fa fa-search",
                             action : function ($element) {
                                 var id = $element.data("id");
-                                $.ajax({
-                                    type    : "POST",
-                                    url     : "${createLink(action:'show_ajax')}",
-                                    data    : {
-                                        id : id
-                                    },
-                                    success : function (msg) {
-                                        bootbox.dialog({
-                                            title   : "Ver AtraccionTuristica",
-                                            message : msg,
-                                            buttons : {
-                                                ok : {
-                                                    label     : "Aceptar",
-                                                    className : "btn-primary",
-                                                    callback  : function () {
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    }
-                                });
+                                location.href = "${createLink(action:'show')}/" + id
                             }
                         },
                         editar   : {
@@ -239,7 +156,7 @@
                             icon   : "fa fa-pencil",
                             action : function ($element) {
                                 var id = $element.data("id");
-                                createEditRow(id);
+                                location.href = "${createLink(action:'form')}/" + id;
                             }
                         },
                         eliminar : {

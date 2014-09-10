@@ -4,6 +4,8 @@ import org.springframework.dao.DataIntegrityViolationException
 
 class AtraccionTuristicaController {
 
+    def imageResizeService
+
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def atracciones() {
@@ -70,6 +72,28 @@ class AtraccionTuristicaController {
         }
     } //show para cargar con ajax en un dialog
 
+    def show() {
+        if (params.id) {
+            def atraccionInstance = AtraccionTuristica.get(params.id)
+            if (!atraccionInstance) {
+                render "ERROR*No se encontró Atracción Turística."
+                return
+            }
+            def path = servletContext.getRealPath("/")
+            def pathThumb = path + "atraccion/markers/"
+            new File(pathThumb).mkdirs()
+            atraccionInstance.fotos.each { foto ->
+                def thumb = new File(pathThumb + foto.path)
+                if (!thumb.exists()) {
+                    imageResizeService.createMarker(path + foto.path, pathThumb + foto.path)
+                }
+            }
+            return [atraccionInstance: atraccionInstance]
+        } else {
+            render "ERROR*No se encontró Atracción Turística."
+        }
+    } //show
+
     def form_ajax() {
         def atraccionTuristicaInstance = new AtraccionTuristica()
         if (params.id) {
@@ -82,6 +106,113 @@ class AtraccionTuristicaController {
         atraccionTuristicaInstance.properties = params
         return [atraccionTuristicaInstance: atraccionTuristicaInstance]
     } //form para cargar con ajax en un dialog
+
+    def form() {
+        def atraccion = new AtraccionTuristica()
+        if (params.id) {
+            atraccion = AtraccionTuristica.get(params.id.toLong())
+            if (!atraccion) {
+                atraccion = new AtraccionTuristica()
+            }
+        }
+        return [atraccion: atraccion]
+    } //form
+
+    def save() {
+        def atraccion = new AtraccionTuristica()
+
+        def coord = Coordenada.findOrSaveByLatitudAndLongitud(params.latitud.toDouble(), params.longitud.toDouble())
+        coord.altitud = params.altitud.toDouble()
+        coord.save(flush: true)
+
+        if (params.id) {
+            atraccion = AtraccionTuristica.get(params.id)
+            if (!atraccion) {
+                atraccion = new AtraccionTuristica()
+            }
+        }
+
+        atraccion.properties = params
+        atraccion.coordenada = coord
+        atraccion.save(flush: true)
+
+        def foto = new Foto()
+        if (params.id) {
+            foto = atraccion.fotos.first()
+        }
+        foto.coordenada = coord
+        foto.atraccion = atraccion
+        foto.save(flush: true)
+
+        def path = servletContext.getRealPath("/")
+        def pathThumb = servletContext.getRealPath("/") + "atraccion/markers/"
+        def pathAndroid = servletContext.getRealPath("/") + "atraccion/android/"
+        new File(path).mkdirs()
+        new File(pathThumb).mkdirs()
+        new File(pathAndroid).mkdirs()
+        def oldPath = ""
+
+        def f = request.getFile("file")
+        if (f && !f.empty) {
+            def fileName = f.getOriginalFilename() //nombre original del archivo
+            def ext
+
+            def parts = fileName.split("\\.")
+            fileName = ""
+            parts.eachWithIndex { obj, i ->
+                if (i < parts.size() - 1) {
+                    fileName += obj
+                }
+            }
+
+            ext = "jpg"
+            fileName = fileName.size() < 40 ? fileName : fileName[0..39]
+            fileName = fileName.tr(/áéíóúñÑÜüÁÉÍÓÚàèìòùÀÈÌÒÙÇç .!¡¿?&#°"'/, "aeiounNUuAEIOUaeiouAEIOUCc_")
+
+            def nombre = fileName + "." + ext
+            def pathFile = path + nombre
+            def fn = fileName
+            def src = new File(pathFile)
+            def i = 1
+            while (src.exists()) {
+                nombre = fn + "_" + i + "." + ext
+                pathFile = path + nombre
+                src = new File(pathFile)
+                i++
+            }
+            try {
+                oldPath = foto.path
+                f.transferTo(new File(pathFile)) // guarda el archivo subido al nuevo path
+                foto.path = nombre
+                foto.save(flush: true)
+                //println pathFile
+            } catch (e) {
+                println "error transfer to file ????????\n" + e + "\n???????????"
+            }
+//            println "OLD PATH: " + oldPath
+//            println "OLD PATH: " + path + oldPath
+            if (oldPath != "") {
+                def oldFile = new File(path + oldPath)
+                def oldMarker = new File(path + "atraccion/markers/" + oldPath)
+                def oldAndroid = new File(path + "atraccion/android/" + oldPath)
+//                println "exists: " + oldFile.exists()
+                if (oldFile.exists()) {
+                    oldFile.delete()
+                }
+                if (oldMarker.exists()) {
+                    oldMarker.delete()
+                }
+                if (oldAndroid.exists()) {
+                    oldAndroid.delete()
+                }
+            }
+            imageResizeService.createMarker(pathFile, pathThumb + nombre)
+            imageResizeService.resizeAndroid(pathFile, pathAndroid + nombre)
+        } else {
+            println "error es empty"
+        }
+        redirect(controller: "atraccionTuristica", action: "list")
+    }//save
 
     def save_ajax() {
         def atraccionTuristicaInstance = new AtraccionTuristica()

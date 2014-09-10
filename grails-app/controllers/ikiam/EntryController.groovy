@@ -34,12 +34,20 @@ class EntryController {
                                 ilike("nombre", "%" + params.search + "%")
                             }
                         }
+                        order("nombreComun", "asc")
                     }
                 }
                 eq("deleted", 0)
             }
         } else {
-            list = Entry.findAllByDeleted(0, params)
+//            list = Entry.findAllByDeleted(0, params)
+            def c = Entry.createCriteria()
+            list = c.list(params) {
+                especie {
+                    order("nombreComun", "asc")
+                }
+                eq("deleted", 0)
+            }
         }
         if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
             params.offset = params.offset.toInteger() - 1
@@ -278,7 +286,6 @@ class EntryController {
     } //form
 
     def save() {
-
         def entry = new Entry()
         if (params.id) {
             entry = Entry.get(params.id)

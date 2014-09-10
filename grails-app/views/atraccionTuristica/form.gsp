@@ -10,11 +10,11 @@
     <head>
         <meta name="layout" content="main">
         <title>
-            <g:if test="${entry.id}">
-                Modificar especie
+            <g:if test="${atraccion.id}">
+                Modificar atracción turística
             </g:if>
             <g:else>
-                Crear especie
+                Crear atracción turística
             </g:else>
         </title>
 
@@ -61,15 +61,13 @@
             var lat = -0.15398006977473166;
             var lon = -78.47628593444824;
             var alt = 0;
-            <g:if test="${entry.fotos?.size() > 0}">
-            lat = ${entry.fotos.first().coordenada?.latitud?: -0.15398006977473166};
-            lon = ${entry.fotos.first().coordenada?.longitud?: -78.47628593444824};
-            alt = ${entry.fotos.first().coordenada?.altitud?: 0};
-            </g:if>
+            lat = ${atraccion.coordenada?.latitud?: -0.15398006977473166};
+            lon = ${atraccion.coordenada?.longitud?: -78.47628593444824};
+            alt = ${atraccion.coordenada?.altitud?: 0};
             var map;
             var myMarker = null;
 
-            var imagePin = '${resource(dir:"images/markers", file:"map_marker_photo_48.png")}';
+            var imagePin = '${resource(dir:"images/markers", file:"map_marker_atraccion_48.png")}';
 
             var elevator = new google.maps.ElevationService();
 
@@ -186,7 +184,9 @@
                     zoom   : 6
                 };
                 map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
                 setMarker();
+
 //                // Try HTML5 geolocation
 //                if (navigator.geolocation) {
 //                    navigator.geolocation.getCurrentPosition(function (position) {
@@ -224,144 +224,63 @@
             </a>
         </div>
 
-        <g:uploadForm class="form-horizontal" role="form" name="frmSave" id="${entry.id}" action="save">
-            <g:hiddenField name="animal" value="${entry.fotos?.first()?.keyWords?.contains('animal') ? 'on' : 'off'}"/>
-            <g:hiddenField name="arbol" value="${entry.fotos?.first()?.keyWords?.contains('arbol') ? 'on' : 'off'}"/>
-            <g:hiddenField name="corteza" value="${entry.fotos?.first()?.keyWords?.contains('corteza') ? 'on' : 'off'}"/>
-            <g:hiddenField name="hoja" value="${entry.fotos?.first()?.keyWords?.contains('hoja') ? 'on' : 'off'}"/>
-            <g:hiddenField name="flor" value="${entry.fotos?.first()?.keyWords?.contains('flor') ? 'on' : 'off'}"/>
-            <g:hiddenField name="fruta" value="${entry.fotos?.first()?.keyWords?.contains('fruta') ? 'on' : 'off'}"/>
-
-            <g:hiddenField name="latitud" value="${entry.fotos?.first()?.coordenada?.latitud ?: 0}"/>
-            <g:hiddenField name="longitud" value="${entry.fotos?.first()?.coordenada?.longitud ?: 0}"/>
-            <g:hiddenField name="altitud" value="${entry.fotos?.first()?.coordenada?.altitud ?: 0}"/>
+        <g:uploadForm class="form-horizontal" role="form" name="frmSave" id="${atraccion.id}" action="save">
+            <g:hiddenField name="latitud" value="${atraccion.coordenada?.latitud ?: 0}"/>
+            <g:hiddenField name="longitud" value="${atraccion.coordenada?.longitud ?: 0}"/>
+            <g:hiddenField name="altitud" value="${atraccion.coordenada?.altitud ?: 0}"/>
 
             <div class="row">
-                <div class="col-xs-12 col-md-3">
+                <div class="col-xs-10 col-xs-offset-2 col-md-3 col-md-offset-0">
                     <a href="#" class="thumbnail">
                         <g:set var="src" value="${resource(dir: 'images', file: 'default-placeholder.png')}"/>
-                        <g:if test="${entry.fotos?.size() > 0}">
-                            <g:set var="src" value="${resource(dir: 'uploaded', file: entry.fotos.first().path)}"/>
+                        <g:if test="${atraccion.fotos?.size() > 0}">
+                            <g:set var="src" value="${resource(file: atraccion.fotos.first().path)}"/>
                         </g:if>
                         <img id="preview" src="${src}" alt="">
                     </a>
                     <input type="file" name="file" id="file"/>
                 </div>
 
-                <div class="col-xs-12 col-md-3">
+                <div class="col-xs-12 col-md-4">
                     <div class="form-group">
-                        <label for="observaciones" class="col-xs-12 col-md-12 control-label marginTop text-left">
-                            Observaciones
+                        <label for="descripcion" class="col-xs-12 col-md-12 control-label marginTop text-left">
+                            Descripción
                         </label>
 
                         <div class="col-xs-12 col-md-12 marginTop">
-                            <g:textArea name="observaciones" class="form-control" style="height:180px;"
-                                        value="${entry.observaciones}"/>
+                            <g:textArea name="descripcion" class="form-control" style="height:180px;"
+                                        value="${atraccion.descripcion}"/>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-xs-12 col-md-3">
-                    <div class="row">
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle animal" data-key="animal" data-status="${entry.fotos?.first()?.keyWords?.contains('animal') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_animal.png')}" alt="">
-                        </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="form-group">
+                        <div class="grupo">
+                            <label for="nombre" class="col-xs-3 control-label marginTop">Nombre</label>
 
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="arbol" data-status="${entry.fotos?.first()?.keyWords?.contains('arbol') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_tree.png')}" alt="">
-                        </div>
-
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="corteza" data-status="${entry.fotos?.first()?.keyWords?.contains('corteza') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_bark.png')}" alt="">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="hoja" data-status="${entry.fotos?.first()?.keyWords?.contains('hoja') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_leaf.png')}" alt="">
-                        </div>
-
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="flor" data-status="${entry.fotos?.first()?.keyWords?.contains('flor') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_flower.png')}" alt="">
-                        </div>
-
-                        <div class="col-xs-4 col-md-4 text-center">
-                            <img class="toggle" data-key="fruta" data-status="${entry.fotos?.first()?.keyWords?.contains('fruta') ? 'on' : 'off'}"
-                                 src="${resource(dir: 'images', file: 'ic_menu_apple.png')}" alt="">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="color1" class="col-xs-5 col-md-6 control-label">Color principal</label>
-
-                            <div class="col-xs-7 col-md-6">
-                                <g:select class="form-control" name="color1" from="${Color.list()}"
-                                          optionKey="id" value="${entry?.especie?.color1Id}"/>
+                            <div class="col-xs-9 marginTop">
+                                <g:textField name="nombre" class="form-control required"
+                                             value="${atraccion?.nombre}"/>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="color2" class="col-xs-5 col-md-6 control-label">Color secundario</label>
+                    <div class="form-group">
+                        <div class="grupo">
+                            <label for="url" class="col-xs-3 control-label marginTop">URL</label>
 
-                            <div class="col-xs-7 col-md-6">
-                                <g:select class="form-control" name="color2" from="${Color.list()}" optionKey="id"
-                                          noSelection="['': '- Ninguno -']" value="${entry?.especie?.color2Id}"/>
+                            <div class="col-xs-9 marginTop">
+                                <div class="input-group">
+                                    <div class="input-group-addon"><i class="fa fa-globe"></i></div>
+                                    <g:textField name="url" class="form-control required url"
+                                                 value="${atraccion?.url}"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="form-group">
-                    <div class="grupo">
-                        <label for="nombreComun" class="col-xs-5 col-md-2 control-label marginTop">Nombre común</label>
-
-                        <div class="col-xs-7 col-md-3 marginTop">
-                            <g:textField name="nombreComun" class="form-control required"
-                                         value="${entry?.especie?.nombreComun}"/>
-                        </div>
-                    </div>
-
-                    <div class="grupo">
-                        <label for="familia" class="col-xs-5 col-md-2 control-label marginTop">Familia</label>
-
-                        <div class="col-xs-7 col-md-3 marginTop">
-                            <g:textField name="familia" class="form-control required"
-                                         value="${entry?.especie?.genero?.familia?.nombre}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group">
-                    <div class="grupo">
-                        <label for="genero" class="col-xs-5 col-md-2 control-label marginTop">Género</label>
-
-                        <div class="col-xs-7 col-md-3 marginTop">
-                            <g:textField name="genero" class="form-control required"
-                                         value="${entry?.especie?.genero?.nombre}"/>
-                        </div>
-                    </div>
-
-                    <div class="grupo">
-                        <label for="especie" class="col-xs-5 col-md-2 control-label marginTop">Especie</label>
-
-                        <div class="col-xs-7 col-md-3 marginTop">
-                            <g:textField name="especie" class="form-control required"
-                                         value="${entry?.especie?.nombre}"/>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="row">
@@ -388,81 +307,6 @@
 
         <script type="text/javascript">
 
-            function setStatus($toggle) {
-                var $parent = $toggle.parent();
-                var status = $toggle.data("status");
-                var str = "Sí";
-                if (status == "off") {
-                    str = "No";
-                }
-                var $span = $("<span>" + str + "</span>");
-                $toggle.after($span);
-
-                var pWidth = $parent.innerWidth();
-                var pHeight = $parent.innerHeight();
-
-                $parent.css({
-                    position : "relative"
-                });
-                $span.css({
-                    cursor   : "pointer",
-                    position : "absolute",
-                    top      : (pHeight / 2) - ($span.innerHeight / 2)
-
-                });
-                $span.click(function () {
-                    toggleStatus($toggle);
-                });
-                var id = $toggle.data("key");
-                $("#" + id).val(status);
-            }
-            function toggleStatus($toggle) {
-                var status = $toggle.data("status");
-                var id = $toggle.data("key");
-
-//                console.log(id, status);
-                if (id == "animal") {
-                    if (status == "off") { //se va a activar el de animal: se desactivan todos los otros
-                        $(".toggle").not($toggle).each(function () {
-                            updateStatus($(this), false);
-                        });
-                    }
-                } else {
-                    if (status == "off") { //se va a activar uno de planta: se desactiva el de animal
-                        updateStatus($(".toggle.animal"), false);
-                    }
-                }
-
-                var str = "Sí";
-                if (status == "off") {
-                    $toggle.data("status", "on");
-                    str = "Sí";
-                } else {
-                    $toggle.data("status", "off");
-                    str = "No";
-                }
-                var $span = $toggle.siblings("span");
-                $span.text(str);
-                $("#" + id).val(status);
-            }
-
-            function updateStatus($toggle, isOn) {
-                var id = $toggle.data("key");
-                var status;
-                var str = "Sí";
-                if (isOn) {
-                    str = "Sí";
-                    status = "on";
-                } else {
-                    str = "No";
-                    status = "off";
-                }
-                $toggle.data("status", status);
-                var $span = $toggle.siblings("span");
-                $span.text(str);
-                $("#" + id).val(status);
-            }
-
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();
@@ -474,11 +318,6 @@
             }
 
             $(function () {
-                $(".toggle").each(function () {
-                    setStatus($(this));
-                }).click(function () {
-                    toggleStatus($(this));
-                });
 
                 $(".btnSave").click(function () {
                     $("#frmSave").submit();
