@@ -13,7 +13,7 @@ class AtraccionTuristicaController {
         def datos = ""
         atracciones.each {
             def foto = Foto.findByAtraccion(it)
-            datos += it.nombre + "&" + it.likes + "&" + it.coordenada.latitud + "&" + it.coordenada.longitud + "&" + foto.path + "&" + it.url + ";"
+            datos += it.nombre + "&" + it.likes + "&" + it.coordenada.latitud + "&" + it.coordenada.longitud + "&" + foto.path + "&" + it.url +"&"+ it.descripcion+";"
 
         }
         //println "datos "+datos
@@ -145,8 +145,8 @@ class AtraccionTuristicaController {
         foto.save(flush: true)
 
         def path = servletContext.getRealPath("/") + "atraccion/"
-        def pathThumb = servletContext.getRealPath("/") + "markers/"
-        def pathAndroid = servletContext.getRealPath("/") + "android/"
+        def pathThumb = path + "markers/"
+        def pathAndroid = path + "android/"
         new File(path).mkdirs()
         new File(pathThumb).mkdirs()
         new File(pathAndroid).mkdirs()
@@ -192,7 +192,7 @@ class AtraccionTuristicaController {
 //            println "OLD PATH: " + oldPath
 //            println "OLD PATH: " + path + oldPath
             if (oldPath != "") {
-                def oldFile = new File(path + oldPath) + "atraccion/"
+                def oldFile = new File(path + oldPath)
                 def oldMarker = new File(path + "markers/" + oldPath)
                 def oldAndroid = new File(path + "android/" + oldPath)
 //                println "exists: " + oldFile.exists()

@@ -234,7 +234,7 @@
                     <a href="#" class="thumbnail">
                         <g:set var="src" value="${resource(dir: 'images', file: 'default-placeholder.png')}"/>
                         <g:if test="${atraccion.fotos?.size() > 0}">
-                            <g:set var="src" value="${resource(file: atraccion.fotos.first().path)}"/>
+                            <g:set var="src" value="${resource(dir: 'atraccion', file: atraccion.fotos.first().path)}"/>
                         </g:if>
                         <img id="preview" src="${src}" alt="">
                     </a>
