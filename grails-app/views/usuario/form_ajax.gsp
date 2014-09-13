@@ -25,23 +25,23 @@
             </span>
         </div>
 
-        <div class="form-group keeptogether ${hasErrors(bean: usuarioInstance, field: 'password', 'error')} ">
-            <span class="grupo">
-                <label for="password" class="col-md-2 control-label text-info">
-                    Password
-                </label>
+        %{--<div class="form-group keeptogether ${hasErrors(bean: usuarioInstance, field: 'password', 'error')} ">--}%
+            %{--<span class="grupo">--}%
+                %{--<label for="password" class="col-md-2 control-label text-info">--}%
+                    %{--Password--}%
+                %{--</label>--}%
 
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-lock"></i>
-                        </span>
-                        <g:field type="password" name="password" maxlength="255" class="form-control" value=""/>
-                    </div>
-                </div>
+                %{--<div class="col-md-6">--}%
+                    %{--<div class="input-group">--}%
+                        %{--<span class="input-group-addon">--}%
+                            %{--<i class="fa fa-lock"></i>--}%
+                        %{--</span>--}%
+                        %{--<g:field type="password" name="password" maxlength="255" class="form-control" value=""/>--}%
+                    %{--</div>--}%
+                %{--</div>--}%
 
-            </span>
-        </div>
+            %{--</span>--}%
+        %{--</div>--}%
 
         <div class="form-group keeptogether ${hasErrors(bean: usuarioInstance, field: 'esAdmin', 'error')} required">
             <span class="grupo">
