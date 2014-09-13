@@ -123,7 +123,7 @@ class EntryController {
     }
 
     def comment() {
-        println "COMMENT::: " + params
+//        println "COMMENT::: " + params
 //        if (!params.usuario) {
 //            params.usuario = 9
 //        }
@@ -133,7 +133,7 @@ class EntryController {
         } else {
             usuario = Usuario.findByFacebookId(params.usuario)
         }
-        println ":::Usuario:::" + usuario + "   facebookId: " + usuario.facebookId
+//        println ":::Usuario:::" + usuario + "   facebookId: " + usuario.facebookId
         if (params.id) {
             def entryInstance = Entry.get(params.id.toLong())
             if (!entryInstance) {
@@ -142,9 +142,11 @@ class EntryController {
             }
             def comentarios = ""
 
+            println "comentarios: " + comentarios
             Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
                 comentarios += printComment(com, usuario)
             }
+            println "comentarios: " + comentarios
 
             return [entryInstance: entryInstance, comentarios: comentarios, usuario: usuario]
         } else {
