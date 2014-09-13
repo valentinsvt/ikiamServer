@@ -124,11 +124,16 @@ class EntryController {
 
     def comment() {
         println "COMMENT::: " + params
-        if (!params.usuario) {
-            params.usuario = 9
+//        if (!params.usuario) {
+//            params.usuario = 9
+//        }
+        def usuario
+        if (params.usuario.size() < 5) {
+            usuario = Usuario.get(params.usuario)
+        } else {
+            usuario = Usuario.findByFacebookId(params.usuario)
         }
-
-        def usuario = Usuario.get(params.usuario)
+        println ":::Usuario:::" + usuario + "   facebookId: " + usuario.facebookId
         if (params.id) {
             def entryInstance = Entry.get(params.id.toLong())
             if (!entryInstance) {
