@@ -50,7 +50,8 @@
                 </label>
 
                 <div class="col-md-6">
-                    <g:select name="esAdmin" from="['S': 'Sí', 'N': 'No']" class="form-control required" value="${usuarioInstance?.esAdmin}"/>
+                    <g:select name="esAdmin" from="['S': 'Sí', 'N': 'No']" class="form-control required"
+                              value="${usuarioInstance?.esAdmin}" optionKey="key" optionValue="value"/>
                 </div>
                 *
             </span>
@@ -63,7 +64,8 @@
                 </label>
 
                 <div class="col-md-6">
-                    <g:select name="esCientifico" from="['S': 'Sí', 'N': 'No']" class="form-control required" value="${usuarioInstance?.esCientifico}"/>
+                    <g:select name="esCientifico" from="['S': 'Sí', 'N': 'No']" class="form-control required"
+                              value="${usuarioInstance?.esCientifico}" optionKey="key" optionValue="value"/>
                 </div>
                 *
             </span>
