@@ -233,7 +233,11 @@ class EntryController {
                 render ""
                 return
             }
-            render getComments(params.id, usuario)
+            def comentarios = getComments(params.id, usuario)
+            println "******"
+            println comentarios
+            println "********"
+            render comentarios
         } else {
             render ""
             return
