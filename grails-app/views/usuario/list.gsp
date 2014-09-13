@@ -60,13 +60,13 @@
 
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
-                                ${usuarioInstance.esAdmin?.toString()?.decodeURL()}
+                                ${usuarioInstance.esAdmin == 'S' ? 'Sí' : 'No'}
                             </elm:textoBusqueda>
                         </td>
 
                         <td>
                             <elm:textoBusqueda busca="${params.search}">
-                                ${usuarioInstance.esCientifico?.toString()?.decodeURL()}
+                                ${usuarioInstance.esCientifico == 'S' ? 'Sí' : 'No'}
                             </elm:textoBusqueda>
                         </td>
 

@@ -78,6 +78,9 @@ class UsuarioController {
 
     def save_ajax() {
         def usuarioInstance = new Usuario()
+        if(params.password) {
+            params.password = params.password.toString().encodeAsMD5()
+        }
         if(params.id) {
             usuarioInstance = Usuario.get(params.id)
             if(!usuarioInstance) {
