@@ -7,31 +7,31 @@ class UsuarioController {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     def index() {
-        redirect(action:"list", params: params)
+        redirect(action: "list", params: params)
     }
 
     def getList(params, all) {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if(all) {
+        if (all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if(params.search) {
+        if (params.search) {
             def c = Usuario.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    
-                    ilike("apellido", "%" + params.search + "%")  
-                    ilike("email", "%" + params.search + "%")  
-                    ilike("esAdmin", "%" + params.search + "%")  
-                    ilike("esCientifico", "%" + params.search + "%")  
-                    ilike("facebookId", "%" + params.search + "%")  
-                    ilike("nombre", "%" + params.search + "%")  
-                    ilike("tipo", "%" + params.search + "%")  
+
+                    ilike("apellido", "%" + params.search + "%")
+                    ilike("email", "%" + params.search + "%")
+                    ilike("esAdmin", "%" + params.search + "%")
+                    ilike("esCientifico", "%" + params.search + "%")
+                    ilike("facebookId", "%" + params.search + "%")
+                    ilike("nombre", "%" + params.search + "%")
+                    ilike("tipo", "%" + params.search + "%")
                 }
             }
         } else {
@@ -51,9 +51,9 @@ class UsuarioController {
     }
 
     def show_ajax() {
-        if(params.id) {
+        if (params.id) {
             def usuarioInstance = Usuario.get(params.id)
-            if(!usuarioInstance) {
+            if (!usuarioInstance) {
                 render "ERROR*No se encontró Usuario."
                 return
             }
@@ -65,9 +65,9 @@ class UsuarioController {
 
     def form_ajax() {
         def usuarioInstance = new Usuario()
-        if(params.id) {
+        if (params.id) {
             usuarioInstance = Usuario.get(params.id)
-            if(!usuarioInstance) {
+            if (!usuarioInstance) {
                 render "ERROR*No se encontró Usuario."
                 return
             }
@@ -78,15 +78,20 @@ class UsuarioController {
 
     def save_ajax() {
         def usuarioInstance = new Usuario()
-        if(params.id) {
+        if (params.password && params.password.trim() != "") {
+            params.password = params.password.trim().toString().encodeAsMD5()
+        } else {
+            params.remove("password")
+        }
+        if (params.id) {
             usuarioInstance = Usuario.get(params.id)
-            if(!usuarioInstance) {
+            if (!usuarioInstance) {
                 render "ERROR*No se encontró Usuario."
                 return
             }
         }
         usuarioInstance.properties = params
-        if(!usuarioInstance.save(flush: true)) {
+        if (!usuarioInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar Usuario: " + renderErrors(bean: usuarioInstance)
             return
         }
@@ -95,7 +100,7 @@ class UsuarioController {
     } //save para grabar desde ajax
 
     def delete_ajax() {
-        if(params.id) {
+        if (params.id) {
             def usuarioInstance = Usuario.get(params.id)
             if (!usuarioInstance) {
                 render "ERROR*No se encontró Usuario."
@@ -114,7 +119,7 @@ class UsuarioController {
             return
         }
     } //delete para eliminar via ajax
-    
+
     def validar_unique_email_ajax() {
         params.email = params.email.toString().trim()
         if (params.id) {
@@ -131,5 +136,5 @@ class UsuarioController {
             return
         }
     }
-        
+
 }
