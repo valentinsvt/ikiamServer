@@ -142,11 +142,11 @@ class EntryController {
             }
             def comentarios = ""
 
-            println "comentarios: " + comentarios
+//            println "comentarios: " + comentarios
             Comentario.findAllByEntry(entryInstance, [sort: 'fecha']).each { com ->
                 comentarios += printComment(com, usuario)
             }
-            println "comentarios: " + comentarios
+//            println "comentarios: " + comentarios
 
             return [entryInstance: entryInstance, comentarios: comentarios, usuario: usuario]
         } else {
@@ -234,9 +234,9 @@ class EntryController {
                 return
             }
             def comentarios = getComments(params.id, usuario)
-            println "******"
-            println comentarios
-            println "********"
+//            println "******"
+//            println comentarios
+//            println "********"
             render comentarios
         } else {
             render ""
