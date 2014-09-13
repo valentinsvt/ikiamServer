@@ -123,6 +123,7 @@ class EntryController {
     }
 
     def comment() {
+        println "COMMENT::: " + params
         if (!params.usuario) {
             params.usuario = 9
         }
