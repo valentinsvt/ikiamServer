@@ -175,10 +175,10 @@ class EntryController {
             js += '});'
             js += "</script>"
 
-            render comentarios + js
+            return comentarios + js
         } else {
-            render ""
-            return
+//            render ""
+            return ""
         }
     }
 
