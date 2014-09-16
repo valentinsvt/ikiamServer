@@ -32,20 +32,6 @@
         .right {
             border-left-width : 1px;
         }
-
-        .familia .jstree-clicked, .familia .jstree-wholerow-clicked {
-            background : #dff0d8 !important;
-        }
-
-        .genero .jstree-clicked, .genero .jstree-wholerow-clicked {
-            background : #d9edf7 !important;
-        }
-
-        .especie .jstree-clicked, .especie .jstree-wholerow-clicked {
-            background : #fcf8e3 !important;
-        }
-
-
         </style>
 
     </head>
@@ -53,17 +39,17 @@
     <body>
         <div class="row">
             <div class="col-md-4 left side ui-corner-left" id="jstree">
-                <ul class="ulFamilias">
+                <ul class="ulFamilias list-group">
                     <g:each in="${Familia.list([sort: 'nombre'])}" var="familia">
-                        <li class="familia jstree-open" data-jstree='{"type":"familia"}'>
+                        <li class="familia jstree-open list-group-item" data-jstree='{"type":"familia"}'>
                             ${familia.nombre}
-                            <ul class="ulGeneros">
+                            <ul class="ulGeneros ">
                                 <g:each in="${Genero.findAllByFamilia(familia, [sort: 'nombre'])}" var="genero">
-                                    <li class="genero jstree-open" data-jstree='{"type":"genero"}'>
+                                    <li class="genero jstree-open list-group-item" data-jstree='{"type":"genero"}'>
                                         ${genero.nombre}
-                                        <ul class="ulEspecies">
+                                        <ul class="ulEspecies ">
                                             <g:each in="${Especie.findAllByGenero(genero, [sort: 'nombre'])}" var="especie">
-                                                <li class="especie" data-jstree='{"type":"especie"}'>
+                                                <li class="especie list-group-item" data-jstree='{"type":"especie"}'>
                                                     ${especie.nombre}
                                                 </li>
                                             </g:each>
@@ -83,33 +69,7 @@
 
         <script type="text/javascript">
             $(function () {
-                $('#jstree').on("select_node.jstree", function (node, selected, event) {
-//                    var nodeType = $node.
-                }).jstree({
-                    plugins : [ "state", "types", "wholerow" ],
-                    core    : {
-                        multiple : false,
-                        themes   : {
-                            responsive : true,
-//                            variant    : 'small',
-                            stripes    : true
-                        }
-                    },
-                    state   : {
-                        key : "enciclopedia"
-                    },
-                    types   : {
-                        familia : {
-                            icon : "fa fa-globe text-success"
-                        },
-                        genero  : {
-                            icon : "fa fa-globe fa-rotate-90 text-info"
-                        },
-                        especie : {
-                            icon : "fa fa-globe fa-rotate-180 text-warning"
-                        }
-                    }
-                });
+
             });
         </script>
 
